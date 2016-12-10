@@ -1,0 +1,37 @@
+#Task1 - Setup of the web service
+
+    Given: the server up and running
+    When:  A GET request is performed through the URL "/cross"
+    Then:  A json like {"hello world"} will be returned
+
+#Task2 - Import Maven & Mockito & Create a unit test
+
+    Given: The endpoint "/cross" already created
+    When:  A test consuming this endpoint is executed
+    Then:  The message "hello world" must be returned
+
+
+#Task3 - Create save crosses endpoint (database mocked)
+
+    Given: The server up and running
+    When:  A POST request be performed through the URL "/cross"
+    AND    The following Json {"crosses":["A98186","A86389454"]}
+    Then:  The crosses will be saved
+
+#Task3 - Create get crosses endpoint (database mocked)
+
+    Given: The server up and running
+    AND    data already inserted in the database to be consumed
+    When:  A GET request be performed through the URL "/cross"
+    Then:  An Json like {
+                          "cross": {
+                            "morning": 40
+                            ,"evening": 35
+                            ,"hourly": 5
+                            ,"everyThirtyMinutes": 3
+                            ,"everyTwentyMinutes": 2
+                            ,"everyFifteenMinutes": 1
+                          }
+                        }
+          will be returned comprising information about the number os cars which passed during these periods
+
