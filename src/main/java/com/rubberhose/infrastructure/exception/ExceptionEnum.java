@@ -9,7 +9,6 @@ public enum ExceptionEnum {
 
     INNACURATE_CROSS_PATTERN(HttpStatus.BAD_REQUEST, "Unaccepted cross value. Accepted values are composed of 1 letter and up to 10 numbers e.g A123456 ");
 
-
     private HttpStatus httpStatus;
     private String description;
 

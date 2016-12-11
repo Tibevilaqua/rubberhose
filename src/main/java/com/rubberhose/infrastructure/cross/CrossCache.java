@@ -1,34 +1,37 @@
 package com.rubberhose.infrastructure.cross;
 
-import com.rubberhose.business.CrossBusiness;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
+import com.rubberhose.endpoint.cross.CrossBroadStatisticDTO;
 import org.springframework.stereotype.Component;
 
+import java.time.DayOfWeek;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+
 /**
- * Created by root on 10/12/16.
- *
- * CrossCache is responsible to maintain the cache of the cars' crosses.
- * The cache is updated every 5 minutes.
+ * Created by root on 12/12/16.
  */
 @Component
 public class CrossCache {
 
-//    private static final int FIVE_MINUTES = 300000;
-    private static final int FIVE_MINUTES = 6000;
-
-    @Autowired
-    private CrossBusiness crossBusiness;
+    private Map<DayOfWeek, CrossBroadStatisticDTO> cachedDailyStatistics = new HashMap<>();;
+    private CrossBroadStatisticDTO cachedGeneralStatistics;
 
 
-    @Scheduled(fixedRate = FIVE_MINUTES, initialDelay = 6000)
-    private void populateStatisticsCache(){
-        System.out.println("----- starting to update cross cache -----");
-
-        if(crossBusiness.createStatistics()){
-            System.out.println("----- update finished -----");
-        }else{
-            System.out.println("----- Empty database, nothing was updated... -----");
-        }
+    public int numberOfdaysWithCrosses(){
+        return cachedDailyStatistics.keySet().size();
     }
+
+    public CrossBroadStatisticDTO getCachedStatistics(DayOfWeek dayOfWeek) {
+        return Objects.isNull(dayOfWeek) ?  cachedGeneralStatistics :  cachedDailyStatistics.get(dayOfWeek);
+    }
+
+    public void setCachedStatistics(CrossBroadStatisticDTO cachedStatistics) {
+        this.cachedGeneralStatistics = cachedStatistics;
+    }
+
+    public void setCachedStatistics(DayOfWeek dayOfWeek, CrossBroadStatisticDTO cachedStatistics) {
+        this.cachedDailyStatistics.put(dayOfWeek,cachedStatistics);
+    }
+
 }

@@ -1,7 +1,11 @@
 package com.rubberhose.endpoint.cross;
 
+
 import org.hibernate.validator.constraints.NotEmpty;
 
+
+import javax.validation.constraints.NotNull;
+import java.time.DayOfWeek;
 import java.util.List;
 
 /**
@@ -9,10 +13,19 @@ import java.util.List;
  */
 public class CrossDTO {
 
-    @NotEmpty(message = "crosses should be sent")
+
+    @NotNull(message = "Day of the week must be sent along with the crosses")
+    private DayOfWeek dayOfWeek;
+
+    @NotEmpty(message = "Crosses should be sent")
     private List<String> crosses;
 
     public CrossDTO() {
+    }
+
+    public CrossDTO(DayOfWeek dayOfWeek, List<String> crosses) {
+        this.dayOfWeek = dayOfWeek;
+        this.crosses = crosses;
     }
 
     public CrossDTO(List<String> crosses) {
@@ -23,4 +36,15 @@ public class CrossDTO {
         return crosses;
     }
 
+    public DayOfWeek getDayOfWeek() {
+        return dayOfWeek;
+    }
+
+    @Override
+    public String toString() {
+        return "CrossDTO{" +
+                "dayOfWeek=" + dayOfWeek +
+                ", crosses=" + crosses +
+                '}';
+    }
 }

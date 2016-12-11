@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
+import java.time.DayOfWeek;
+
 import static com.rubberhose.endpoint.URL.CROSS;
 
 
@@ -36,10 +38,10 @@ public class CrossEndpoint {
     }
 
     @RequestMapping(value = CROSS,method = RequestMethod.GET)
-    public ResponseEntity<CrossBroadStatisticDTO> get()
+    public ResponseEntity<CrossBroadStatisticDTO> get(@RequestParam(required = false) DayOfWeek dayOfWeek)
     {
 
-        return new ResponseEntity<>(crossBusiness.getStatistics(),HttpStatus.OK);
+        return new ResponseEntity<>(crossBusiness.getStatistics(dayOfWeek),HttpStatus.OK);
     }
 
 

@@ -2,6 +2,7 @@ package com.rubberhose.infrastructure.utils;
 
 import com.rubberhose.endpoint.cross.CrossDTO;
 
+import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -34,7 +35,9 @@ public class CrossUtils {
 
 
 
-
+    public static Integer dividePer(Integer division, Integer numberOfCrosses){
+        return new BigDecimal(numberOfCrosses).divide(new BigDecimal(division),BigDecimal.ROUND_HALF_UP).intValue();
+    }
 
 
 

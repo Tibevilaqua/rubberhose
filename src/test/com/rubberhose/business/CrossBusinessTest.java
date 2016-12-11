@@ -2,6 +2,7 @@ package com.rubberhose.business;
 
 import com.rubberhose.endpoint.cross.CrossBroadStatisticDTO;
 import com.rubberhose.endpoint.cross.CrossDTO;
+import com.rubberhose.infrastructure.cross.CrossCache;
 import com.rubberhose.infrastructure.exception.CustomException;
 import com.rubberhose.repository.CrossRepository;
 import org.junit.Assert;
@@ -12,8 +13,11 @@ import org.mockito.Mockito;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import static com.rubberhose.infrastructure.exception.ExceptionEnum.INNACURATE_CROSS_PATTERN;
+import static java.time.DayOfWeek.MONDAY;
+import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.when;
 
 /**
@@ -23,19 +27,25 @@ public class CrossBusinessTest {
 
     private CrossRepository crossRepository;
     private CrossBusiness crossBusiness;
+    private CrossCache crossCache;
+    private CrossStatisticsFactory crossStatisticsFactory;
 
     @Before
     public void setUp(){
         crossRepository = Mockito.mock(CrossRepository.class);
-        crossBusiness = new CrossBusiness(crossRepository);
+        crossCache = Mockito.spy(CrossCache.class);
+        crossStatisticsFactory = Mockito.spy(CrossStatisticsFactory.class);
+
+        crossBusiness = new CrossBusiness(crossRepository, crossCache,crossStatisticsFactory);
     }
 
     @Test
     public void shouldReturnCrossStatistics_when_someValueIsCached(){
+
         CrossBroadStatisticDTO expectedResult = new CrossBroadStatisticDTO(40,70,16,8,5,4);
 
-        when(crossRepository.getCachedStatistics()).thenReturn(expectedResult);
-        CrossBroadStatisticDTO result = crossBusiness.getStatistics();
+        when(crossCache.getCachedStatistics(MONDAY)).thenReturn(expectedResult);
+        CrossBroadStatisticDTO result = crossBusiness.getStatistics(MONDAY);
 
         Assert.assertEquals(expectedResult,result);
     }
@@ -83,26 +93,18 @@ public class CrossBusinessTest {
         }
 
         //Preparing calls
-        when(crossRepository.getCrossCollection()).thenReturn(crosses);
-        Mockito.doCallRealMethod().when(crossRepository).setCachedStatistics(Mockito.any(CrossBroadStatisticDTO.class));
-        when(crossRepository.getCachedStatistics()).thenCallRealMethod();
+        when(crossRepository.getCrossCollection(MONDAY)).thenReturn(crosses);
 
         //Creating statistics
-        Assert.assertTrue(crossBusiness.createStatistics());
-        CrossBroadStatisticDTO result = crossRepository.getCachedStatistics();
+        Optional<CrossBroadStatisticDTO> statistics = crossBusiness.createStatistics(MONDAY);
+        crossCache.setCachedStatistics(MONDAY,statistics.get());
+        CrossBroadStatisticDTO result = crossCache.getCachedStatistics(MONDAY);
+
         CrossBroadStatisticDTO expectedResult = new CrossBroadStatisticDTO(100,100,8,4,3,2);
 
         Assert.assertEquals(result,expectedResult);
 
     }
 
-    @Test
-    public void shouldNotCreateStatiscts_when_thereIsNoValuesInsideTheCollection() {
-        when(crossRepository.getCrossCollection()).thenReturn(new ArrayList<>());
-
-        Assert.assertFalse(crossBusiness.createStatistics());
-        when(crossRepository.getCrossCollection()).thenReturn(null);
-        Assert.assertFalse(crossBusiness.createStatistics());
-    }
 
 }

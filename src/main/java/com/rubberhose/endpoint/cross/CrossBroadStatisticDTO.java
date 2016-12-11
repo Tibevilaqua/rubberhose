@@ -50,6 +50,10 @@ public class CrossBroadStatisticDTO {
         return everyFifteenMinutes;
     }
 
+
+
+
+
     @Override
     public String toString() {
         return "CrossBroadStatisticDTO{" +

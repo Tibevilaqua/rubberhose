@@ -18,7 +18,7 @@
     AND    The following Json {"crosses":["A98186","A86389454"]}
     Then:  The crosses will be saved
 
-#Task3 - Create get crosses endpoint (database mocked)
+#Task4 - Create get crosses endpoint (database mocked)
 
     Given: The server up and running
     AND    data already inserted in the database to be consumed
@@ -35,3 +35,10 @@
                         }
           will be returned comprising information about the number os cars which passed during these periods
 
+
+#Task5 - Enhance save crosses endpoint (database mocked)
+
+    Given: The server up and running
+    When:  A POST request be performed through the URL "/cross"
+    AND    The following Json {dayOfWeek: "MONDAY","crosses":["A98186","A86389454"]}
+    Then:  The crosses will be saved and linked with the day "MONDAY"
