@@ -17,12 +17,12 @@ public class CrossUtils {
     private static final String MACHINE_VALUE_PATTERN = "^(?!([A-Z][0-9]{1,10})).*$";
 
     /**
-     * Return only the mills
+     * Return only the mills (sorted)
      * From: A303030
      * To:   303030
      */
     public static List<Integer> getMillsFrom(List<String> crosses){
-        return  crosses.stream().map(eachCross -> Integer.valueOf(eachCross.substring(1, eachCross.length()))).collect(Collectors.toList());
+        return  crosses.stream().map(eachCross -> Integer.valueOf(eachCross.substring(1, eachCross.length()))).sorted().collect(Collectors.toList());
     }
 
     /**

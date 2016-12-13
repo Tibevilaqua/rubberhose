@@ -1,12 +1,16 @@
 package com.rubberhose.business;
 
 import com.rubberhose.endpoint.cross.CrossBroadStatisticDTO;
+import com.rubberhose.endpoint.cross.PeakPeriodDTO;
+import com.rubberhose.infrastructure.MillsEnum;
 import com.rubberhose.infrastructure.OccurrencePerDayEnum;
 import com.rubberhose.infrastructure.utils.CrossUtils;
+import com.rubberhose.infrastructure.utils.PeriodUtils;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.function.BiFunction;
 import java.util.stream.Collectors;
@@ -23,12 +27,20 @@ public class CrossStatisticsFactory {
 
     /**
      * As far as there are two belts on the street (A & B) and belt B is stretched over both lanes
-     * it is necessary to divide per three to get the accurate number of cars.
+     * it is necessary to divide by three to get the accurate number of cars.
      */
     private static final int THREE = 3;
 
 
-
+    /**
+     * Grab all the necessary information from the database and through mathematic operations
+     * transform the data into CrossBroadStatisticDTO object.
+     *
+     * Note, the information retrieved by this method considers the average number of cars
+     * and not how many times each pneumatic rubber belt was reached
+     *
+     * @return
+     */
     protected CrossBroadStatisticDTO createStatistics(List<String> crossCollection, Integer numberOfDays) {
 
             List<Integer> crossCollectionsMills = CrossUtils.getMillsFrom(crossCollection);
@@ -43,18 +55,24 @@ public class CrossStatisticsFactory {
                     , twentyMinutesAverageCount = dividePer(THREE,this.getEveryTwentyMinutesAverageCount(crossCollectionsMills))
                     , fifteenMinutesAverageCount = dividePer(THREE,this.getEveryFifteenMinutesAverageCount(crossCollectionsMills));
 
+        PeakPeriodDTO peakPeriodDTO = this.getPeakPeriod(crossCollectionsMills);
+        Integer peakPeriodNumberOfCrosses = dividePer(THREE, peakPeriodDTO.getNumberOfCars());
 
-            if(Objects.nonNull(numberOfDays)){
+        // If no numberOfDays is sent, therefore, the code considers it and divide based on it,
+        // otherwise, it's a particular weekday.
+        if(Objects.nonNull(numberOfDays)){
                 morningCount = dividePer(numberOfDays, morningCount);
                 eveningCount = dividePer(numberOfDays, eveningCount);
                 hourlyAverageCount = dividePer(numberOfDays, hourlyAverageCount);
                 thirtyMinutesAverageCount = dividePer(numberOfDays, thirtyMinutesAverageCount);
                 twentyMinutesAverageCount = dividePer(numberOfDays, twentyMinutesAverageCount);
                 fifteenMinutesAverageCount = dividePer(numberOfDays, fifteenMinutesAverageCount);
+                peakPeriodNumberOfCrosses = dividePer(numberOfDays, peakPeriodNumberOfCrosses);
             }
 
+        peakPeriodDTO = new PeakPeriodDTO(peakPeriodDTO.getPeriod(),peakPeriodNumberOfCrosses);
 
-            return  new CrossBroadStatisticDTO(morningCount,eveningCount,hourlyAverageCount,thirtyMinutesAverageCount,twentyMinutesAverageCount,fifteenMinutesAverageCount);
+        return  new CrossBroadStatisticDTO(morningCount,eveningCount,hourlyAverageCount,thirtyMinutesAverageCount,twentyMinutesAverageCount,fifteenMinutesAverageCount, peakPeriodDTO);
 
     }
 
@@ -84,8 +102,31 @@ public class CrossStatisticsFactory {
 
     }
 
+    /**
+     * Compare how many crosses were captured based on each period of 15 minutes and return the closest period and the number of crosses altogether
+     */
+    private PeakPeriodDTO getPeakPeriod(List<Integer> crossCollectionsMills) {
+        Map<String, Integer> periodOfFifteenMinutesMills = PeriodUtils.PERIOD_OF_FIFTEEN_MINUTES_MILLS;
+        String peakPeriod = "";
+        int maxNumberOfCrosses = 0;
 
+        //Verifies each period and its crosses
+        for(String eachPeriod : periodOfFifteenMinutesMills.keySet()){
+            int beginningCurrentPeriodInMills = periodOfFifteenMinutesMills.get(eachPeriod).intValue();
+            int limitCurrentPeriodInMills = (beginningCurrentPeriodInMills + MillsEnum.FIFTEEN_MINUTES.value());
+            int currentNumberOfCrosses = (int) crossCollectionsMills.stream().sequential().filter(cross -> cross >= beginningCurrentPeriodInMills && cross < limitCurrentPeriodInMills).count();
+            if(currentNumberOfCrosses > maxNumberOfCrosses){
+                peakPeriod = eachPeriod;
+                maxNumberOfCrosses = currentNumberOfCrosses;
+            }
+        }
+        return new PeakPeriodDTO(peakPeriod, maxNumberOfCrosses);
 
+    }
+
+    /**
+     * Given a list of crosses and the necessary occurencePerDay, the average is extracted and returned as an Integer
+     */
     private BiFunction<List<Integer>, OccurrencePerDayEnum, Integer> getPeriodAverage = (crossCollectionsMills, occurrencePerDayEnum) -> {
         List<Integer> occurrencesOfTheDayInMills = IntStream.rangeClosed(0, occurrencePerDayEnum.getValue()).mapToObj(value -> Integer.valueOf(value * occurrencePerDayEnum.getRespectiveMillsEnum().value())).collect(Collectors.toList());
 

@@ -2,6 +2,7 @@ package com.rubberhose.business;
 
 import com.rubberhose.endpoint.cross.CrossBroadStatisticDTO;
 import com.rubberhose.endpoint.cross.CrossDTO;
+import com.rubberhose.endpoint.cross.PeakPeriodDTO;
 import com.rubberhose.infrastructure.cross.CrossCache;
 import com.rubberhose.infrastructure.exception.CustomException;
 import com.rubberhose.repository.CrossRepository;
@@ -42,7 +43,7 @@ public class CrossBusinessTest {
     @Test
     public void shouldReturnCrossStatistics_when_someValueIsCached(){
 
-        CrossBroadStatisticDTO expectedResult = new CrossBroadStatisticDTO(40,70,16,8,5,4);
+        CrossBroadStatisticDTO expectedResult = new CrossBroadStatisticDTO(40,70,16,8,5,4,new PeakPeriodDTO("3:00PM",10));
 
         when(crossCache.getCachedStatistics(MONDAY)).thenReturn(expectedResult);
         CrossBroadStatisticDTO result = crossBusiness.getStatistics(MONDAY);
@@ -87,6 +88,9 @@ public class CrossBusinessTest {
 
         final int sixHundredthOf24HoursInMills =144000;
 
+        //Peak 00:30 (1 cross more than the other periods)
+        crosses.add("A1800000");
+
         for(int i = 1; i <= 600; i++){
             String lane = i < 300 ? "A" : "B";
             crosses.add(String.format("%s%s",lane,sixHundredthOf24HoursInMills * i));
@@ -100,9 +104,9 @@ public class CrossBusinessTest {
         crossCache.setCachedStatistics(MONDAY,statistics.get());
         CrossBroadStatisticDTO result = crossCache.getCachedStatistics(MONDAY);
 
-        CrossBroadStatisticDTO expectedResult = new CrossBroadStatisticDTO(100,100,8,4,3,2);
+        CrossBroadStatisticDTO expectedResult = new CrossBroadStatisticDTO(100,100,8,4,3,2, new PeakPeriodDTO("00:30AM", 2));
 
-        Assert.assertEquals(result,expectedResult);
+        Assert.assertEquals(expectedResult,result);
 
     }
 

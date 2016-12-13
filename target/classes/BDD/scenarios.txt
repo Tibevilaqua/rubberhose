@@ -67,3 +67,21 @@
       When:  The server starts
       Then:  All the data contained in the files will be inserted in a database;
 
+#Task7 - Enhance search crosses endpoint (Peak period)
+
+     Given: The server up and running
+     AND    data already inserted in the database to be consumed
+     When:  A GET request be performed through the URL "/cross?dayOfTheWee=MONDAY"
+     Then:  An Json like {
+                          "cross": {
+                            "morning": 40
+                            ,"evening": 35
+                            ,"hourly": 5
+                            ,"everyThirtyMinutes": 3
+                            ,"everyTwentyMinutes": 2
+                            ,"everyFifteenMinutes": 1
+                            ,
+                            ,"peakPeriodStart": "11AM"
+                          }
+                        }
+          will be returned comprising information the peak period

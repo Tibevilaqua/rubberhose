@@ -1,5 +1,7 @@
 package com.rubberhose.endpoint.cross;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  * Created by root on 09/12/16.
  */
@@ -11,20 +13,22 @@ public class CrossBroadStatisticDTO {
     private Integer everyThirtyMinutes;
     private Integer everyTwentyMinutes;
     private Integer everyFifteenMinutes;
+    @JsonProperty("peakPeriod")
+    private PeakPeriodDTO peakPeriodDTO;
 
 
     public CrossBroadStatisticDTO() {
     }
 
-    public CrossBroadStatisticDTO(Integer morning, Integer evening, Integer hourly, Integer everyThirtyMinutes, Integer everyTwentyMinutes, Integer everyFifteenMinutes) {
+    public CrossBroadStatisticDTO(Integer morning, Integer evening, Integer hourly, Integer everyThirtyMinutes, Integer everyTwentyMinutes, Integer everyFifteenMinutes, PeakPeriodDTO peakPeriodDTO) {
         this.morning = morning;
         this.evening = evening;
         this.hourly = hourly;
         this.everyThirtyMinutes = everyThirtyMinutes;
         this.everyTwentyMinutes = everyTwentyMinutes;
         this.everyFifteenMinutes = everyFifteenMinutes;
+        this.peakPeriodDTO = peakPeriodDTO;
     }
-
 
     public Integer getMorning() {
         return morning;
@@ -50,9 +54,9 @@ public class CrossBroadStatisticDTO {
         return everyFifteenMinutes;
     }
 
-
-
-
+    public PeakPeriodDTO getPeakPeriodDTO() {
+        return peakPeriodDTO;
+    }
 
     @Override
     public String toString() {
@@ -63,6 +67,7 @@ public class CrossBroadStatisticDTO {
                 ", everyThirtyMinutes=" + everyThirtyMinutes +
                 ", everyTwentyMinutes=" + everyTwentyMinutes +
                 ", everyFifteenMinutes=" + everyFifteenMinutes +
+                ", peakPeriodDTO=" + peakPeriodDTO +
                 '}';
     }
 
@@ -80,7 +85,9 @@ public class CrossBroadStatisticDTO {
             return false;
         if (everyTwentyMinutes != null ? !everyTwentyMinutes.equals(that.everyTwentyMinutes) : that.everyTwentyMinutes != null)
             return false;
-        return everyFifteenMinutes != null ? everyFifteenMinutes.equals(that.everyFifteenMinutes) : that.everyFifteenMinutes == null;
+        if (everyFifteenMinutes != null ? !everyFifteenMinutes.equals(that.everyFifteenMinutes) : that.everyFifteenMinutes != null)
+            return false;
+        return peakPeriodDTO != null ? peakPeriodDTO.equals(that.peakPeriodDTO) : that.peakPeriodDTO == null;
 
     }
 
@@ -92,6 +99,7 @@ public class CrossBroadStatisticDTO {
         result = 31 * result + (everyThirtyMinutes != null ? everyThirtyMinutes.hashCode() : 0);
         result = 31 * result + (everyTwentyMinutes != null ? everyTwentyMinutes.hashCode() : 0);
         result = 31 * result + (everyFifteenMinutes != null ? everyFifteenMinutes.hashCode() : 0);
+        result = 31 * result + (peakPeriodDTO != null ? peakPeriodDTO.hashCode() : 0);
         return result;
     }
 }

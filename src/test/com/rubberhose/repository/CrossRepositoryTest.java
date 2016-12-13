@@ -2,6 +2,7 @@ package com.rubberhose.repository;
 
 import com.rubberhose.endpoint.cross.CrossBroadStatisticDTO;
 import com.rubberhose.endpoint.cross.CrossDTO;
+import com.rubberhose.endpoint.cross.PeakPeriodDTO;
 import com.rubberhose.infrastructure.cross.CrossCache;
 import org.junit.Assert;
 import org.junit.Test;
@@ -58,9 +59,9 @@ public class CrossRepositoryTest {
         CrossCache crossCache = new CrossCache();
 
 
-        crossCache.setCachedStatistics(MONDAY, new CrossBroadStatisticDTO(1,2,3,4,5,6));
+        crossCache.setCachedStatistics(MONDAY, new CrossBroadStatisticDTO(1,2,3,4,5,6,new PeakPeriodDTO()));
 
-        CrossBroadStatisticDTO secondCrossBroadStatisticDTO = new CrossBroadStatisticDTO(2,3,4,5,6,7);
+        CrossBroadStatisticDTO secondCrossBroadStatisticDTO = new CrossBroadStatisticDTO(2,3,4,5,6,7,new PeakPeriodDTO());
         crossCache.setCachedStatistics(MONDAY, secondCrossBroadStatisticDTO);
         Assert.assertEquals(crossCache.getCachedStatistics(MONDAY), secondCrossBroadStatisticDTO);
     }
@@ -90,7 +91,7 @@ public class CrossRepositoryTest {
     public void shouldReturnNothing_when_thereAreNoCrossesForTheDayInTheCache(){
 
         CrossCache crossCache = new CrossCache();
-        crossCache.setCachedStatistics(CROSSES_TO_SAVE_MODEL.getDayOfWeek(), new CrossBroadStatisticDTO(1,2,3,4,5,6));
+        crossCache.setCachedStatistics(CROSSES_TO_SAVE_MODEL.getDayOfWeek(), new CrossBroadStatisticDTO(1,2,3,4,5,6,new PeakPeriodDTO()));
         CrossBroadStatisticDTO cachedStatistics = crossCache.getCachedStatistics(DayOfWeek.TUESDAY);
         Assert.assertTrue(cachedStatistics == null);
     }
