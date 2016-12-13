@@ -33,7 +33,7 @@
                             ,"everyFifteenMinutes": 1
                           }
                         }
-          will be returned comprising information about the number os cars which passed during these periods
+          will be returned comprising information about the number of cars which passed during these periods
 
 
 #Task5 - Enhance save crosses endpoint (database mocked)
@@ -42,3 +42,28 @@
     When:  A POST request be performed through the URL "/cross"
     AND    The following Json {dayOfWeek: "MONDAY","crosses":["A98186","A86389454"]}
     Then:  The crosses will be saved and linked with the day "MONDAY"
+
+
+#Task6 - Enhance search crosses endpoint
+
+    Given: The server up and running
+    AND    data already inserted in the database to be consumed
+    When:  A GET request be performed through the URL "/cross?dayOfTheWee=MONDAY"
+    Then:  An Json like {
+                          "cross": {
+                            "morning": 40
+                            ,"evening": 35
+                            ,"hourly": 5
+                            ,"everyThirtyMinutes": 3
+                            ,"everyTwentyMinutes": 2
+                            ,"everyFifteenMinutes": 1
+                          }
+                        }
+          will be returned comprising information about the number of cars which passed during these periods
+
+#Task7 - Read JSON files and import the data when the system starts
+
+      Given: There are some files to be inserted straightaway after the server starts
+      When:  The server starts
+      Then:  All the data contained in the files will be inserted in a database;
+
