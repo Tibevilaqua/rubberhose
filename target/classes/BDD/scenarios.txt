@@ -24,14 +24,12 @@
     AND    data already inserted in the database to be consumed
     When:  A GET request be performed through the URL "/cross"
     Then:  An Json like {
-                          "cross": {
                             "morning": 40
                             ,"evening": 35
                             ,"hourly": 5
                             ,"everyThirtyMinutes": 3
                             ,"everyTwentyMinutes": 2
                             ,"everyFifteenMinutes": 1
-                          }
                         }
           will be returned comprising information about the number of cars which passed during these periods
 
@@ -50,14 +48,13 @@
     AND    data already inserted in the database to be consumed
     When:  A GET request be performed through the URL "/cross?dayOfTheWee=MONDAY"
     Then:  An Json like {
-                          "cross": {
                             "morning": 40
                             ,"evening": 35
                             ,"hourly": 5
                             ,"everyThirtyMinutes": 3
                             ,"everyTwentyMinutes": 2
                             ,"everyFifteenMinutes": 1
-                          }
+
                         }
           will be returned comprising information about the number of cars which passed during these periods
 
@@ -67,21 +64,42 @@
       When:  The server starts
       Then:  All the data contained in the files will be inserted in a database;
 
-#Task7 - Enhance search crosses endpoint (Peak period)
+#Task8 - Enhance search crosses endpoint (Peak period)
 
      Given: The server up and running
      AND    data already inserted in the database to be consumed
      When:  A GET request be performed through the URL "/cross?dayOfTheWee=MONDAY"
      Then:  An Json like {
-                          "cross": {
-                            "morning": 40
-                            ,"evening": 35
-                            ,"hourly": 5
-                            ,"everyThirtyMinutes": 3
-                            ,"everyTwentyMinutes": 2
-                            ,"everyFifteenMinutes": 1
-                            ,
-                            ,"peakPeriodStart": "11AM"
-                          }
-                        }
+                           "morning": 1941,
+                           "evening": 2550,
+                           "hourly": 187,
+                           "everyThirtyMinutes": 94,
+                           "everyTwentyMinutes": 62,
+                           "everyFifteenMinutes": 47,
+                           "peakPeriod": {
+                             "period": "8:30AM",
+                             "numberOfCars": 247
+                           }
+                         }
           will be returned comprising information the peak period
+
+
+#Task9 - Enhance search crosses endpoint (Speed distribution of traffic)
+
+     Given: The server up and running
+     AND    data already inserted in the database to be consumed
+     When:  A GET request be performed through the URL "/cross?dayOfTheWee=MONDAY"
+     Then:  An Json like {
+                           "morning": 1941,
+                           "evening": 2550,
+                           "hourly": 187,
+                           "everyThirtyMinutes": 94,
+                           "everyTwentyMinutes": 62,
+                           "everyFifteenMinutes": 47,
+                           "averageSpeed": 64,
+                           "peakPeriod": {
+                             "period": "8:30AM",
+                             "numberOfCars": 247
+                           }
+                         }
+          will be returned comprising information the speed average

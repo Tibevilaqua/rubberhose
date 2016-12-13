@@ -23,4 +23,19 @@ public class CrossUtilsTest {
     }
 
 
+    @Test
+    public void shouldReturnOnlySortedMillsFromCrossesForSpecificLane_when_itIsExceptedAndOrSentInAnyOrder(){
+
+
+        List<Integer> result = CrossUtils.getMillsFrom(Arrays.asList("B222222", "A3434", "C1"), LaneEnum.NORTHBOUND);
+        Assert.assertEquals( Arrays.asList(3434),result);
+
+        List<Integer> resultSouthBound = CrossUtils.getMillsFrom(Arrays.asList("B222222", "A3434", "C1"), LaneEnum.SOUTHBOUND);
+
+        Assert.assertEquals( Arrays.asList(222222),resultSouthBound);
+
+
+    }
+
+
 }

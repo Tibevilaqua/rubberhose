@@ -15,12 +15,13 @@ public class CrossBroadStatisticDTO {
     private Integer everyFifteenMinutes;
     @JsonProperty("peakPeriod")
     private PeakPeriodDTO peakPeriodDTO;
+    private Integer averageSpeed;
 
 
     public CrossBroadStatisticDTO() {
     }
 
-    public CrossBroadStatisticDTO(Integer morning, Integer evening, Integer hourly, Integer everyThirtyMinutes, Integer everyTwentyMinutes, Integer everyFifteenMinutes, PeakPeriodDTO peakPeriodDTO) {
+    public CrossBroadStatisticDTO(Integer morning, Integer evening, Integer hourly, Integer everyThirtyMinutes, Integer everyTwentyMinutes, Integer everyFifteenMinutes, PeakPeriodDTO peakPeriodDTO, Integer averageSpeed) {
         this.morning = morning;
         this.evening = evening;
         this.hourly = hourly;
@@ -28,6 +29,11 @@ public class CrossBroadStatisticDTO {
         this.everyTwentyMinutes = everyTwentyMinutes;
         this.everyFifteenMinutes = everyFifteenMinutes;
         this.peakPeriodDTO = peakPeriodDTO;
+        this.averageSpeed = averageSpeed;
+    }
+
+    public Integer getAverageSpeed() {
+        return averageSpeed;
     }
 
     public Integer getMorning() {
@@ -68,6 +74,7 @@ public class CrossBroadStatisticDTO {
                 ", everyTwentyMinutes=" + everyTwentyMinutes +
                 ", everyFifteenMinutes=" + everyFifteenMinutes +
                 ", peakPeriodDTO=" + peakPeriodDTO +
+                ", averageSpeed=" + averageSpeed +
                 '}';
     }
 
@@ -87,7 +94,9 @@ public class CrossBroadStatisticDTO {
             return false;
         if (everyFifteenMinutes != null ? !everyFifteenMinutes.equals(that.everyFifteenMinutes) : that.everyFifteenMinutes != null)
             return false;
-        return peakPeriodDTO != null ? peakPeriodDTO.equals(that.peakPeriodDTO) : that.peakPeriodDTO == null;
+        if (peakPeriodDTO != null ? !peakPeriodDTO.equals(that.peakPeriodDTO) : that.peakPeriodDTO != null)
+            return false;
+        return averageSpeed != null ? averageSpeed.equals(that.averageSpeed) : that.averageSpeed == null;
 
     }
 
@@ -100,6 +109,7 @@ public class CrossBroadStatisticDTO {
         result = 31 * result + (everyTwentyMinutes != null ? everyTwentyMinutes.hashCode() : 0);
         result = 31 * result + (everyFifteenMinutes != null ? everyFifteenMinutes.hashCode() : 0);
         result = 31 * result + (peakPeriodDTO != null ? peakPeriodDTO.hashCode() : 0);
+        result = 31 * result + (averageSpeed != null ? averageSpeed.hashCode() : 0);
         return result;
     }
 }

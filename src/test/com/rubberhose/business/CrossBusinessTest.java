@@ -3,6 +3,8 @@ package com.rubberhose.business;
 import com.rubberhose.endpoint.cross.CrossBroadStatisticDTO;
 import com.rubberhose.endpoint.cross.CrossDTO;
 import com.rubberhose.endpoint.cross.PeakPeriodDTO;
+import com.rubberhose.infrastructure.LaneEnum;
+import com.rubberhose.infrastructure.SpeedUtils;
 import com.rubberhose.infrastructure.cross.CrossCache;
 import com.rubberhose.infrastructure.exception.CustomException;
 import com.rubberhose.repository.CrossRepository;
@@ -43,7 +45,7 @@ public class CrossBusinessTest {
     @Test
     public void shouldReturnCrossStatistics_when_someValueIsCached(){
 
-        CrossBroadStatisticDTO expectedResult = new CrossBroadStatisticDTO(40,70,16,8,5,4,new PeakPeriodDTO("3:00PM",10));
+        CrossBroadStatisticDTO expectedResult = new CrossBroadStatisticDTO(40,70,16,8,5,4,new PeakPeriodDTO("3:00PM",10),1);
 
         when(crossCache.getCachedStatistics(MONDAY)).thenReturn(expectedResult);
         CrossBroadStatisticDTO result = crossBusiness.getStatistics(MONDAY);
@@ -86,14 +88,16 @@ public class CrossBusinessTest {
         // 100 cars lane A = 200 crosses
         // 100 cars lane B = 400 crosses
 
-        final int sixHundredthOf24HoursInMills =144000;
+        final int sixHundredthOf24HoursInMills =288000;
 
-        //Peak 00:30 (1 cross more than the other periods)
+        //Peak 0:30AM (2 cross more than the other periods)
         crosses.add("A1800000");
+        crosses.add(String.format("%s%s","A1800", (SpeedUtils.SPEED_LIMIT_IN_MILLS + 3)));
 
-        for(int i = 1; i <= 600; i++){
-            String lane = i < 300 ? "A" : "B";
-            crosses.add(String.format("%s%s",lane,sixHundredthOf24HoursInMills * i));
+        for(int i = 1; i <= 300; i++){
+            LaneEnum lane = i < 150 ? LaneEnum.NORTHBOUND : LaneEnum.SOUTHBOUND;
+            crosses.add(String.format("%s%s",lane.getValue(),sixHundredthOf24HoursInMills * i));
+            crosses.add(String.format("%s%s",lane.getValue(),sixHundredthOf24HoursInMills * i + SpeedUtils.SPEED_LIMIT_IN_MILLS)); // Always moving at the speed limit
         }
 
         //Preparing calls
@@ -104,11 +108,8 @@ public class CrossBusinessTest {
         crossCache.setCachedStatistics(MONDAY,statistics.get());
         CrossBroadStatisticDTO result = crossCache.getCachedStatistics(MONDAY);
 
-        CrossBroadStatisticDTO expectedResult = new CrossBroadStatisticDTO(100,100,8,4,3,2, new PeakPeriodDTO("00:30AM", 2));
+        CrossBroadStatisticDTO expectedResult = new CrossBroadStatisticDTO(100,100,8,4,3,2, new PeakPeriodDTO("00:30AM", 3),SpeedUtils.SPEED_LIMIT);
 
         Assert.assertEquals(expectedResult,result);
-
     }
-
-
 }

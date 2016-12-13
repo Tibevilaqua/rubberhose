@@ -2,13 +2,16 @@ package com.rubberhose.business;
 
 import com.rubberhose.endpoint.cross.CrossBroadStatisticDTO;
 import com.rubberhose.endpoint.cross.PeakPeriodDTO;
+import com.rubberhose.infrastructure.LaneEnum;
 import com.rubberhose.infrastructure.MillsEnum;
 import com.rubberhose.infrastructure.OccurrencePerDayEnum;
+import com.rubberhose.infrastructure.SpeedUtils;
 import com.rubberhose.infrastructure.utils.CrossUtils;
 import com.rubberhose.infrastructure.utils.PeriodUtils;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -17,7 +20,10 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import static com.rubberhose.infrastructure.MillsEnum.END_OF_MORNING;
+import static com.rubberhose.infrastructure.SpeedUtils.getAverageKMBasedOnMills;
+import static com.rubberhose.infrastructure.SpeedUtils.getDifferenceInMills;
 import static com.rubberhose.infrastructure.utils.CrossUtils.dividePer;
+import static com.rubberhose.infrastructure.utils.CrossUtils.getMillsFrom;
 
 /**
  * Created by root on 12/12/16.
@@ -43,7 +49,11 @@ public class CrossStatisticsFactory {
      */
     protected CrossBroadStatisticDTO createStatistics(List<String> crossCollection, Integer numberOfDays) {
 
-            List<Integer> crossCollectionsMills = CrossUtils.getMillsFrom(crossCollection);
+            List<Integer> crossCollectionsMills = getMillsFrom(crossCollection);
+
+            //TODO differentiate Lane A from B (2 crosses A and 1 cross B)
+
+            Integer averageSpeed = this.getAverageSpeed(crossCollection);
 
             Integer morningCount = this.getMorningCount(crossCollectionsMills);
             //If it's not morning, therefore, it's evening
@@ -72,8 +82,18 @@ public class CrossStatisticsFactory {
 
         peakPeriodDTO = new PeakPeriodDTO(peakPeriodDTO.getPeriod(),peakPeriodNumberOfCrosses);
 
-        return  new CrossBroadStatisticDTO(morningCount,eveningCount,hourlyAverageCount,thirtyMinutesAverageCount,twentyMinutesAverageCount,fifteenMinutesAverageCount, peakPeriodDTO);
+        return  new CrossBroadStatisticDTO(morningCount,eveningCount,hourlyAverageCount,thirtyMinutesAverageCount,twentyMinutesAverageCount,fifteenMinutesAverageCount, peakPeriodDTO,averageSpeed);
 
+    }
+
+    private Integer getAverageSpeed(List<String> crossCollection) {
+
+        Long northLane = getDifferenceInMills(getMillsFrom(crossCollection, LaneEnum.NORTHBOUND));
+        Long southLane = getDifferenceInMills(getMillsFrom(crossCollection, LaneEnum.SOUTHBOUND));
+
+        Integer finalSPeed = getAverageKMBasedOnMills(crossCollection.size(), northLane.longValue() + southLane.longValue());
+
+        return finalSPeed;
     }
 
 

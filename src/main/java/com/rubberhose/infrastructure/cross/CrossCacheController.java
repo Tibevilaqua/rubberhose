@@ -32,7 +32,7 @@ import java.util.stream.Stream;
 @Component
 public class CrossCacheController {
 
-    private static final int FIVE_MINUTES = 300000;
+    private static final int FIVE_MINUTES = 3000;
     private static final String DATA_TO_IMPORT ="src/main/resources/data/";
     private static boolean shouldImportFiles = true;
 
@@ -47,7 +47,7 @@ public class CrossCacheController {
      * Import the data from every file inside the /resource/data repository
      * @throws IOException
      */
-    @Scheduled(initialDelay = 2000, fixedDelay = Long.MAX_VALUE)
+//    @Scheduled(initialDelay = 2000, fixedDelay = Long.MAX_VALUE)
     private void importDataFromFiles() throws IOException {
         System.out.println("----- Importing data from files to the repository -----");
 

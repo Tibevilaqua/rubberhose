@@ -59,9 +59,9 @@ public class CrossRepositoryTest {
         CrossCache crossCache = new CrossCache();
 
 
-        crossCache.setCachedStatistics(MONDAY, new CrossBroadStatisticDTO(1,2,3,4,5,6,new PeakPeriodDTO()));
+        crossCache.setCachedStatistics(MONDAY, new CrossBroadStatisticDTO(1,2,3,4,5,6,new PeakPeriodDTO(),1));
 
-        CrossBroadStatisticDTO secondCrossBroadStatisticDTO = new CrossBroadStatisticDTO(2,3,4,5,6,7,new PeakPeriodDTO());
+        CrossBroadStatisticDTO secondCrossBroadStatisticDTO = new CrossBroadStatisticDTO(2,3,4,5,6,7,new PeakPeriodDTO(),1);
         crossCache.setCachedStatistics(MONDAY, secondCrossBroadStatisticDTO);
         Assert.assertEquals(crossCache.getCachedStatistics(MONDAY), secondCrossBroadStatisticDTO);
     }
@@ -85,13 +85,11 @@ public class CrossRepositoryTest {
         Assert.assertTrue(crossRepository.getCrossCollection(DayOfWeek.TUESDAY).isEmpty());
     }
 
-
-
     @Test
     public void shouldReturnNothing_when_thereAreNoCrossesForTheDayInTheCache(){
 
         CrossCache crossCache = new CrossCache();
-        crossCache.setCachedStatistics(CROSSES_TO_SAVE_MODEL.getDayOfWeek(), new CrossBroadStatisticDTO(1,2,3,4,5,6,new PeakPeriodDTO()));
+        crossCache.setCachedStatistics(CROSSES_TO_SAVE_MODEL.getDayOfWeek(), new CrossBroadStatisticDTO(1,2,3,4,5,6,new PeakPeriodDTO(),1));
         CrossBroadStatisticDTO cachedStatistics = crossCache.getCachedStatistics(DayOfWeek.TUESDAY);
         Assert.assertTrue(cachedStatistics == null);
     }
