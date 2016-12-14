@@ -10,6 +10,7 @@ import com.rubberhose.infrastructure.utils.PeriodUtils;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -18,8 +19,8 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import static com.rubberhose.infrastructure.MillsEnum.END_OF_MORNING;
-import static com.rubberhose.infrastructure.SpeedUtils.getAverageKMBasedOnMills;
-import static com.rubberhose.infrastructure.SpeedUtils.getDifferenceInMills;
+import static com.rubberhose.infrastructure.utils.SpeedUtils.getAverageKMBasedOnMills;
+import static com.rubberhose.infrastructure.utils.SpeedUtils.getDifferenceInMills;
 import static com.rubberhose.infrastructure.utils.CrossUtils.dividePer;
 import static com.rubberhose.infrastructure.utils.CrossUtils.getMillsFrom;
 
@@ -61,8 +62,8 @@ public class CrossStatisticsFactory {
                     , twentyMinutesAverageCount = dividePer(lanesByHosesInUse,this.getEveryTwentyMinutesAverageCount(crossCollectionsMills))
                     , fifteenMinutesAverageCount = dividePer(lanesByHosesInUse,this.getEveryFifteenMinutesAverageCount(crossCollectionsMills));
 
-        PeakPeriodDTO peakPeriodDTO = this.getPeakPeriod(crossCollectionsMills);
-        Integer peakPeriodNumberOfCrosses = dividePer(lanesByHosesInUse, peakPeriodDTO.getNumberOfCars());
+        PeakPeriodDTO peakPeriodDTO = this.getPeakPeriod(crossCollection);
+
 
         // If no numberOfDays is sent, therefore, the code considers it and divide based on it,
         // otherwise, it's a particular weekday.
@@ -73,10 +74,7 @@ public class CrossStatisticsFactory {
                 thirtyMinutesAverageCount = dividePer(numberOfDays, thirtyMinutesAverageCount);
                 twentyMinutesAverageCount = dividePer(numberOfDays, twentyMinutesAverageCount);
                 fifteenMinutesAverageCount = dividePer(numberOfDays, fifteenMinutesAverageCount);
-                peakPeriodNumberOfCrosses = dividePer(numberOfDays, peakPeriodNumberOfCrosses);
             }
-
-        peakPeriodDTO = new PeakPeriodDTO(peakPeriodDTO.getPeriod(),peakPeriodNumberOfCrosses);
 
         return  new CrossBroadStatisticDTO(morningCount,eveningCount,hourlyAverageCount,thirtyMinutesAverageCount,twentyMinutesAverageCount,fifteenMinutesAverageCount, peakPeriodDTO,averageSpeed);
 
@@ -124,22 +122,25 @@ public class CrossStatisticsFactory {
     /**
      * Compare how many crosses were captured based on each period of 15 minutes and return the closest period and the number of crosses altogether
      */
-    private PeakPeriodDTO getPeakPeriod(List<Integer> crossCollectionsMills) {
-        Map<String, Integer> periodOfFifteenMinutesMills = PeriodUtils.PERIOD_OF_FIFTEEN_MINUTES_MILLS;
-        String peakPeriod = "";
-        int maxNumberOfCrosses = 0;
+    private PeakPeriodDTO getPeakPeriod(List<String> crosses) {
 
-        //Verifies each period and its crosses
-        for(String eachPeriod : periodOfFifteenMinutesMills.keySet()){
-            int beginningCurrentPeriodInMills = periodOfFifteenMinutesMills.get(eachPeriod).intValue();
-            int limitCurrentPeriodInMills = (beginningCurrentPeriodInMills + MillsEnum.FIFTEEN_MINUTES.value());
-            int currentNumberOfCrosses = (int) crossCollectionsMills.stream().sequential().filter(cross -> cross >= beginningCurrentPeriodInMills && cross < limitCurrentPeriodInMills).count();
-            if(currentNumberOfCrosses > maxNumberOfCrosses){
+
+        Map<String, Integer> northLanePeriod = PeriodUtils.getPeakPeriod(crosses, LaneEnum.NORTHBOUND);
+        Map<String, Integer> southLanePeriod = PeriodUtils.getPeakPeriod(crosses, LaneEnum.SOUTHBOUND);
+
+        String peakPeriod = "";
+        Integer maxNumberOfCars = 0;
+
+        for(String eachPeriod : northLanePeriod.keySet()){
+            Integer maxNumberOfCarsOfThisPeriod = northLanePeriod.get(eachPeriod) + southLanePeriod.get(eachPeriod);
+
+            if(maxNumberOfCarsOfThisPeriod > maxNumberOfCars){
+                maxNumberOfCars = maxNumberOfCarsOfThisPeriod;
                 peakPeriod = eachPeriod;
-                maxNumberOfCrosses = currentNumberOfCrosses;
             }
         }
-        return new PeakPeriodDTO(peakPeriod, maxNumberOfCrosses);
+
+        return new PeakPeriodDTO(peakPeriod, maxNumberOfCars);
 
     }
 

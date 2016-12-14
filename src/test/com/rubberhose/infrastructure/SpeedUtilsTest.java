@@ -1,13 +1,11 @@
 package com.rubberhose.infrastructure;
 
-import org.junit.Assert;
+import com.rubberhose.infrastructure.utils.SpeedUtils;
 import org.junit.Test;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 
-import static com.rubberhose.infrastructure.SpeedUtils.SPEED_LIMIT_IN_MILLS;
-import static com.rubberhose.infrastructure.SpeedUtils.getAverageKMBasedOnMills;
+import static com.rubberhose.infrastructure.utils.SpeedUtils.getAverageKMBasedOnMills;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 

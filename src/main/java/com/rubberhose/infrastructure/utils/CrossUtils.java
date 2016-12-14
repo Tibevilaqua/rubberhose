@@ -4,10 +4,7 @@ import com.rubberhose.endpoint.cross.CrossDTO;
 import com.rubberhose.infrastructure.LaneEnum;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.function.BiPredicate;
 import java.util.stream.Collectors;
 
@@ -35,7 +32,7 @@ public class CrossUtils {
      */
     public static List<Integer> getMillsFrom(List<String> crosses, LaneEnum laneEnum){
 
-        List<String> result = laneEnum == LaneEnum.NORTHBOUND ? getMillsFromNorthLane(crosses) : getMillsFromSouthLane(crosses);
+        List<String> result = laneEnum == LaneEnum.NORTHBOUND ? getNorthLaneCrosses(crosses) : getSouthLaneCrosses(crosses);
 
         return  result.stream().map(CrossUtils::getCrossMills).sorted().collect(Collectors.toList());
     }
@@ -53,6 +50,36 @@ public class CrossUtils {
         return crossDTO.getCrosses().stream().anyMatch(eachCross -> Objects.isNull(eachCross) || eachCross.length() > 11 || eachCross.matches(CrossUtils.MACHINE_VALUE_PATTERN));
     }
 
+    /**
+     * Return the whole number of accurate crosses (following the pattern)
+     * @param crossDTO
+     * @return
+     */
+    public static int getNumberOfValidCrosses(CrossDTO crossDTO){
+
+        boolean isNorthLaneUsed = isLaneUsed(crossDTO.getCrosses(), LaneEnum.NORTHBOUND);
+        boolean isSouthLaneUsed = isLaneUsed(crossDTO.getCrosses(), LaneEnum.SOUTHBOUND);
+
+        Integer numberOfCrossesAfterTreatment = 0;
+
+        if(isNorthLaneUsed){
+            numberOfCrossesAfterTreatment+= getNorthLaneCrosses(crossDTO.getCrosses()).size();
+        }
+        if(isSouthLaneUsed){
+            numberOfCrossesAfterTreatment += getSouthLaneCrosses(crossDTO.getCrosses()).size();
+        }
+
+        return numberOfCrossesAfterTreatment;
+
+    }
+
+
+    public static Integer getNumberOfCarsInBetween(Integer beginningCurrentPeriodInMills, Integer limitCurrentPeriodInMills, List<Integer> crossCollectionsMills){
+
+        return (int) crossCollectionsMills.stream().sequential().filter(cross -> cross >= beginningCurrentPeriodInMills && cross < limitCurrentPeriodInMills).count();
+
+
+    }
 
 
     public static Integer dividePer(Integer division, Integer numberOfCrosses){
@@ -70,21 +97,7 @@ public class CrossUtils {
 
     private static boolean isLaneUsed(List<String> crosses, LaneEnum laneEnum){
 
-        boolean lastCross = false;
-        for (int i = 0; i < crosses.size(); i++) {
-            boolean currentCross = laneEnum.getValue().equals(getLanePrefix(crosses.get(i)));
-
-            if(currentCross){
-                if(lastCross){
-                    return true;
-                }
-                lastCross = true;
-            }else{
-                lastCross = false;
-            }
-
-        }
-        return false;
+        return LaneEnum.NORTHBOUND == laneEnum ? !getNorthLaneCrosses(crosses).isEmpty() : !getSouthLaneCrosses(crosses).isEmpty();
     }
 
     private static String getLanePrefix(String cross){
@@ -95,12 +108,10 @@ public class CrossUtils {
         return Integer.valueOf(cross.substring(1,cross.length()));
     }
 
-
-
     /**
      * Get all the crosses which follow the north lane pattern: e.g A268981, A269123
      */
-    private static List<String> getMillsFromNorthLane(List<String> crosses) {
+    private static List<String> getNorthLaneCrosses(List<String> crosses) {
         List<String> result = new ArrayList<>();
 
 
@@ -129,7 +140,7 @@ public class CrossUtils {
     /**
      * Get all the crosses which follow the south lane pattern: e.g A604957, B604960, A605128, B605132
      */
-    public static List<String> getMillsFromSouthLane(List<String> crosses){
+    private static List<String> getSouthLaneCrosses(List<String> crosses){
         List<String> result = new ArrayList<>();
         int jumpFollowingIterations = 0;
         for (int i = 0; i < crosses.size() -3; i++) {

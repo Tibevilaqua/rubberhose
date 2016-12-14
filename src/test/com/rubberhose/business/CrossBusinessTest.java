@@ -4,9 +4,10 @@ import com.rubberhose.endpoint.cross.CrossBroadStatisticDTO;
 import com.rubberhose.endpoint.cross.CrossDTO;
 import com.rubberhose.endpoint.cross.PeakPeriodDTO;
 import com.rubberhose.infrastructure.LaneEnum;
-import com.rubberhose.infrastructure.SpeedUtils;
+import com.rubberhose.infrastructure.utils.SpeedUtils;
 import com.rubberhose.infrastructure.cross.CrossCache;
 import com.rubberhose.infrastructure.exception.CustomException;
+import com.rubberhose.infrastructure.exception.ExceptionEnum;
 import com.rubberhose.repository.CrossRepository;
 import org.junit.Assert;
 import org.junit.Before;
@@ -53,11 +54,6 @@ public class CrossBusinessTest {
         Assert.assertEquals(expectedResult,result);
     }
 
-    @Test
-    public void shouldSaveCross_when_valuesFollowTheRightPattern(){
-        List<String> crosses = Arrays.asList("A1", "B1234567890", "B66633");
-        crossBusiness.save(new CrossDTO(crosses));
-    }
 
     @Test
     public void shouldThrowException_when_valuesFollowTheRightPattern(){
@@ -90,14 +86,29 @@ public class CrossBusinessTest {
 
         final int sixHundredthOf24HoursInMills =288000;
 
-        //Peak 0:30AM (2 cross more than the other periods)
+        //Peak 0:30AM (4 crosses more than the other periods)
         crosses.add("A1800000");
         crosses.add(String.format("%s%s","A1800", (SpeedUtils.SPEED_LIMIT_IN_MILLS + 3)));
+        crosses.add("A1808000");
+        crosses.add(String.format("%s%s","A1808", (SpeedUtils.SPEED_LIMIT_IN_MILLS + 3)));
 
-        for(int i = 1; i <= 300; i++){
-            LaneEnum lane = i < 150 ? LaneEnum.NORTHBOUND : LaneEnum.SOUTHBOUND;
-            crosses.add(String.format("%s%s",lane.getValue(),sixHundredthOf24HoursInMills * i));
-            crosses.add(String.format("%s%s",lane.getValue(),sixHundredthOf24HoursInMills * i + SpeedUtils.SPEED_LIMIT_IN_MILLS)); // Always moving at the speed limit
+        for(int i = 1; i <= 224; i++){
+
+            if(i < 150){
+
+
+                crosses.add(String.format("%s%s",LaneEnum.NORTHBOUND.getValue(),sixHundredthOf24HoursInMills * i));
+                crosses.add(String.format("%s%s",LaneEnum.NORTHBOUND.getValue(),sixHundredthOf24HoursInMills * i + SpeedUtils.SPEED_LIMIT_IN_MILLS)); // Always moving at the speed limit
+            }else{
+                Integer firstLaneAValue = sixHundredthOf24HoursInMills * i;
+                Integer secondLaneBValue = sixHundredthOf24HoursInMills * i +100;
+                crosses.add(String.format("%s%s",LaneEnum.NORTHBOUND.getValue(),firstLaneAValue));
+                crosses.add(String.format("%s%s",LaneEnum.SOUTHBOUND.getValue(),secondLaneBValue)); // Always moving at the speed limit
+                crosses.add(String.format("%s%s",LaneEnum.NORTHBOUND.getValue(),firstLaneAValue + SpeedUtils.SPEED_LIMIT_IN_MILLS));
+                crosses.add(String.format("%s%s",LaneEnum.SOUTHBOUND.getValue(),secondLaneBValue + SpeedUtils.SPEED_LIMIT_IN_MILLS)); // Always moving at the speed limit
+
+            }
+
         }
 
         //Preparing calls
@@ -108,8 +119,46 @@ public class CrossBusinessTest {
         crossCache.setCachedStatistics(MONDAY,statistics.get());
         CrossBroadStatisticDTO result = crossCache.getCachedStatistics(MONDAY);
 
-        CrossBroadStatisticDTO expectedResult = new CrossBroadStatisticDTO(100,100,8,4,3,2, new PeakPeriodDTO("00:30AM", 3),SpeedUtils.SPEED_LIMIT);
+        CrossBroadStatisticDTO expectedResult = new CrossBroadStatisticDTO(101,100,8,4,3,2, new PeakPeriodDTO("00:30AM", 5),SpeedUtils.SPEED_LIMIT);
 
         Assert.assertEquals(expectedResult,result);
     }
+
+
+    @Test
+    public void shouldThrowExceptions_when_patternsOrValuesAreInvalids(){
+        int expectedNumberOfExceptions = 3;
+        int exceptionsCaught = 0;
+
+        List<List<String>> crosses = Arrays.asList(Arrays.asList("A1010101010"), Arrays.asList("A1010101010", "B1010101010"), Arrays.asList("B1010101010", "B1010101010"));
+
+        List<ExceptionEnum> expectedExceptions = Arrays.asList(ExceptionEnum.INVALID_NUMBER_OF_CROSS, ExceptionEnum.INVALID_CROSS_PATTERN, ExceptionEnum.INVALID_CROSS_PATTERN);
+
+        for(int i = 0; i < expectedExceptions.size(); i ++){
+            try{
+                // Not allowed to send data of the 1st axle and don't second second (must be multiple of 2 or 4)
+                crossBusiness.save(new CrossDTO(null, crosses.get(i)));
+            }catch (CustomException c){
+                Assert.assertEquals(expectedExceptions.get(i).getHttpStatus(), c.getHttpStatus());
+                Assert.assertEquals(expectedExceptions.get(i).getDescription(), c.getDescription());
+                exceptionsCaught++;
+            }
+        }
+
+
+        Assert.assertEquals(expectedNumberOfExceptions,exceptionsCaught);
+
+        //All nice, should save..
+        crossBusiness.save(new CrossDTO(null, Arrays.asList("A1010101010","A1010101020")));
+        crossBusiness.save(new CrossDTO(null, Arrays.asList("A1010101010","B1010101020","A1010101030","B1010101040")));
+        crossBusiness.save(new CrossDTO(null, Arrays.asList("A10101010","A10101020","A1010101010","B1010101020","A1010101030","B1010101040")));
+
+
+
+
+    }
+
+
+
+
 }

@@ -5,16 +5,22 @@ package com.rubberhose.infrastructure;
  */
 public enum LaneEnum {
 
-    NORTHBOUND("A"),
-    SOUTHBOUND("B");
+    NORTHBOUND("A",2),
+    SOUTHBOUND("B",4);
 
     private String value;
+    private Integer crossesPerCar;
 
-    LaneEnum(String value) {
+    LaneEnum(String value, Integer crossesPerCar) {
         this.value = value;
+        this.crossesPerCar = crossesPerCar;
     }
 
     public String getValue() {
         return value;
+    }
+
+    public Integer getCrossesPerCar() {
+        return crossesPerCar;
     }
 }

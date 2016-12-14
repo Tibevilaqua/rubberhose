@@ -1,8 +1,10 @@
 package com.rubberhose.infrastructure.utils;
 
+import com.rubberhose.infrastructure.LaneEnum;
 import com.rubberhose.infrastructure.MillsEnum;
 import com.rubberhose.infrastructure.OccurrencePerDayEnum;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -44,6 +46,27 @@ public class PeriodUtils {
 
             result.put(String.format("%s%s%s%s", ifOneZeroThenTwo(currentHours), ":",ifOneZeroThenTwo(currentMinutes),currentPeriod), eachFifteenMinutesInMills.get(i-1));
             currentMinutes+=15;
+        }
+
+        return result;
+    }
+
+
+    public static Map<String, Integer> getPeakPeriod(List<String> crosses, LaneEnum laneEnum){
+        Map<String, Integer> periodOfFifteenMinutesMills = PERIOD_OF_FIFTEEN_MINUTES_MILLS;
+        Map<String,Integer> result = new HashMap<>();
+
+            List<Integer> laneCrossesInMills = CrossUtils.getMillsFrom(crosses, laneEnum);
+
+            for(String eachPeriod : periodOfFifteenMinutesMills.keySet()){
+                int beginningCurrentPeriodInMills = periodOfFifteenMinutesMills.get(eachPeriod).intValue();
+                int limitCurrentPeriodInMills = (beginningCurrentPeriodInMills + MillsEnum.FIFTEEN_MINUTES.value());
+
+                int currentNumberOfCrosses = CrossUtils.getNumberOfCarsInBetween(beginningCurrentPeriodInMills,limitCurrentPeriodInMills,laneCrossesInMills);
+
+                    Integer numberOfCars = BigDecimal.valueOf(currentNumberOfCrosses).divide(BigDecimal.valueOf(laneEnum.getCrossesPerCar()),BigDecimal.ROUND_HALF_UP).intValue();
+
+                    result.put(eachPeriod,numberOfCars);
         }
 
         return result;

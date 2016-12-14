@@ -103,3 +103,12 @@
                            }
                          }
           will be returned comprising information the speed average
+
+
+
+#Task10 - Enhance save crosses endpoint (Validation of crosses on North Lane "A")
+
+     Given: The server up and running
+     When:  A POST request be performed through the URL "/cross"
+     AND    the number of crosses are not multiple of 2 (2 axles)
+     Then:  an exception requiring the right format of crosses will be thrown
