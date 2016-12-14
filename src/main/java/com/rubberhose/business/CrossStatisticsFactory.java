@@ -5,13 +5,11 @@ import com.rubberhose.endpoint.cross.PeakPeriodDTO;
 import com.rubberhose.infrastructure.LaneEnum;
 import com.rubberhose.infrastructure.MillsEnum;
 import com.rubberhose.infrastructure.OccurrencePerDayEnum;
-import com.rubberhose.infrastructure.SpeedUtils;
 import com.rubberhose.infrastructure.utils.CrossUtils;
 import com.rubberhose.infrastructure.utils.PeriodUtils;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -31,11 +29,8 @@ import static com.rubberhose.infrastructure.utils.CrossUtils.getMillsFrom;
 @Component
 public class CrossStatisticsFactory {
 
-    /**
-     * As far as there are two belts on the street (A & B) and belt B is stretched over both lanes
-     * it is necessary to divide by three to get the accurate number of cars.
-     */
-    private static final int THREE = 3;
+
+
 
 
     /**
@@ -49,28 +44,29 @@ public class CrossStatisticsFactory {
      */
     protected CrossBroadStatisticDTO createStatistics(List<String> crossCollection, Integer numberOfDays) {
 
+            Integer lanesByHosesInUse = divisionRequiredToGetNumberOfCars(crossCollection);
+
             List<Integer> crossCollectionsMills = getMillsFrom(crossCollection);
 
-            //TODO differentiate Lane A from B (2 crosses A and 1 cross B)
+            Integer morningCount = this.getMorningCount(crossCollectionsMills);
+
+            Integer eveningCount = dividePer(lanesByHosesInUse,this.getEveningCount(crossCollectionsMills,morningCount));
+            morningCount = dividePer(lanesByHosesInUse, morningCount);
 
             Integer averageSpeed = this.getAverageSpeed(crossCollection);
 
-            Integer morningCount = this.getMorningCount(crossCollectionsMills);
-            //If it's not morning, therefore, it's evening
-            Integer eveningCount = dividePer(THREE,this.getEveningCount(crossCollectionsMills,morningCount));
-            morningCount = dividePer(THREE, morningCount);
 
-            Integer hourlyAverageCount = dividePer(THREE,this.getHourAverageCount(crossCollectionsMills))
-                    , thirtyMinutesAverageCount = dividePer(THREE,this.getHalfHourAverageCount(crossCollectionsMills))
-                    , twentyMinutesAverageCount = dividePer(THREE,this.getEveryTwentyMinutesAverageCount(crossCollectionsMills))
-                    , fifteenMinutesAverageCount = dividePer(THREE,this.getEveryFifteenMinutesAverageCount(crossCollectionsMills));
+            Integer hourlyAverageCount = dividePer(lanesByHosesInUse,this.getHourAverageCount(crossCollectionsMills))
+                    , thirtyMinutesAverageCount = dividePer(lanesByHosesInUse,this.getHalfHourAverageCount(crossCollectionsMills))
+                    , twentyMinutesAverageCount = dividePer(lanesByHosesInUse,this.getEveryTwentyMinutesAverageCount(crossCollectionsMills))
+                    , fifteenMinutesAverageCount = dividePer(lanesByHosesInUse,this.getEveryFifteenMinutesAverageCount(crossCollectionsMills));
 
         PeakPeriodDTO peakPeriodDTO = this.getPeakPeriod(crossCollectionsMills);
-        Integer peakPeriodNumberOfCrosses = dividePer(THREE, peakPeriodDTO.getNumberOfCars());
+        Integer peakPeriodNumberOfCrosses = dividePer(lanesByHosesInUse, peakPeriodDTO.getNumberOfCars());
 
         // If no numberOfDays is sent, therefore, the code considers it and divide based on it,
         // otherwise, it's a particular weekday.
-        if(Objects.nonNull(numberOfDays)){
+        if(Objects.nonNull(numberOfDays) && numberOfDays > 0){
                 morningCount = dividePer(numberOfDays, morningCount);
                 eveningCount = dividePer(numberOfDays, eveningCount);
                 hourlyAverageCount = dividePer(numberOfDays, hourlyAverageCount);
@@ -86,12 +82,15 @@ public class CrossStatisticsFactory {
 
     }
 
+
     private Integer getAverageSpeed(List<String> crossCollection) {
 
-        Long northLane = getDifferenceInMills(getMillsFrom(crossCollection, LaneEnum.NORTHBOUND));
-        Long southLane = getDifferenceInMills(getMillsFrom(crossCollection, LaneEnum.SOUTHBOUND));
+        Long northLane = getDifferenceInMills(getMillsFrom(crossCollection, LaneEnum.NORTHBOUND),LaneEnum.NORTHBOUND);
+        Long southLane = getDifferenceInMills(getMillsFrom(crossCollection, LaneEnum.SOUTHBOUND),LaneEnum.SOUTHBOUND);
 
-        Integer finalSPeed = getAverageKMBasedOnMills(crossCollection.size(), northLane.longValue() + southLane.longValue());
+        Integer numberOfCars = BigDecimal.valueOf(crossCollection.size()).divide(BigDecimal.valueOf(divisionRequiredToGetNumberOfCars(crossCollection)),BigDecimal.ROUND_HALF_UP).intValue();
+
+        Integer finalSPeed = getAverageKMBasedOnMills(numberOfCars, northLane.longValue() + southLane.longValue());
 
         return finalSPeed;
     }
@@ -145,7 +144,7 @@ public class CrossStatisticsFactory {
     }
 
     /**
-     * Given a list of crosses and the necessary occurencePerDay, the average is extracted and returned as an Integer
+     * Given a list of crosses and the necessary occurrencePerDay, the average is extracted and returned as an Integer
      */
     private BiFunction<List<Integer>, OccurrencePerDayEnum, Integer> getPeriodAverage = (crossCollectionsMills, occurrencePerDayEnum) -> {
         List<Integer> occurrencesOfTheDayInMills = IntStream.rangeClosed(0, occurrencePerDayEnum.getValue()).mapToObj(value -> Integer.valueOf(value * occurrencePerDayEnum.getRespectiveMillsEnum().value())).collect(Collectors.toList());
@@ -162,5 +161,18 @@ public class CrossStatisticsFactory {
     };
 
 
+    public Integer divisionRequiredToGetNumberOfCars(List<String> crosses) {
 
+        boolean isNorthLaneInTheList = CrossUtils.isLaneUsed.test(crosses,LaneEnum.NORTHBOUND);
+        boolean isSouthLaneInTheList = CrossUtils.isLaneUsed.test(crosses,LaneEnum.SOUTHBOUND);
+
+        //If both lanes are used, then, divide by 3 to get the number of cars at the end
+        if(isNorthLaneInTheList && isSouthLaneInTheList){
+            return 3;
+        }else if(isNorthLaneInTheList && !isSouthLaneInTheList){
+            return 2;
+        }else {
+            return 4;
+        }
+    }
 }

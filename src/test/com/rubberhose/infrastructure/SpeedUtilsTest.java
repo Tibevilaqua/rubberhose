@@ -27,14 +27,13 @@ public class SpeedUtilsTest {
         assertEquals(Integer.valueOf(0), getAverageKMBasedOnMills(10, 1500l));
         assertEquals(Integer.valueOf(72), getAverageKMBasedOnMills(10, -300l));
         assertEquals(Integer.valueOf(120), getAverageKMBasedOnMills(10, -1500l));
-        assertEquals(Integer.valueOf(60), getAverageKMBasedOnMills(100, 60l));
     }
 
 
     @Test
     public void shouldReturnCorrectSpeed_when_crossesMakeSense(){
-        Long differenceInMills = SpeedUtils.getDifferenceInMills(Arrays.asList(100, 260, 300, 460));
-        assertEquals(20l, differenceInMills.longValue());
+        Long differenceInMills = SpeedUtils.getDifferenceInMills(Arrays.asList(100, 260, 300, 460),LaneEnum.SOUTHBOUND);
+        assertEquals(100l, differenceInMills.longValue());
     }
 
 

@@ -1,6 +1,7 @@
 package com.rubberhose.infrastructure;
 
 import com.rubberhose.infrastructure.utils.CrossUtils;
+import com.sun.xml.internal.ws.server.sei.SEIInvokerTube;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -27,35 +28,61 @@ public class SpeedUtils {
         return result.intValue();
     }
 
-    public static Long getDifferenceInMills(List<Integer> crossCollection){
+    public static Long getDifferenceInMills(List<Integer> crossCollection, LaneEnum laneEnum){
 
-        if(crossCollection == null || crossCollection.isEmpty()){
+        if (crossCollection == null || crossCollection.isEmpty()) {
             return 0l;
         }
-
-        Integer firstAxleCross = crossCollection.get(0), secondAxleCross;
         Long totalDifference = 0l;
-        for(int i = 1; i < crossCollection.size(); i++){
 
-            Integer crossValue = crossCollection.get(i);
+        if(LaneEnum.NORTHBOUND == laneEnum) {
 
-            if(i % 2 == 0){
-                firstAxleCross = crossValue;
-            }else{
-                secondAxleCross = crossValue;
-                totalDifference+= secondAxleCross - (firstAxleCross + SPEED_LIMIT_IN_MILLS);
+            Integer firstAxleCross = crossCollection.get(0), secondAxleCross;
+
+            for (int i = 1; i < crossCollection.size(); i++) {
+
+                Integer crossValue = crossCollection.get(i);
+
+                if (i % 2 == 0) {
+                    firstAxleCross = crossValue;
+                } else {
+                    secondAxleCross = crossValue;
+                    totalDifference += secondAxleCross - (firstAxleCross + SPEED_LIMIT_IN_MILLS);
+                }
             }
-        }
+
+        }else{
+
+            Integer firstAxleCross, secondAxleCross;
+            int jumpTwo = 0;
+            boolean isJumpTwoActive = false;
+            for (int i = 1; i < crossCollection.size() -1; i++) {
+
+                    if(isJumpTwoActive){
+                        if(jumpTwo > 0){
+                            jumpTwo--;
+                            continue;
+                        }
+                        isJumpTwoActive = false;
+                    }
+
+                    firstAxleCross = crossCollection.get(i-1);
+                    secondAxleCross = crossCollection.get(i+1);
+                    totalDifference += secondAxleCross - (firstAxleCross + SPEED_LIMIT_IN_MILLS);
+                    jumpTwo++;
+                    if(jumpTwo == 2){
+                        isJumpTwoActive = true;
+                    }
+
+
+                }
+            }
 
         return totalDifference;
-
     }
 
 
     public static Integer getAverageKMBasedOnMills(Integer numberOfCrosses, Long differenceInMills){
-        if(insignificantDifference(differenceInMills)){
-            return SPEED_LIMIT;
-        }
 
         BigDecimal differencePerCarInMills = valueOf(differenceInMills).divide(valueOf(numberOfCrosses), ROUND_HALF_UP);
         BigDecimal percentageTaken = differencePerCarInMills.multiply(BigDecimal.valueOf(100)).divide(BigDecimal.valueOf(SPEED_LIMIT_IN_MILLS),0,BigDecimal.ROUND_HALF_UP);
