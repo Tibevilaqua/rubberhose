@@ -13,22 +13,22 @@ public class CrossBroadStatisticDTO {
     private Integer everyThirtyMinutes;
     private Integer everyTwentyMinutes;
     private Integer everyFifteenMinutes;
-    @JsonProperty("peakPeriod")
-    private PeakPeriodDTO peakPeriodDTO;
+
+    private TrafficDTO traffic;
     private Integer averageSpeed;
 
 
     public CrossBroadStatisticDTO() {
     }
 
-    public CrossBroadStatisticDTO(Integer morning, Integer evening, Integer hourly, Integer everyThirtyMinutes, Integer everyTwentyMinutes, Integer everyFifteenMinutes, PeakPeriodDTO peakPeriodDTO, Integer averageSpeed) {
+    public CrossBroadStatisticDTO(Integer morning, Integer evening, Integer hourly, Integer everyThirtyMinutes, Integer everyTwentyMinutes, Integer everyFifteenMinutes, TrafficDTO traffic, Integer averageSpeed) {
         this.morning = morning;
         this.evening = evening;
         this.hourly = hourly;
         this.everyThirtyMinutes = everyThirtyMinutes;
         this.everyTwentyMinutes = everyTwentyMinutes;
         this.everyFifteenMinutes = everyFifteenMinutes;
-        this.peakPeriodDTO = peakPeriodDTO;
+        this.traffic = traffic;
         this.averageSpeed = averageSpeed;
     }
 
@@ -60,8 +60,8 @@ public class CrossBroadStatisticDTO {
         return everyFifteenMinutes;
     }
 
-    public PeakPeriodDTO getPeakPeriodDTO() {
-        return peakPeriodDTO;
+    public TrafficDTO getTraffic() {
+        return traffic;
     }
 
     @Override
@@ -73,7 +73,7 @@ public class CrossBroadStatisticDTO {
                 ", everyThirtyMinutes=" + everyThirtyMinutes +
                 ", everyTwentyMinutes=" + everyTwentyMinutes +
                 ", everyFifteenMinutes=" + everyFifteenMinutes +
-                ", peakPeriodDTO=" + peakPeriodDTO +
+                ", traffic=" + traffic +
                 ", averageSpeed=" + averageSpeed +
                 '}';
     }
@@ -85,31 +85,25 @@ public class CrossBroadStatisticDTO {
 
         CrossBroadStatisticDTO that = (CrossBroadStatisticDTO) o;
 
-        if (morning != null ? !morning.equals(that.morning) : that.morning != null) return false;
-        if (evening != null ? !evening.equals(that.evening) : that.evening != null) return false;
-        if (hourly != null ? !hourly.equals(that.hourly) : that.hourly != null) return false;
-        if (everyThirtyMinutes != null ? !everyThirtyMinutes.equals(that.everyThirtyMinutes) : that.everyThirtyMinutes != null)
-            return false;
-        if (everyTwentyMinutes != null ? !everyTwentyMinutes.equals(that.everyTwentyMinutes) : that.everyTwentyMinutes != null)
-            return false;
-        if (everyFifteenMinutes != null ? !everyFifteenMinutes.equals(that.everyFifteenMinutes) : that.everyFifteenMinutes != null)
-            return false;
-        if (peakPeriodDTO != null ? !peakPeriodDTO.equals(that.peakPeriodDTO) : that.peakPeriodDTO != null)
-            return false;
-        return averageSpeed != null ? averageSpeed.equals(that.averageSpeed) : that.averageSpeed == null;
+        if (!morning.equals(that.morning)) return false;
+        if (!evening.equals(that.evening)) return false;
+        if (!hourly.equals(that.hourly)) return false;
+        if (!everyThirtyMinutes.equals(that.everyThirtyMinutes)) return false;
+        if (!everyTwentyMinutes.equals(that.everyTwentyMinutes)) return false;
+        if (!everyFifteenMinutes.equals(that.everyFifteenMinutes)) return false;
+        return averageSpeed.equals(that.averageSpeed);
 
     }
 
     @Override
     public int hashCode() {
-        int result = morning != null ? morning.hashCode() : 0;
-        result = 31 * result + (evening != null ? evening.hashCode() : 0);
-        result = 31 * result + (hourly != null ? hourly.hashCode() : 0);
-        result = 31 * result + (everyThirtyMinutes != null ? everyThirtyMinutes.hashCode() : 0);
-        result = 31 * result + (everyTwentyMinutes != null ? everyTwentyMinutes.hashCode() : 0);
-        result = 31 * result + (everyFifteenMinutes != null ? everyFifteenMinutes.hashCode() : 0);
-        result = 31 * result + (peakPeriodDTO != null ? peakPeriodDTO.hashCode() : 0);
-        result = 31 * result + (averageSpeed != null ? averageSpeed.hashCode() : 0);
+        int result = morning.hashCode();
+        result = 31 * result + evening.hashCode();
+        result = 31 * result + hourly.hashCode();
+        result = 31 * result + everyThirtyMinutes.hashCode();
+        result = 31 * result + everyTwentyMinutes.hashCode();
+        result = 31 * result + everyFifteenMinutes.hashCode();
+        result = 31 * result + averageSpeed.hashCode();
         return result;
     }
 }

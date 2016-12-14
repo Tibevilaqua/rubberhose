@@ -1,19 +1,16 @@
 package com.rubberhose.business;
 
 import com.rubberhose.endpoint.cross.CrossBroadStatisticDTO;
-import com.rubberhose.endpoint.cross.PeakPeriodDTO;
+import com.rubberhose.endpoint.cross.PeriodDTO;
+import com.rubberhose.endpoint.cross.TrafficDTO;
 import com.rubberhose.infrastructure.LaneEnum;
-import com.rubberhose.infrastructure.MillsEnum;
 import com.rubberhose.infrastructure.OccurrencePerDayEnum;
 import com.rubberhose.infrastructure.utils.CrossUtils;
 import com.rubberhose.infrastructure.utils.PeriodUtils;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.function.BiFunction;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -62,7 +59,7 @@ public class CrossStatisticsFactory {
                     , twentyMinutesAverageCount = dividePer(lanesByHosesInUse,this.getEveryTwentyMinutesAverageCount(crossCollectionsMills))
                     , fifteenMinutesAverageCount = dividePer(lanesByHosesInUse,this.getEveryFifteenMinutesAverageCount(crossCollectionsMills));
 
-        PeakPeriodDTO peakPeriodDTO = this.getPeakPeriod(crossCollection);
+        TrafficDTO periodDTO = this.getPeakPeriod(crossCollection);
 
 
         // If no numberOfDays is sent, therefore, the code considers it and divide based on it,
@@ -76,7 +73,7 @@ public class CrossStatisticsFactory {
                 fifteenMinutesAverageCount = dividePer(numberOfDays, fifteenMinutesAverageCount);
             }
 
-        return  new CrossBroadStatisticDTO(morningCount,eveningCount,hourlyAverageCount,thirtyMinutesAverageCount,twentyMinutesAverageCount,fifteenMinutesAverageCount, peakPeriodDTO,averageSpeed);
+        return  new CrossBroadStatisticDTO(morningCount,eveningCount,hourlyAverageCount,thirtyMinutesAverageCount,twentyMinutesAverageCount,fifteenMinutesAverageCount, periodDTO,averageSpeed);
 
     }
 
@@ -122,25 +119,32 @@ public class CrossStatisticsFactory {
     /**
      * Compare how many crosses were captured based on each period of 15 minutes and return the closest period and the number of crosses altogether
      */
-    private PeakPeriodDTO getPeakPeriod(List<String> crosses) {
+    private TrafficDTO getPeakPeriod(List<String> crosses) {
 
 
         Map<String, Integer> northLanePeriod = PeriodUtils.getPeakPeriod(crosses, LaneEnum.NORTHBOUND);
         Map<String, Integer> southLanePeriod = PeriodUtils.getPeakPeriod(crosses, LaneEnum.SOUTHBOUND);
-
+        List<PeriodDTO> periods = new ArrayList<>(northLanePeriod.size());
         String peakPeriod = "";
         Integer maxNumberOfCars = 0;
 
         for(String eachPeriod : northLanePeriod.keySet()){
-            Integer maxNumberOfCarsOfThisPeriod = northLanePeriod.get(eachPeriod) + southLanePeriod.get(eachPeriod);
+            Integer numberOfCarsInThisPeriod = northLanePeriod.get(eachPeriod) + southLanePeriod.get(eachPeriod);
 
-            if(maxNumberOfCarsOfThisPeriod > maxNumberOfCars){
-                maxNumberOfCars = maxNumberOfCarsOfThisPeriod;
-                peakPeriod = eachPeriod;
+            // Is there any car in between this period?
+            if(numberOfCarsInThisPeriod > 0) {
+                periods.add(new PeriodDTO(eachPeriod,numberOfCarsInThisPeriod));
+
+                //peak?
+                if(numberOfCarsInThisPeriod > maxNumberOfCars){
+                    maxNumberOfCars = numberOfCarsInThisPeriod;
+                    peakPeriod = eachPeriod;
+                }
+
             }
         }
 
-        return new PeakPeriodDTO(peakPeriod, maxNumberOfCars);
+        return new TrafficDTO(peakPeriod, maxNumberOfCars,periods);
 
     }
 

@@ -12,7 +12,7 @@ import static com.rubberhose.infrastructure.utils.PeriodUtils.PERIOD_OF_FIFTEEN_
 /**
  * Created by root on 13/12/16.
  */
-public class PeriodUtilsTest {
+public class PeriodDTOUtilsTest {
 
     @Test
     public void shouldReturnListOfFifteenMinutesPeriods_when_requested(){

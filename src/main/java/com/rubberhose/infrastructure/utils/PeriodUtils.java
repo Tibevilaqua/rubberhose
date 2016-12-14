@@ -54,7 +54,7 @@ public class PeriodUtils {
 
     public static Map<String, Integer> getPeakPeriod(List<String> crosses, LaneEnum laneEnum){
         Map<String, Integer> periodOfFifteenMinutesMills = PERIOD_OF_FIFTEEN_MINUTES_MILLS;
-        Map<String,Integer> result = new HashMap<>();
+        Map<String,Integer> result = new LinkedHashMap<>();
 
             List<Integer> laneCrossesInMills = CrossUtils.getMillsFrom(crosses, laneEnum);
 

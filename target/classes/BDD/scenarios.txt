@@ -64,7 +64,7 @@
       When:  The server starts
       Then:  All the data contained in the files will be inserted in a database;
 
-#Task8 - Enhance search crosses endpoint (Peak period)
+#Task8 - Enhance search crosses endpoint (Peak periodDTO)
 
      Given: The server up and running
      AND    data already inserted in the database to be consumed
@@ -77,11 +77,11 @@
                            "everyTwentyMinutes": 62,
                            "everyFifteenMinutes": 47,
                            "peakPeriod": {
-                             "period": "8:30AM",
+                             "periodDTO": "8:30AM",
                              "numberOfCars": 247
                            }
                          }
-          will be returned comprising information the peak period
+          will be returned comprising information the peak periodDTO
 
 
 #Task9 - Enhance search crosses endpoint (Speed distribution of traffic)
@@ -98,7 +98,7 @@
                            "everyFifteenMinutes": 47,
                            "averageSpeed": 64,
                            "peakPeriod": {
-                             "period": "8:30AM",
+                             "periodDTO": "8:30AM",
                              "numberOfCars": 247
                            }
                          }
@@ -112,3 +112,34 @@
      When:  A POST request be performed through the URL "/cross"
      AND    the number of crosses are not multiple of 2 (2 axles)
      Then:  an exception requiring the right format of crosses will be thrown
+
+#Task11 - Enhance search crosses endpoint (Implement periodDTO and cars for each 15 minutes)
+
+
+     Given: The server up and running
+     AND    data already inserted in the database to be consumed
+     When:  A GET request be performed through the URL "/cross?dayOfTheWee=MONDAY"
+     Then:  An Json like {
+                           "morning": 1941,
+                           "evening": 2550,
+                           "hourly": 187,
+                           "everyThirtyMinutes": 94,
+                           "everyTwentyMinutes": 62,
+                           "everyFifteenMinutes": 47,
+                           "averageSpeed": 64,
+                           "traffic": {
+                             "peak": "00:30AM",
+                             "numberOfCars": 4,
+                             "periods": [
+                               {
+                                 "periodDTO": "00:00AM",
+                                 "numberOfCars": 2
+                               },
+                               {
+                                 "periodDTO": "00:30AM",
+                                 "numberOfCars": 4
+                               }
+                             ]
+                           }
+                         }
+          will be returned comprising information of how many cars have passed every 15 minutes on the road

@@ -1,15 +1,14 @@
 package com.rubberhose.endpoint.cross;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 /**
  * Created by root on 13/12/16.
  */
-public class PeakPeriodDTO {
+public class PeriodDTO {
 
 
     private String period;
     private Integer numberOfCars;
+
 
     public String getPeriod() {
         return period;
@@ -19,17 +18,17 @@ public class PeakPeriodDTO {
         return numberOfCars;
     }
 
-    public PeakPeriodDTO() {
+    public PeriodDTO() {
     }
 
-    public PeakPeriodDTO(String period, Integer numberOfCars) {
+    public PeriodDTO(String period, Integer numberOfCars) {
         this.period = period;
         this.numberOfCars = numberOfCars;
     }
 
     @Override
     public String toString() {
-        return "PeakPeriodDTO{" +
+        return "PeriodDTO{" +
                 "period='" + period + '\'' +
                 ", numberOfCars=" + numberOfCars +
                 '}';
@@ -40,7 +39,7 @@ public class PeakPeriodDTO {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        PeakPeriodDTO that = (PeakPeriodDTO) o;
+        PeriodDTO that = (PeriodDTO) o;
 
         if (period != null ? !period.equals(that.period) : that.period != null) return false;
         return numberOfCars != null ? numberOfCars.equals(that.numberOfCars) : that.numberOfCars == null;
