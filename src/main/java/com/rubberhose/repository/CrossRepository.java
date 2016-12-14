@@ -13,11 +13,11 @@ import java.util.*;
 public class CrossRepository {
 
     //Simulating MongoDB database (cross collection)
-    private Map<DayOfWeek, Set<String>> crossCollection = new HashMap<>();
+    private Map<DayOfWeek, LinkedHashSet<String>> crossCollection = new LinkedHashMap<>();
 
     {
         for(DayOfWeek day : DayOfWeek.values()){
-            crossCollection.put(day,new HashSet<>());
+            crossCollection.put(day,new LinkedHashSet<>());
         }
     }
 

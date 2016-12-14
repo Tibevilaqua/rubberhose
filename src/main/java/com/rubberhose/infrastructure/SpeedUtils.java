@@ -5,6 +5,7 @@ import com.sun.xml.internal.ws.server.sei.SEIInvokerTube;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.function.Function;
 
 import static java.math.BigDecimal.ROUND_HALF_UP;
 import static java.math.BigDecimal.valueOf;
@@ -19,8 +20,8 @@ public class SpeedUtils {
     public static final Integer SPEED_LIMIT_IN_MILLS = populateMillsLimitBetweenAxles();
 
     private static Integer populateMillsLimitBetweenAxles() {
-        BigDecimal kmToMettersPerHour = valueOf(SPEED_LIMIT).multiply(valueOf(1000));
-        BigDecimal hourToMinutes = kmToMettersPerHour.divide(valueOf(60),10, ROUND_HALF_UP);
+        BigDecimal kmToMetresPerHour = valueOf(SPEED_LIMIT).multiply(valueOf(1000));
+        BigDecimal hourToMinutes = kmToMetresPerHour.divide(valueOf(60),10, ROUND_HALF_UP);
         BigDecimal minutesToSeconds = hourToMinutes.divide(valueOf(60),10, ROUND_HALF_UP);
         BigDecimal secondsToMilliseconds = minutesToSeconds.divide(valueOf(1000),10, ROUND_HALF_UP);
         BigDecimal result = valueOf(DISTANCE_BETWEEN_AXLES).divide(secondsToMilliseconds,0, ROUND_HALF_UP);
@@ -33,52 +34,8 @@ public class SpeedUtils {
         if (crossCollection == null || crossCollection.isEmpty()) {
             return 0l;
         }
-        Long totalDifference = 0l;
+        return laneEnum == LaneEnum.NORTHBOUND ? getDifferenceInMillsForNorthLane.apply(crossCollection) : getDifferenceInMillsForSouthLane.apply(crossCollection);
 
-        if(LaneEnum.NORTHBOUND == laneEnum) {
-
-            Integer firstAxleCross = crossCollection.get(0), secondAxleCross;
-
-            for (int i = 1; i < crossCollection.size(); i++) {
-
-                Integer crossValue = crossCollection.get(i);
-
-                if (i % 2 == 0) {
-                    firstAxleCross = crossValue;
-                } else {
-                    secondAxleCross = crossValue;
-                    totalDifference += secondAxleCross - (firstAxleCross + SPEED_LIMIT_IN_MILLS);
-                }
-            }
-
-        }else{
-
-            Integer firstAxleCross, secondAxleCross;
-            int jumpTwo = 0;
-            boolean isJumpTwoActive = false;
-            for (int i = 1; i < crossCollection.size() -1; i++) {
-
-                    if(isJumpTwoActive){
-                        if(jumpTwo > 0){
-                            jumpTwo--;
-                            continue;
-                        }
-                        isJumpTwoActive = false;
-                    }
-
-                    firstAxleCross = crossCollection.get(i-1);
-                    secondAxleCross = crossCollection.get(i+1);
-                    totalDifference += secondAxleCross - (firstAxleCross + SPEED_LIMIT_IN_MILLS);
-                    jumpTwo++;
-                    if(jumpTwo == 2){
-                        isJumpTwoActive = true;
-                    }
-
-
-                }
-            }
-
-        return totalDifference;
     }
 
 
@@ -92,11 +49,57 @@ public class SpeedUtils {
         return SPEED_LIMIT - finalSpeedAverage.intValue();
     }
 
-    private static boolean insignificantDifference(Long differenceInMills) {
-        if(Long.valueOf(0).compareTo(differenceInMills) == 0 || (differenceInMills > 0 && differenceInMills < SPEED_LIMIT_IN_MILLS) || (differenceInMills < 0 && differenceInMills > SPEED_LIMIT_IN_MILLS*-1)){
-            return true;
+
+
+    private static Function<List<Integer>, Long> getDifferenceInMillsForNorthLane = (crosses) -> {
+        Long totalDifference = 0l;
+
+        Integer firstAxleCross = crosses.get(0), secondAxleCross;
+
+        for (int i = 1; i < crosses.size(); i++) {
+
+            Integer crossValue = crosses.get(i);
+
+            if (i % 2 == 0) {
+                firstAxleCross = crossValue;
+            } else {
+                secondAxleCross = crossValue;
+                totalDifference += secondAxleCross - (firstAxleCross + SPEED_LIMIT_IN_MILLS);
+            }
         }
-        return false;
-    }
+        return totalDifference;
+    };
+
+    private static Function<List<Integer>, Long> getDifferenceInMillsForSouthLane = (crossCollection) -> {
+        Long totalDifference = 0l;
+
+        Integer firstAxleCross, secondAxleCross;
+        int jumpTwo = 0;
+        boolean isJumpTwoActive = false;
+
+        // Each two increments, jump two. Always getting one before and one after the current value of "i"
+        for (int i = 1; i < crossCollection.size() -1; i++) {
+
+            if(isJumpTwoActive){
+                if(jumpTwo > 0){
+                    jumpTwo--;
+                    continue;
+                }
+                isJumpTwoActive = false;
+            }
+
+            firstAxleCross = crossCollection.get(i-1);
+            secondAxleCross = crossCollection.get(i+1);
+            totalDifference += secondAxleCross - (firstAxleCross + SPEED_LIMIT_IN_MILLS);
+            jumpTwo++;
+            if(jumpTwo == 2){
+                isJumpTwoActive = true;
+            }
+
+
+        }
+        return totalDifference;
+    };
+
 
 }
