@@ -47,7 +47,7 @@ public class CrossBusinessTest {
     @Test
     public void shouldReturnCrossStatistics_when_someValueIsCached(){
 
-        CrossBroadStatisticDTO expectedResult = new CrossBroadStatisticDTO(40,70,16,8,5,4,new TrafficDTO("3:00PM",10,Arrays.asList(new PeriodDTO("3:00PM",10))),1);
+        CrossBroadStatisticDTO expectedResult = new CrossBroadStatisticDTO(40,70,16,8,5,4,new TrafficDTO("3:00PM",10,Arrays.asList(new PeriodDTO("3:00PM",10))),1,null);
 
         when(crossCache.getCachedStatistics(MONDAY)).thenReturn(expectedResult);
         CrossBroadStatisticDTO result = crossBusiness.getStatistics(MONDAY);
@@ -120,7 +120,7 @@ public class CrossBusinessTest {
         crossCache.setCachedStatistics(MONDAY,statistics.get());
         CrossBroadStatisticDTO result = crossCache.getCachedStatistics(MONDAY);
 
-        CrossBroadStatisticDTO expectedResult = new CrossBroadStatisticDTO(101,100,8,4,3,2, new TrafficDTO("00:30AM", 5, Arrays.asList(new PeriodDTO("00:30AM", 5))),SpeedUtils.SPEED_LIMIT);
+        CrossBroadStatisticDTO expectedResult = new CrossBroadStatisticDTO(101,100,8,4,3,2, new TrafficDTO("00:30AM", 5, Arrays.asList(new PeriodDTO("00:30AM", 5))),SpeedUtils.SPEED_LIMIT,null);
 
         Assert.assertEquals(expectedResult.getMorning(),result.getMorning());
         Assert.assertEquals(expectedResult.getEvening(),result.getEvening());
@@ -164,7 +164,7 @@ public class CrossBusinessTest {
 
 
     @Test
-    public void shouldGetPeak_when_thereIsAPeak(){
+    public void shouldGetPeakAndPeriods_when_thereIsDataAvailable(){
 
         //Preparing calls
         when(crossRepository.getCrossCollection(MONDAY)).thenReturn(Arrays.asList("A900000","A900150","A900300","A900500","A64800000","B64800050","A64800300","B64800350"));
@@ -183,7 +183,6 @@ public class CrossBusinessTest {
         Assert.assertEquals(1, traffic.getPeriods().get(1).getNumberOfCars().intValue());
 
         Assert.assertEquals(traffic.getPeriods().size(), 2);
-
     }
 
 

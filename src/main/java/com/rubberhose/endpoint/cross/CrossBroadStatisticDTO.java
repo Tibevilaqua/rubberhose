@@ -13,23 +13,25 @@ public class CrossBroadStatisticDTO {
     private Integer everyThirtyMinutes;
     private Integer everyTwentyMinutes;
     private Integer everyFifteenMinutes;
-
-    private TrafficDTO traffic;
     private Integer averageSpeed;
+    private TrafficDTO traffic;
+    private DistanceDTO distanceDTO;
+
 
 
     public CrossBroadStatisticDTO() {
     }
 
-    public CrossBroadStatisticDTO(Integer morning, Integer evening, Integer hourly, Integer everyThirtyMinutes, Integer everyTwentyMinutes, Integer everyFifteenMinutes, TrafficDTO traffic, Integer averageSpeed) {
+    public CrossBroadStatisticDTO(Integer morning, Integer evening, Integer hourly, Integer everyThirtyMinutes, Integer everyTwentyMinutes, Integer everyFifteenMinutes, TrafficDTO traffic, Integer averageSpeed, DistanceDTO distanceDTO) {
         this.morning = morning;
         this.evening = evening;
         this.hourly = hourly;
         this.everyThirtyMinutes = everyThirtyMinutes;
         this.everyTwentyMinutes = everyTwentyMinutes;
         this.everyFifteenMinutes = everyFifteenMinutes;
-        this.traffic = traffic;
         this.averageSpeed = averageSpeed;
+        this.traffic = traffic;
+        this.distanceDTO = distanceDTO;
     }
 
     public Integer getAverageSpeed() {
@@ -64,20 +66,9 @@ public class CrossBroadStatisticDTO {
         return traffic;
     }
 
-    @Override
-    public String toString() {
-        return "CrossBroadStatisticDTO{" +
-                "morning=" + morning +
-                ", evening=" + evening +
-                ", hourly=" + hourly +
-                ", everyThirtyMinutes=" + everyThirtyMinutes +
-                ", everyTwentyMinutes=" + everyTwentyMinutes +
-                ", everyFifteenMinutes=" + everyFifteenMinutes +
-                ", traffic=" + traffic +
-                ", averageSpeed=" + averageSpeed +
-                '}';
+    public DistanceDTO getDistanceDTO() {
+        return distanceDTO;
     }
-
 
     @Override
     public boolean equals(Object o) {
@@ -95,8 +86,9 @@ public class CrossBroadStatisticDTO {
             return false;
         if (everyFifteenMinutes != null ? !everyFifteenMinutes.equals(that.everyFifteenMinutes) : that.everyFifteenMinutes != null)
             return false;
+        if (averageSpeed != null ? !averageSpeed.equals(that.averageSpeed) : that.averageSpeed != null) return false;
         if (traffic != null ? !traffic.equals(that.traffic) : that.traffic != null) return false;
-        return averageSpeed != null ? averageSpeed.equals(that.averageSpeed) : that.averageSpeed == null;
+        return distanceDTO != null ? distanceDTO.equals(that.distanceDTO) : that.distanceDTO == null;
 
     }
 
@@ -108,8 +100,24 @@ public class CrossBroadStatisticDTO {
         result = 31 * result + (everyThirtyMinutes != null ? everyThirtyMinutes.hashCode() : 0);
         result = 31 * result + (everyTwentyMinutes != null ? everyTwentyMinutes.hashCode() : 0);
         result = 31 * result + (everyFifteenMinutes != null ? everyFifteenMinutes.hashCode() : 0);
-        result = 31 * result + (traffic != null ? traffic.hashCode() : 0);
         result = 31 * result + (averageSpeed != null ? averageSpeed.hashCode() : 0);
+        result = 31 * result + (traffic != null ? traffic.hashCode() : 0);
+        result = 31 * result + (distanceDTO != null ? distanceDTO.hashCode() : 0);
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "CrossBroadStatisticDTO{" +
+                "morning=" + morning +
+                ", evening=" + evening +
+                ", hourly=" + hourly +
+                ", everyThirtyMinutes=" + everyThirtyMinutes +
+                ", everyTwentyMinutes=" + everyTwentyMinutes +
+                ", everyFifteenMinutes=" + everyFifteenMinutes +
+                ", averageSpeed=" + averageSpeed +
+                ", traffic=" + traffic +
+                ", distanceDTO=" + distanceDTO +
+                '}';
     }
 }

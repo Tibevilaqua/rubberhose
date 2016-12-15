@@ -1,12 +1,14 @@
 package com.rubberhose.business;
 
 import com.rubberhose.endpoint.cross.CrossBroadStatisticDTO;
+import com.rubberhose.endpoint.cross.DistanceDTO;
 import com.rubberhose.endpoint.cross.PeriodDTO;
 import com.rubberhose.endpoint.cross.TrafficDTO;
 import com.rubberhose.infrastructure.LaneEnum;
 import com.rubberhose.infrastructure.OccurrencePerDayEnum;
 import com.rubberhose.infrastructure.utils.CrossUtils;
 import com.rubberhose.infrastructure.utils.PeriodUtils;
+import com.rubberhose.infrastructure.utils.SpeedUtils;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
@@ -53,6 +55,7 @@ public class CrossStatisticsFactory {
 
             Integer averageSpeed = this.getAverageSpeed(crossCollection);
 
+            DistanceDTO distance = this.getAverageDistance(crossCollection);
 
             Integer hourlyAverageCount = dividePer(lanesByHosesInUse,this.getHourAverageCount(crossCollectionsMills))
                     , thirtyMinutesAverageCount = dividePer(lanesByHosesInUse,this.getHalfHourAverageCount(crossCollectionsMills))
@@ -73,8 +76,16 @@ public class CrossStatisticsFactory {
                 fifteenMinutesAverageCount = dividePer(numberOfDays, fifteenMinutesAverageCount);
             }
 
-        return  new CrossBroadStatisticDTO(morningCount,eveningCount,hourlyAverageCount,thirtyMinutesAverageCount,twentyMinutesAverageCount,fifteenMinutesAverageCount, periodDTO,averageSpeed);
+        return  new CrossBroadStatisticDTO(morningCount,eveningCount,hourlyAverageCount,thirtyMinutesAverageCount,twentyMinutesAverageCount,fifteenMinutesAverageCount, periodDTO,averageSpeed,distance);
 
+    }
+
+    private DistanceDTO getAverageDistance(List<String> crossCollection) {
+
+        Long northLaneDistanceInMeters = SpeedUtils.getDistanceInMills(getMillsFrom(crossCollection, LaneEnum.NORTHBOUND), LaneEnum.NORTHBOUND);
+        Long southLaneDistanceInMeters = SpeedUtils.getDistanceInMills(getMillsFrom(crossCollection, LaneEnum.SOUTHBOUND), LaneEnum.SOUTHBOUND);
+
+        return new DistanceDTO((int) (northLaneDistanceInMeters + southLaneDistanceInMeters));
     }
 
 
@@ -120,7 +131,6 @@ public class CrossStatisticsFactory {
      * Compare how many crosses were captured based on each period of 15 minutes and return the closest period and the number of crosses altogether
      */
     private TrafficDTO getPeakPeriod(List<String> crosses) {
-
 
         Map<String, Integer> northLanePeriod = PeriodUtils.getPeriods(crosses, LaneEnum.NORTHBOUND);
         Map<String, Integer> southLanePeriod = PeriodUtils.getPeriods(crosses, LaneEnum.SOUTHBOUND);

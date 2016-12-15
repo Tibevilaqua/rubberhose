@@ -3,6 +3,7 @@ package com.rubberhose.endpoint;
 import com.rubberhose.business.CrossBusiness;
 import com.rubberhose.business.CrossStatisticsFactory;
 import com.rubberhose.endpoint.cross.CrossBroadStatisticDTO;
+import com.rubberhose.endpoint.cross.DistanceDTO;
 import com.rubberhose.endpoint.cross.PeriodDTO;
 import com.rubberhose.endpoint.cross.TrafficDTO;
 import com.rubberhose.infrastructure.cross.CrossCache;
@@ -39,7 +40,7 @@ public class CrossStatisticsFactoryTest {
 
        Mockito.when(crossRepository.getCrossCollection(DayOfWeek.MONDAY)).thenReturn(Arrays.asList("A900000","A900165","A900200","A900365"));
 
-       CrossBroadStatisticDTO expectedResult = new CrossBroadStatisticDTO(2,0,0,0,0,0,new TrafficDTO("00:15AM",2,Arrays.asList(new PeriodDTO("00:15AM",2))),54);
+       CrossBroadStatisticDTO expectedResult = new CrossBroadStatisticDTO(2,0,0,0,0,0,new TrafficDTO("00:15AM",2,Arrays.asList(new PeriodDTO("00:15AM",2))),54,new DistanceDTO(1));
 
        CrossBroadStatisticDTO result = crossBusiness.createStatistics(DayOfWeek.MONDAY).get();
 
@@ -51,7 +52,7 @@ public class CrossStatisticsFactoryTest {
 
         Mockito.when(crossRepository.getCrossCollection(DayOfWeek.MONDAY)).thenReturn(Arrays.asList("A900000","B900010","A900150","B900205","A46800000","B46800100","A46800135","B46800265","A46900000","B46900100","A46900135","B46900265"));
 
-        CrossBroadStatisticDTO expectedResult = new CrossBroadStatisticDTO(1,2,0,0,0,0,new TrafficDTO("13:00PM", 2,Arrays.asList(new PeriodDTO("00:15AM",1),new PeriodDTO("13:00PM",2))),54);
+        CrossBroadStatisticDTO expectedResult = new CrossBroadStatisticDTO(1,2,0,0,0,0,new TrafficDTO("13:00PM", 2,Arrays.asList(new PeriodDTO("00:15AM",1),new PeriodDTO("13:00PM",2))),54,new DistanceDTO(766659));
 
         CrossBroadStatisticDTO result = crossBusiness.createStatistics(DayOfWeek.MONDAY).get();
 

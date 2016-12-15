@@ -60,9 +60,9 @@ public class CrossRepositoryTest {
         CrossCache crossCache = new CrossCache();
 
 
-        crossCache.setCachedStatistics(MONDAY, new CrossBroadStatisticDTO(1,2,3,4,5,6,new TrafficDTO(),1));
+        crossCache.setCachedStatistics(MONDAY, new CrossBroadStatisticDTO(1,2,3,4,5,6,new TrafficDTO(),1,null));
 
-        CrossBroadStatisticDTO secondCrossBroadStatisticDTO = new CrossBroadStatisticDTO(2,3,4,5,6,7,new TrafficDTO(),1);
+        CrossBroadStatisticDTO secondCrossBroadStatisticDTO = new CrossBroadStatisticDTO(2,3,4,5,6,7,new TrafficDTO(),1,null);
         crossCache.setCachedStatistics(MONDAY, secondCrossBroadStatisticDTO);
         Assert.assertEquals(crossCache.getCachedStatistics(MONDAY), secondCrossBroadStatisticDTO);
     }
@@ -90,7 +90,7 @@ public class CrossRepositoryTest {
     public void shouldReturnNothing_when_thereAreNoCrossesForTheDayInTheCache(){
 
         CrossCache crossCache = new CrossCache();
-        crossCache.setCachedStatistics(CROSSES_TO_SAVE_MODEL.getDayOfWeek(), new CrossBroadStatisticDTO(1,2,3,4,5,6,new TrafficDTO(),1));
+        crossCache.setCachedStatistics(CROSSES_TO_SAVE_MODEL.getDayOfWeek(), new CrossBroadStatisticDTO(1,2,3,4,5,6,new TrafficDTO(),1,null));
         CrossBroadStatisticDTO cachedStatistics = crossCache.getCachedStatistics(DayOfWeek.TUESDAY);
         Assert.assertTrue(cachedStatistics == null);
     }

@@ -144,7 +144,7 @@
                          }
           will be returned comprising information of how many cars have passed every 15 minutes on the road
 
-#Task12 - Enhance search crosses endpoint (Implement average distance between cars for every 15 minutes)
+#Task12 - Enhance search crosses endpoint (Implement average distance between cars)
 
 
      Given: The server up and running

@@ -6,6 +6,8 @@ import org.junit.Test;
 import java.util.Arrays;
 
 import static com.rubberhose.infrastructure.utils.SpeedUtils.getAverageKMBasedOnMills;
+import static com.rubberhose.infrastructure.utils.SpeedUtils.getDifferenceInMills;
+import static com.rubberhose.infrastructure.utils.SpeedUtils.getDistanceInMills;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -30,8 +32,21 @@ public class SpeedUtilsTest {
 
     @Test
     public void shouldReturnCorrectSpeed_when_crossesMakeSense(){
-        Long differenceInMills = SpeedUtils.getDifferenceInMills(Arrays.asList(100, 260, 300, 460),LaneEnum.SOUTHBOUND);
+        Long differenceInMills = getDifferenceInMills(Arrays.asList(100, 260, 300, 460),LaneEnum.SOUTHBOUND);
         assertEquals(100l, differenceInMills.longValue());
+    }
+
+    @Test
+    public void shouldReturRightDistance_when_tested(){
+
+        Long distanceInMillsNorthLane = getDistanceInMills(Arrays.asList(900000,900100,900300,900400,900500,900600), LaneEnum.NORTHBOUND);
+
+        assertEquals(5, distanceInMillsNorthLane.longValue());
+
+
+        Long distanceInMillsSouthLane = getDistanceInMills(Arrays.asList(900000,900100,900300,900400,900500,900600,900700,900800,901000,901100,901200,901300), LaneEnum.SOUTHBOUND);
+        assertEquals(5, distanceInMillsSouthLane.longValue());
+
     }
 
 

@@ -30,6 +30,25 @@ public class SpeedUtils {
         return result.intValue();
     }
 
+    public static Long getDistanceInMills(List<Integer> crossCollection, LaneEnum laneEnum){
+
+        if (crossCollection == null || crossCollection.isEmpty()) {
+            return 0l;
+        }
+
+        long distanceInMeters = 0;
+
+        int crossesPerCar = laneEnum.getCrossesPerCar();
+
+        for(int i = 0; i < crossCollection.size() - crossesPerCar; i+=crossesPerCar){
+            BigDecimal distanceInMillsBetweenCurrentAndNextCar = BigDecimal.valueOf(crossCollection.get(i + crossesPerCar) - crossCollection.get(i + crossesPerCar - 1));
+            distanceInMeters += distanceInMillsBetweenCurrentAndNextCar.multiply(BigDecimal.valueOf(DISTANCE_BETWEEN_AXLES)).divide(BigDecimal.valueOf(SPEED_LIMIT_IN_MILLS), 0, BigDecimal.ROUND_HALF_UP).longValue();
+        }
+
+        return distanceInMeters;
+
+    }
+
     public static Long getDifferenceInMills(List<Integer> crossCollection, LaneEnum laneEnum){
 
         if (crossCollection == null || crossCollection.isEmpty()) {
@@ -101,6 +120,7 @@ public class SpeedUtils {
         }
         return totalDifference;
     };
+
 
 
 }
