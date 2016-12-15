@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 /**
  * Created by root on 05/12/16.
@@ -41,6 +42,16 @@ public class GlobalControllerExceptionHandler {
     public ValidationErrorDTO handleConflict(InvalidFormatException e) {
         String wrongValue = e.getValue().toString();
         String targetedTypeName = e.getTargetType().getTypeName();
+        return ValidationErrorBuilder.fromBindingErrors(targetedTypeName,wrongValue);
+    }
+
+
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    @ResponseBody
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
+    public ValidationErrorDTO handleConflict(MethodArgumentTypeMismatchException e) {
+        String wrongValue = e.getValue().toString();
+        String targetedTypeName = e.getName();
         return ValidationErrorBuilder.fromBindingErrors(targetedTypeName,wrongValue);
     }
 

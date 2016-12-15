@@ -223,3 +223,11 @@
                            }
                          }
           will be returned comprising information of how many cars have passed every 15 minutes on the lane
+
+
+#Task14 - Enhance search crosses endpoint (Validation of crosses wrong dayOfWeek parameter)
+
+     Given: The server up and running
+     When:  A GET request be performed through the URL "/cross?dayOfWeek=LALA"
+     AND    the value of the query param dayOfWeek is incorrect
+     Then:  an exception requiring the right format will be thrown
