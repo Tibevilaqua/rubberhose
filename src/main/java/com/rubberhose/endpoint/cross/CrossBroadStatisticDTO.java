@@ -78,6 +78,7 @@ public class CrossBroadStatisticDTO {
                 '}';
     }
 
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -85,25 +86,30 @@ public class CrossBroadStatisticDTO {
 
         CrossBroadStatisticDTO that = (CrossBroadStatisticDTO) o;
 
-        if (!morning.equals(that.morning)) return false;
-        if (!evening.equals(that.evening)) return false;
-        if (!hourly.equals(that.hourly)) return false;
-        if (!everyThirtyMinutes.equals(that.everyThirtyMinutes)) return false;
-        if (!everyTwentyMinutes.equals(that.everyTwentyMinutes)) return false;
-        if (!everyFifteenMinutes.equals(that.everyFifteenMinutes)) return false;
-        return averageSpeed.equals(that.averageSpeed);
+        if (morning != null ? !morning.equals(that.morning) : that.morning != null) return false;
+        if (evening != null ? !evening.equals(that.evening) : that.evening != null) return false;
+        if (hourly != null ? !hourly.equals(that.hourly) : that.hourly != null) return false;
+        if (everyThirtyMinutes != null ? !everyThirtyMinutes.equals(that.everyThirtyMinutes) : that.everyThirtyMinutes != null)
+            return false;
+        if (everyTwentyMinutes != null ? !everyTwentyMinutes.equals(that.everyTwentyMinutes) : that.everyTwentyMinutes != null)
+            return false;
+        if (everyFifteenMinutes != null ? !everyFifteenMinutes.equals(that.everyFifteenMinutes) : that.everyFifteenMinutes != null)
+            return false;
+        if (traffic != null ? !traffic.equals(that.traffic) : that.traffic != null) return false;
+        return averageSpeed != null ? averageSpeed.equals(that.averageSpeed) : that.averageSpeed == null;
 
     }
 
     @Override
     public int hashCode() {
-        int result = morning.hashCode();
-        result = 31 * result + evening.hashCode();
-        result = 31 * result + hourly.hashCode();
-        result = 31 * result + everyThirtyMinutes.hashCode();
-        result = 31 * result + everyTwentyMinutes.hashCode();
-        result = 31 * result + everyFifteenMinutes.hashCode();
-        result = 31 * result + averageSpeed.hashCode();
+        int result = morning != null ? morning.hashCode() : 0;
+        result = 31 * result + (evening != null ? evening.hashCode() : 0);
+        result = 31 * result + (hourly != null ? hourly.hashCode() : 0);
+        result = 31 * result + (everyThirtyMinutes != null ? everyThirtyMinutes.hashCode() : 0);
+        result = 31 * result + (everyTwentyMinutes != null ? everyTwentyMinutes.hashCode() : 0);
+        result = 31 * result + (everyFifteenMinutes != null ? everyFifteenMinutes.hashCode() : 0);
+        result = 31 * result + (traffic != null ? traffic.hashCode() : 0);
+        result = 31 * result + (averageSpeed != null ? averageSpeed.hashCode() : 0);
         return result;
     }
 }

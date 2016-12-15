@@ -122,8 +122,8 @@ public class CrossStatisticsFactory {
     private TrafficDTO getPeakPeriod(List<String> crosses) {
 
 
-        Map<String, Integer> northLanePeriod = PeriodUtils.getPeakPeriod(crosses, LaneEnum.NORTHBOUND);
-        Map<String, Integer> southLanePeriod = PeriodUtils.getPeakPeriod(crosses, LaneEnum.SOUTHBOUND);
+        Map<String, Integer> northLanePeriod = PeriodUtils.getPeriods(crosses, LaneEnum.NORTHBOUND);
+        Map<String, Integer> southLanePeriod = PeriodUtils.getPeriods(crosses, LaneEnum.SOUTHBOUND);
         List<PeriodDTO> periods = new ArrayList<>(northLanePeriod.size());
         String peakPeriod = "";
         Integer maxNumberOfCars = 0;

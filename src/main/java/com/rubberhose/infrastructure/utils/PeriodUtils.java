@@ -52,7 +52,7 @@ public class PeriodUtils {
     }
 
 
-    public static Map<String, Integer> getPeakPeriod(List<String> crosses, LaneEnum laneEnum){
+    public static Map<String, Integer> getPeriods(List<String> crosses, LaneEnum laneEnum){
         Map<String, Integer> periodOfFifteenMinutesMills = PERIOD_OF_FIFTEEN_MINUTES_MILLS;
         Map<String,Integer> result = new LinkedHashMap<>();
 

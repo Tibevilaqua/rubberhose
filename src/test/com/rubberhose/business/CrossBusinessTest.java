@@ -122,7 +122,13 @@ public class CrossBusinessTest {
 
         CrossBroadStatisticDTO expectedResult = new CrossBroadStatisticDTO(101,100,8,4,3,2, new TrafficDTO("00:30AM", 5, Arrays.asList(new PeriodDTO("00:30AM", 5))),SpeedUtils.SPEED_LIMIT);
 
-        Assert.assertEquals(expectedResult,result);
+        Assert.assertEquals(expectedResult.getMorning(),result.getMorning());
+        Assert.assertEquals(expectedResult.getEvening(),result.getEvening());
+        Assert.assertEquals(expectedResult.getAverageSpeed(),result.getAverageSpeed());
+        Assert.assertEquals(expectedResult.getEveryFifteenMinutes(),result.getEveryFifteenMinutes());
+        Assert.assertEquals(expectedResult.getEveryThirtyMinutes(),result.getEveryThirtyMinutes());
+        Assert.assertEquals(expectedResult.getEveryTwentyMinutes(),result.getEveryTwentyMinutes());
+        Assert.assertEquals(expectedResult.getHourly(),result.getHourly());
     }
 
 
@@ -153,12 +159,32 @@ public class CrossBusinessTest {
         crossBusiness.save(new CrossDTO(null, Arrays.asList("A1010101010","A1010101020")));
         crossBusiness.save(new CrossDTO(null, Arrays.asList("A1010101010","B1010101020","A1010101030","B1010101040")));
         crossBusiness.save(new CrossDTO(null, Arrays.asList("A10101010","A10101020","A1010101010","B1010101020","A1010101030","B1010101040")));
-
-
-
-
     }
 
+
+
+    @Test
+    public void shouldGetPeak_when_thereIsAPeak(){
+
+        //Preparing calls
+        when(crossRepository.getCrossCollection(MONDAY)).thenReturn(Arrays.asList("A900000","A900150","A900300","A900500","A64800000","B64800050","A64800300","B64800350"));
+
+        //Creating statistics
+        Optional<CrossBroadStatisticDTO> statistics = crossBusiness.createStatistics(MONDAY);
+        crossCache.setCachedStatistics(MONDAY,statistics.get());
+        CrossBroadStatisticDTO result = crossCache.getCachedStatistics(MONDAY);
+
+        TrafficDTO traffic = result.getTraffic();
+
+        Assert.assertEquals("00:15AM", traffic.getPeak());
+        Assert.assertEquals(2, traffic.getNumberOfCars().intValue());
+
+        Assert.assertEquals("18:00PM", traffic.getPeriods().get(1).getPeriod());
+        Assert.assertEquals(1, traffic.getPeriods().get(1).getNumberOfCars().intValue());
+
+        Assert.assertEquals(traffic.getPeriods().size(), 2);
+
+    }
 
 
 
