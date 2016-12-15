@@ -32,7 +32,7 @@ public class PeriodUtilsTest {
     @Test
     public void shouldReturnAccuratePeriods_when_requested(){
         List<String> crosses = Arrays.asList("A900000","A900150","A900300","A900500","A64800000","A64800050","A64800300","64800350");
-        Map<String, Integer> periods = PeriodUtils.getPeriods(crosses, LaneEnum.NORTHBOUND);
+        Map<String, Integer> periods = PeriodUtils.getPeriodsWithNumberOfCars(crosses, LaneEnum.NORTHBOUND);
 
         Assert.assertEquals(periods.get("00:15AM").intValue(), 2);
         Assert.assertEquals(periods.get("18:00PM").intValue(), 1);

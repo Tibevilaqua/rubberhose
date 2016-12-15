@@ -1,13 +1,17 @@
 package com.rubberhose.endpoint.cross;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 /**
  * Created by root on 13/12/16.
  */
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class PeriodDTO {
 
 
     private String period;
     private Integer numberOfCars;
+    private Integer distanceInMeters;
 
 
     public String getPeriod() {
@@ -18,12 +22,18 @@ public class PeriodDTO {
         return numberOfCars;
     }
 
-    public PeriodDTO() {
+    public Integer getDistanceInMeters() {
+        return distanceInMeters;
     }
 
-    public PeriodDTO(String period, Integer numberOfCars) {
+    private PeriodDTO() {
+    }
+
+
+    private PeriodDTO(String period, Integer numberOfCars, Integer distanceInMeters) {
         this.period = period;
         this.numberOfCars = numberOfCars;
+        this.distanceInMeters = distanceInMeters;
     }
 
     @Override
@@ -31,6 +41,7 @@ public class PeriodDTO {
         return "PeriodDTO{" +
                 "period='" + period + '\'' +
                 ", numberOfCars=" + numberOfCars +
+                ", distanceInMeters=" + distanceInMeters +
                 '}';
     }
 
@@ -39,10 +50,12 @@ public class PeriodDTO {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        PeriodDTO that = (PeriodDTO) o;
+        PeriodDTO periodDTO = (PeriodDTO) o;
 
-        if (period != null ? !period.equals(that.period) : that.period != null) return false;
-        return numberOfCars != null ? numberOfCars.equals(that.numberOfCars) : that.numberOfCars == null;
+        if (period != null ? !period.equals(periodDTO.period) : periodDTO.period != null) return false;
+        if (numberOfCars != null ? !numberOfCars.equals(periodDTO.numberOfCars) : periodDTO.numberOfCars != null)
+            return false;
+        return distanceInMeters != null ? distanceInMeters.equals(periodDTO.distanceInMeters) : periodDTO.distanceInMeters == null;
 
     }
 
@@ -50,6 +63,34 @@ public class PeriodDTO {
     public int hashCode() {
         int result = period != null ? period.hashCode() : 0;
         result = 31 * result + (numberOfCars != null ? numberOfCars.hashCode() : 0);
+        result = 31 * result + (distanceInMeters != null ? distanceInMeters.hashCode() : 0);
         return result;
     }
+
+
+    public static class PeriodDTOBuilder {
+        private String period;
+        private Integer numberOfCars;
+        private Integer distanceInMeters;
+
+        public PeriodDTOBuilder setPeriod(String period) {
+            this.period = period;
+            return this;
+        }
+
+        public PeriodDTOBuilder setNumberOfCars(Integer numberOfCars) {
+            this.numberOfCars = numberOfCars;
+            return this;
+        }
+
+        public PeriodDTOBuilder setDistanceInMeters(Integer distanceInMeters) {
+            this.distanceInMeters = distanceInMeters;
+            return this;
+        }
+
+        public PeriodDTO createPeriodDTO() {
+            return new PeriodDTO(period, numberOfCars, distanceInMeters);
+        }
+    }
+
 }

@@ -46,8 +46,8 @@ public class CrossBusinessTest {
 
     @Test
     public void shouldReturnCrossStatistics_when_someValueIsCached(){
-
-        CrossBroadStatisticDTO expectedResult = new CrossBroadStatisticDTO(40,70,16,8,5,4,new TrafficDTO("3:00PM",10,Arrays.asList(new PeriodDTO("3:00PM",10))),1,null);
+        PeriodDTO expectedPeriod = new PeriodDTO.PeriodDTOBuilder().setPeriod("3:00PM").setNumberOfCars(10).createPeriodDTO();
+        CrossBroadStatisticDTO expectedResult = new CrossBroadStatisticDTO(40,70,16,8,5,4,new TrafficDTO("3:00PM",10,Arrays.asList(expectedPeriod)),1,null);
 
         when(crossCache.getCachedStatistics(MONDAY)).thenReturn(expectedResult);
         CrossBroadStatisticDTO result = crossBusiness.getStatistics(MONDAY);
@@ -119,8 +119,8 @@ public class CrossBusinessTest {
         Optional<CrossBroadStatisticDTO> statistics = crossBusiness.createStatistics(MONDAY);
         crossCache.setCachedStatistics(MONDAY,statistics.get());
         CrossBroadStatisticDTO result = crossCache.getCachedStatistics(MONDAY);
-
-        CrossBroadStatisticDTO expectedResult = new CrossBroadStatisticDTO(101,100,8,4,3,2, new TrafficDTO("00:30AM", 5, Arrays.asList(new PeriodDTO("00:30AM", 5))),SpeedUtils.SPEED_LIMIT,null);
+        PeriodDTO expectedPeriod = new PeriodDTO.PeriodDTOBuilder().setPeriod("00:30AM").setNumberOfCars(5).createPeriodDTO();
+        CrossBroadStatisticDTO expectedResult = new CrossBroadStatisticDTO(101,100,8,4,3,2, new TrafficDTO("00:30AM", 5, Arrays.asList(expectedPeriod)),SpeedUtils.SPEED_LIMIT,null);
 
         Assert.assertEquals(expectedResult.getMorning(),result.getMorning());
         Assert.assertEquals(expectedResult.getEvening(),result.getEvening());

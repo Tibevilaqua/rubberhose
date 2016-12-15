@@ -12,6 +12,8 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import static com.rubberhose.infrastructure.utils.CrossUtils.getMillsFrom;
+
 /**
  * Created by root on 13/12/16.
  */
@@ -52,7 +54,28 @@ public class PeriodUtils {
     }
 
 
-    public static Map<String, Integer> getPeriods(List<String> crosses, LaneEnum laneEnum){
+    public static Map<String, Integer> getPeriodsWithDistanceBetweenCars(List<String> crosses, LaneEnum laneEnum){
+        Map<String, Integer> periodOfFifteenMinutesMills = PERIOD_OF_FIFTEEN_MINUTES_MILLS;
+        Map<String,Integer> result = new LinkedHashMap<>();
+
+        List<Integer> laneCrossesInMills = CrossUtils.getMillsFrom(crosses, laneEnum);
+
+        for(String eachPeriod : periodOfFifteenMinutesMills.keySet()){
+            int beginningCurrentPeriodInMills = periodOfFifteenMinutesMills.get(eachPeriod).intValue();
+            int limitCurrentPeriodInMills = (beginningCurrentPeriodInMills + MillsEnum.FIFTEEN_MINUTES.value());
+
+            //TODO Refactor
+            List<Integer> crossesBetweenPeriod = laneCrossesInMills.stream().filter(cross -> cross >= beginningCurrentPeriodInMills && cross < limitCurrentPeriodInMills).collect(Collectors.toList());
+
+            Long laneDistanceInMeters = SpeedUtils.getDistanceInMills(crossesBetweenPeriod, laneEnum);
+
+            result.put(eachPeriod, laneDistanceInMeters.intValue());
+        }
+
+        return result;
+    }
+
+    public static Map<String, Integer> getPeriodsWithNumberOfCars(List<String> crosses, LaneEnum laneEnum){
         Map<String, Integer> periodOfFifteenMinutesMills = PERIOD_OF_FIFTEEN_MINUTES_MILLS;
         Map<String,Integer> result = new LinkedHashMap<>();
 
@@ -62,11 +85,12 @@ public class PeriodUtils {
                 int beginningCurrentPeriodInMills = periodOfFifteenMinutesMills.get(eachPeriod).intValue();
                 int limitCurrentPeriodInMills = (beginningCurrentPeriodInMills + MillsEnum.FIFTEEN_MINUTES.value());
 
+                //TODO Refactor
                 int currentNumberOfCrosses = CrossUtils.getNumberOfCarsInBetween(beginningCurrentPeriodInMills,limitCurrentPeriodInMills,laneCrossesInMills);
 
-                    Integer numberOfCars = BigDecimal.valueOf(currentNumberOfCrosses).divide(BigDecimal.valueOf(laneEnum.getCrossesPerCar()),BigDecimal.ROUND_HALF_UP).intValue();
+                Integer numberOfCars = BigDecimal.valueOf(currentNumberOfCrosses).divide(BigDecimal.valueOf(laneEnum.getCrossesPerCar()),BigDecimal.ROUND_HALF_UP).intValue();
 
-                    result.put(eachPeriod,numberOfCars);
+                result.put(eachPeriod,numberOfCars);
         }
 
         return result;

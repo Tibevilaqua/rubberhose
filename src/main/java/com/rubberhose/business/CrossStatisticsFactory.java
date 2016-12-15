@@ -80,14 +80,6 @@ public class CrossStatisticsFactory {
 
     }
 
-    private DistanceDTO getAverageDistance(List<String> crossCollection) {
-
-        Long northLaneDistanceInMeters = SpeedUtils.getDistanceInMills(getMillsFrom(crossCollection, LaneEnum.NORTHBOUND), LaneEnum.NORTHBOUND);
-        Long southLaneDistanceInMeters = SpeedUtils.getDistanceInMills(getMillsFrom(crossCollection, LaneEnum.SOUTHBOUND), LaneEnum.SOUTHBOUND);
-
-        return new DistanceDTO((int) (northLaneDistanceInMeters + southLaneDistanceInMeters));
-    }
-
 
     private Integer getAverageSpeed(List<String> crossCollection) {
 
@@ -127,13 +119,52 @@ public class CrossStatisticsFactory {
 
     }
 
+
+    private DistanceDTO getAverageDistance(List<String> crosses) {
+
+        List<PeriodDTO> periods = new ArrayList<>();
+        Map<String, Integer> northLaneDistancePeriod = PeriodUtils.getPeriodsWithDistanceBetweenCars(crosses, LaneEnum.NORTHBOUND);
+        Map<String, Integer> southLaneDistancePeriod = PeriodUtils.getPeriodsWithDistanceBetweenCars(crosses, LaneEnum.SOUTHBOUND);
+
+
+        Integer closestDistanceInMeters = Integer.MAX_VALUE;
+        String timePeriod = null;
+        Integer divideBy = 0;
+        for(String eachPeriod : northLaneDistancePeriod.keySet()){
+            Integer northLaneDistance = northLaneDistancePeriod.get(eachPeriod), southLaneDistance = southLaneDistancePeriod.get(eachPeriod);
+            divideBy+= northLaneDistance > 0 ? 1 : 0;
+            divideBy+= southLaneDistance > 0 ? 1 : 0;
+            if(divideBy == 0){
+                continue;
+            }
+
+            //If both lanes are used, divide by 2, if 1, then divide by one.
+            Integer distanceBetweenCarsInThisPeriod = BigDecimal.valueOf(northLaneDistance + southLaneDistance).divide(BigDecimal.valueOf(divideBy),BigDecimal.ROUND_HALF_UP).intValue();
+
+            periods.add(new PeriodDTO.PeriodDTOBuilder().setPeriod(eachPeriod).setDistanceInMeters(distanceBetweenCarsInThisPeriod).createPeriodDTO());
+
+            // Is there any car in between this period?
+            if(distanceBetweenCarsInThisPeriod < closestDistanceInMeters) {
+
+                //trough?
+                if(distanceBetweenCarsInThisPeriod < closestDistanceInMeters){
+                    closestDistanceInMeters = distanceBetweenCarsInThisPeriod;
+                    timePeriod = eachPeriod;
+                }
+            }
+            divideBy = 0;
+        }
+
+        return closestDistanceInMeters == Integer.MAX_VALUE ? new DistanceDTO() : new DistanceDTO(closestDistanceInMeters, timePeriod,periods);
+    }
+
     /**
      * Compare how many crosses were captured based on each period of 15 minutes and return the closest period and the number of crosses altogether
      */
     private TrafficDTO getPeakPeriod(List<String> crosses) {
 
-        Map<String, Integer> northLanePeriod = PeriodUtils.getPeriods(crosses, LaneEnum.NORTHBOUND);
-        Map<String, Integer> southLanePeriod = PeriodUtils.getPeriods(crosses, LaneEnum.SOUTHBOUND);
+        Map<String, Integer> northLanePeriod = PeriodUtils.getPeriodsWithNumberOfCars(crosses, LaneEnum.NORTHBOUND);
+        Map<String, Integer> southLanePeriod = PeriodUtils.getPeriodsWithNumberOfCars(crosses, LaneEnum.SOUTHBOUND);
         List<PeriodDTO> periods = new ArrayList<>(northLanePeriod.size());
         String peakPeriod = "";
         Integer maxNumberOfCars = 0;
@@ -143,7 +174,7 @@ public class CrossStatisticsFactory {
 
             // Is there any car in between this period?
             if(numberOfCarsInThisPeriod > 0) {
-                periods.add(new PeriodDTO(eachPeriod,numberOfCarsInThisPeriod));
+                periods.add(new PeriodDTO.PeriodDTOBuilder().setPeriod(eachPeriod).setNumberOfCars(numberOfCarsInThisPeriod).createPeriodDTO());
 
                 //peak?
                 if(numberOfCarsInThisPeriod > maxNumberOfCars){
