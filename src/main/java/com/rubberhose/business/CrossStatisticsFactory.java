@@ -8,7 +8,6 @@ import com.rubberhose.infrastructure.LaneEnum;
 import com.rubberhose.infrastructure.OccurrencePerDayEnum;
 import com.rubberhose.infrastructure.utils.CrossUtils;
 import com.rubberhose.infrastructure.utils.PeriodUtils;
-import com.rubberhose.infrastructure.utils.SpeedUtils;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
@@ -28,10 +27,6 @@ import static com.rubberhose.infrastructure.utils.CrossUtils.getMillsFrom;
  */
 @Component
 public class CrossStatisticsFactory {
-
-
-
-
 
     /**
      * Grab all the necessary information from the database and through mathematic operations
@@ -123,39 +118,46 @@ public class CrossStatisticsFactory {
     private DistanceDTO getAverageDistance(List<String> crosses) {
 
         List<PeriodDTO> periods = new ArrayList<>();
-        Map<String, Integer> northLaneDistancePeriod = PeriodUtils.getPeriodsWithDistanceBetweenCars(crosses, LaneEnum.NORTHBOUND);
-        Map<String, Integer> southLaneDistancePeriod = PeriodUtils.getPeriodsWithDistanceBetweenCars(crosses, LaneEnum.SOUTHBOUND);
+        Map<String, Integer> northLaneDistancePeriod = PeriodUtils.getPeriodsOf(crosses, LaneEnum.NORTHBOUND, CrossUtils.GET_DISTANCE_BETWEEN_CARS);
+        Map<String, Integer> southLaneDistancePeriod = PeriodUtils.getPeriodsOf(crosses, LaneEnum.SOUTHBOUND, CrossUtils.GET_DISTANCE_BETWEEN_CARS);
 
 
         Integer closestDistanceInMeters = Integer.MAX_VALUE;
         String timePeriod = null;
-        Integer divideBy = 0;
-        for(String eachPeriod : northLaneDistancePeriod.keySet()){
-            Integer northLaneDistance = northLaneDistancePeriod.get(eachPeriod), southLaneDistance = southLaneDistancePeriod.get(eachPeriod);
-            divideBy+= northLaneDistance > 0 ? 1 : 0;
-            divideBy+= southLaneDistance > 0 ? 1 : 0;
-            if(divideBy == 0){
-                continue;
-            }
+
+        for(String eachPeriod : getKeys(northLaneDistancePeriod, southLaneDistancePeriod)){
+            Integer northLaneDistance = northLaneDistancePeriod.containsKey(eachPeriod) ? northLaneDistancePeriod.get(eachPeriod) : 0;
+            Integer southLaneDistance = southLaneDistancePeriod.containsKey(eachPeriod) ? southLaneDistancePeriod.get(eachPeriod)  : 0;
+
+            Integer lanesUsed = usedLanes(northLaneDistance, southLaneDistance);
 
             //If both lanes are used, divide by 2, if 1, then divide by one.
-            Integer distanceBetweenCarsInThisPeriod = BigDecimal.valueOf(northLaneDistance + southLaneDistance).divide(BigDecimal.valueOf(divideBy),BigDecimal.ROUND_HALF_UP).intValue();
+            Integer distanceBetweenCarsInThisPeriod = BigDecimal.valueOf(northLaneDistance + southLaneDistance).divide(BigDecimal.valueOf(lanesUsed),BigDecimal.ROUND_HALF_UP).intValue();
 
-            periods.add(new PeriodDTO.PeriodDTOBuilder().setPeriod(eachPeriod).setDistanceInMeters(distanceBetweenCarsInThisPeriod).createPeriodDTO());
+            if(distanceBetweenCarsInThisPeriod > 0){
 
-            // Is there any car in between this period?
-            if(distanceBetweenCarsInThisPeriod < closestDistanceInMeters) {
+                periods.add(new PeriodDTO.PeriodDTOBuilder().setPeriod(eachPeriod).setDistanceInMeters(distanceBetweenCarsInThisPeriod).createPeriodDTO());
 
-                //trough?
-                if(distanceBetweenCarsInThisPeriod < closestDistanceInMeters){
-                    closestDistanceInMeters = distanceBetweenCarsInThisPeriod;
-                    timePeriod = eachPeriod;
+                // Is there any car in between this period?
+                if(distanceBetweenCarsInThisPeriod < closestDistanceInMeters) {
+
+                    //trough?
+                    if(distanceBetweenCarsInThisPeriod < closestDistanceInMeters){
+                        closestDistanceInMeters = distanceBetweenCarsInThisPeriod;
+                        timePeriod = eachPeriod;
+                    }
                 }
             }
-            divideBy = 0;
         }
 
         return closestDistanceInMeters == Integer.MAX_VALUE ? new DistanceDTO() : new DistanceDTO(closestDistanceInMeters, timePeriod,periods);
+    }
+
+    private Integer usedLanes(Integer northLaneDistance, Integer southLaneDistance) {
+        Integer lanesUsed = 2;
+        lanesUsed -= northLaneDistance == 0 ? 1 : 0;
+        lanesUsed -= southLaneDistance == 0 ? 1 : 0;
+        return lanesUsed;
     }
 
     /**
@@ -163,14 +165,17 @@ public class CrossStatisticsFactory {
      */
     private TrafficDTO getPeakPeriod(List<String> crosses) {
 
-        Map<String, Integer> northLanePeriod = PeriodUtils.getPeriodsWithNumberOfCars(crosses, LaneEnum.NORTHBOUND);
-        Map<String, Integer> southLanePeriod = PeriodUtils.getPeriodsWithNumberOfCars(crosses, LaneEnum.SOUTHBOUND);
+        Map<String, Integer> northLanePeriod = PeriodUtils.getPeriodsOf(crosses, LaneEnum.NORTHBOUND,CrossUtils.GET_NUMBER_OF_CARS);
+        Map<String, Integer> southLanePeriod = PeriodUtils.getPeriodsOf(crosses, LaneEnum.SOUTHBOUND,CrossUtils.GET_NUMBER_OF_CARS);
+
+
         List<PeriodDTO> periods = new ArrayList<>(northLanePeriod.size());
         String peakPeriod = "";
         Integer maxNumberOfCars = 0;
 
-        for(String eachPeriod : northLanePeriod.keySet()){
-            Integer numberOfCarsInThisPeriod = northLanePeriod.get(eachPeriod) + southLanePeriod.get(eachPeriod);
+        for(String eachPeriod : getKeys(northLanePeriod, southLanePeriod)){
+            Integer numberOfCarsInThisPeriod = northLanePeriod.containsKey(eachPeriod) ? northLanePeriod.get(eachPeriod) : 0;
+            numberOfCarsInThisPeriod += southLanePeriod.containsKey(eachPeriod) ? southLanePeriod.get(eachPeriod) : 0;
 
             // Is there any car in between this period?
             if(numberOfCarsInThisPeriod > 0) {
@@ -187,6 +192,12 @@ public class CrossStatisticsFactory {
 
         return new TrafficDTO(peakPeriod, maxNumberOfCars,periods);
 
+    }
+
+    private Set<String> getKeys(Map<String, Integer> northLanePeriod, Map<String, Integer> southLanePeriod) {
+        Set<String> keys = new HashSet<>(northLanePeriod.keySet());
+        keys.addAll(southLanePeriod.keySet());
+        return keys;
     }
 
     /**
@@ -207,6 +218,10 @@ public class CrossStatisticsFactory {
     };
 
 
+    /**
+     * Based on the number of used lanes (where at least one car has passed),
+     * an Integer value representing the required division to get the average of cars is returned.
+     */
     public Integer divisionRequiredToGetNumberOfCars(List<String> crosses) {
 
         boolean isNorthLaneInTheList = CrossUtils.isLaneUsed.test(crosses,LaneEnum.NORTHBOUND);

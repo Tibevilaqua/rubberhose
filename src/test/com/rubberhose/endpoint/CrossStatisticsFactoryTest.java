@@ -56,8 +56,8 @@ public class CrossStatisticsFactoryTest {
         Mockito.when(crossRepository.getCrossCollection(DayOfWeek.MONDAY)).thenReturn(Arrays.asList("A900000","B900010","A900150","B900205","A46800000","B46800100","A46800135","B46800265","A46900000","B46900100","A46900135","B46900265"));
 
 
-        PeriodDTO firstExpectedPeriod = new PeriodDTO.PeriodDTOBuilder().setPeriod("00:15AM").setNumberOfCars(1).createPeriodDTO();
-        PeriodDTO secondExpectedPeriod = new PeriodDTO.PeriodDTOBuilder().setPeriod("13:00PM").setNumberOfCars(2).createPeriodDTO();
+        PeriodDTO firstExpectedPeriod = new PeriodDTO.PeriodDTOBuilder().setPeriod("13:00PM").setNumberOfCars(2).createPeriodDTO();
+        PeriodDTO secondExpectedPeriod = new PeriodDTO.PeriodDTOBuilder().setPeriod("00:15AM").setNumberOfCars(1).createPeriodDTO();
 
         CrossBroadStatisticDTO expectedResult = new CrossBroadStatisticDTO(1,2,0,0,0,0,new TrafficDTO("13:00PM", 2,Arrays.asList(firstExpectedPeriod,secondExpectedPeriod)),54,new DistanceDTO(1662,"13:00PM", Arrays.asList(new PeriodDTO.PeriodDTOBuilder().setDistanceInMeters(1662).setPeriod("13:00PM").createPeriodDTO())));
 

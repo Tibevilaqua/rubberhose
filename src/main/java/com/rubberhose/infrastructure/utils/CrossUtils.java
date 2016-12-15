@@ -2,6 +2,7 @@ package com.rubberhose.infrastructure.utils;
 
 import com.rubberhose.endpoint.cross.CrossDTO;
 import com.rubberhose.infrastructure.LaneEnum;
+import com.rubberhose.infrastructure.function.PentaFunction;
 
 import java.math.BigDecimal;
 import java.util.*;
@@ -15,6 +16,18 @@ public class CrossUtils {
 
 
     private static final String MACHINE_VALUE_PATTERN = "^(?!([A-Z][0-9]{1,10})).*$";
+
+    public static final PentaFunction<List<Integer>, Integer, Integer, LaneEnum, Integer> GET_NUMBER_OF_CARS = (crosses, minimumValue, maxValue, laneEnum) ->{
+        long currentNumberOfCrosses = crosses.stream().sequential().filter(cross -> cross >= minimumValue && cross < maxValue).count();
+        return  BigDecimal.valueOf(currentNumberOfCrosses).divide(BigDecimal.valueOf(laneEnum.getCrossesPerCar()),BigDecimal.ROUND_HALF_UP).intValue();
+    };
+
+    public static final PentaFunction<List<Integer>, Integer, Integer, LaneEnum, Integer> GET_DISTANCE_BETWEEN_CARS = (crosses, minimumValue, maxValue, laneEnum) ->{
+        List<Integer> crossesBetweenPeriod = crosses.stream().filter(cross -> cross >= minimumValue && cross < maxValue).collect(Collectors.toList());
+
+        return SpeedUtils.getDistanceInMills(crossesBetweenPeriod, laneEnum).intValue();
+    };
+
 
     /**
      * Return only the mills (sorted)
@@ -70,14 +83,6 @@ public class CrossUtils {
         }
 
         return numberOfCrossesAfterTreatment;
-
-    }
-
-
-    public static Integer getNumberOfCarsInBetween(Integer beginningCurrentPeriodInMills, Integer limitCurrentPeriodInMills, List<Integer> crossCollectionsMills){
-
-        return (int) crossCollectionsMills.stream().sequential().filter(cross -> cross >= beginningCurrentPeriodInMills && cross < limitCurrentPeriodInMills).count();
-
 
     }
 

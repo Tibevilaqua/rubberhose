@@ -3,9 +3,9 @@ package com.rubberhose.infrastructure.utils;
 import com.rubberhose.infrastructure.LaneEnum;
 import com.rubberhose.infrastructure.MillsEnum;
 import com.rubberhose.infrastructure.OccurrencePerDayEnum;
+import com.rubberhose.infrastructure.function.PentaFunction;
 
 import java.math.BigDecimal;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -53,49 +53,24 @@ public class PeriodUtils {
         return result;
     }
 
-
-    public static Map<String, Integer> getPeriodsWithDistanceBetweenCars(List<String> crosses, LaneEnum laneEnum){
+    public static Map<String, Integer> getPeriodsOf(List<String> crosses, LaneEnum laneEnum, PentaFunction<List<Integer>, Integer, Integer, LaneEnum, Integer> getNumberOfCarsFunction) {
         Map<String, Integer> periodOfFifteenMinutesMills = PERIOD_OF_FIFTEEN_MINUTES_MILLS;
         Map<String,Integer> result = new LinkedHashMap<>();
 
-        List<Integer> laneCrossesInMills = CrossUtils.getMillsFrom(crosses, laneEnum);
-
-        for(String eachPeriod : periodOfFifteenMinutesMills.keySet()){
-            int beginningCurrentPeriodInMills = periodOfFifteenMinutesMills.get(eachPeriod).intValue();
-            int limitCurrentPeriodInMills = (beginningCurrentPeriodInMills + MillsEnum.FIFTEEN_MINUTES.value());
-
-            //TODO Refactor
-            List<Integer> crossesBetweenPeriod = laneCrossesInMills.stream().filter(cross -> cross >= beginningCurrentPeriodInMills && cross < limitCurrentPeriodInMills).collect(Collectors.toList());
-
-            Long laneDistanceInMeters = SpeedUtils.getDistanceInMills(crossesBetweenPeriod, laneEnum);
-
-            result.put(eachPeriod, laneDistanceInMeters.intValue());
-        }
-
-        return result;
-    }
-
-    public static Map<String, Integer> getPeriodsWithNumberOfCars(List<String> crosses, LaneEnum laneEnum){
-        Map<String, Integer> periodOfFifteenMinutesMills = PERIOD_OF_FIFTEEN_MINUTES_MILLS;
-        Map<String,Integer> result = new LinkedHashMap<>();
-
-            List<Integer> laneCrossesInMills = CrossUtils.getMillsFrom(crosses, laneEnum);
+            List<Integer> laneCrossesInMills = getMillsFrom(crosses, laneEnum);
 
             for(String eachPeriod : periodOfFifteenMinutesMills.keySet()){
                 int beginningCurrentPeriodInMills = periodOfFifteenMinutesMills.get(eachPeriod).intValue();
                 int limitCurrentPeriodInMills = (beginningCurrentPeriodInMills + MillsEnum.FIFTEEN_MINUTES.value());
 
-                //TODO Refactor
-                int currentNumberOfCrosses = CrossUtils.getNumberOfCarsInBetween(beginningCurrentPeriodInMills,limitCurrentPeriodInMills,laneCrossesInMills);
-
-                Integer numberOfCars = BigDecimal.valueOf(currentNumberOfCrosses).divide(BigDecimal.valueOf(laneEnum.getCrossesPerCar()),BigDecimal.ROUND_HALF_UP).intValue();
-
-                result.put(eachPeriod,numberOfCars);
-        }
+                Integer value = getNumberOfCarsFunction.fire(laneCrossesInMills, beginningCurrentPeriodInMills, limitCurrentPeriodInMills, laneEnum);
+                if(value > 0) {
+                    result.put(eachPeriod, value);
+                }
+            }
 
         return result;
     }
-
 
     private static String ifOneZeroThenTwo(int value){
         return value == 0 ? "00" : String.valueOf(value);
