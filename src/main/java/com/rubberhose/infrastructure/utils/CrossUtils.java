@@ -87,8 +87,8 @@ public class CrossUtils {
     }
 
 
-    public static Integer dividePer(Integer division, Integer numberOfCrosses){
-        return new BigDecimal(numberOfCrosses).divide(new BigDecimal(division),BigDecimal.ROUND_HALF_UP).intValue();
+    public static Integer dividePer(Integer division, Integer value){
+        return new BigDecimal(value).divide(new BigDecimal(division),BigDecimal.ROUND_HALF_UP).intValue();
     }
 
 

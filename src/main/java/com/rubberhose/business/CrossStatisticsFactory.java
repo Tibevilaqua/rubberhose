@@ -1,9 +1,6 @@
 package com.rubberhose.business;
 
-import com.rubberhose.endpoint.cross.CrossBroadStatisticDTO;
-import com.rubberhose.endpoint.cross.DistanceDTO;
-import com.rubberhose.endpoint.cross.PeriodDTO;
-import com.rubberhose.endpoint.cross.TrafficDTO;
+import com.rubberhose.endpoint.cross.*;
 import com.rubberhose.infrastructure.LaneEnum;
 import com.rubberhose.infrastructure.OccurrencePerDayEnum;
 import com.rubberhose.infrastructure.utils.CrossUtils;
@@ -37,43 +34,65 @@ public class CrossStatisticsFactory {
      *
      * @return
      */
+    protected CrossBroadStatisticDTO createStatistics(List<String> crossCollection) {
+        return this.getDefaultValues(crossCollection).createCrossBroadStatisticDTO();
+    }
+
     protected CrossBroadStatisticDTO createStatistics(List<String> crossCollection, Integer numberOfDays) {
 
-            Integer lanesByHosesInUse = divisionRequiredToGetNumberOfCars(crossCollection);
-
-            List<Integer> crossCollectionsMills = getMillsFrom(crossCollection);
-
-            Integer morningCount = this.getMorningCount(crossCollectionsMills);
-
-            Integer eveningCount = dividePer(lanesByHosesInUse,this.getEveningCount(crossCollectionsMills,morningCount));
-            morningCount = dividePer(lanesByHosesInUse, morningCount);
-
-            Integer averageSpeed = this.getAverageSpeed(crossCollection);
-
-            DistanceDTO distance = this.getAverageDistance(crossCollection);
-
-            Integer hourlyAverageCount = dividePer(lanesByHosesInUse,this.getHourAverageCount(crossCollectionsMills))
-                    , thirtyMinutesAverageCount = dividePer(lanesByHosesInUse,this.getHalfHourAverageCount(crossCollectionsMills))
-                    , twentyMinutesAverageCount = dividePer(lanesByHosesInUse,this.getEveryTwentyMinutesAverageCount(crossCollectionsMills))
-                    , fifteenMinutesAverageCount = dividePer(lanesByHosesInUse,this.getEveryFifteenMinutesAverageCount(crossCollectionsMills));
-
-        TrafficDTO periodDTO = this.getPeakPeriod(crossCollection);
+        CrossBroadStatisticDTO.CrossBroadStatisticDTOBuilder defaultValues = this.getDefaultValues(crossCollection);
+        getAverageOfValuesBasedOn(numberOfDays, defaultValues);
 
 
-        // If no numberOfDays is sent, therefore, the code considers it and divide based on it,
-        // otherwise, it's a particular weekday.
-        if(Objects.nonNull(numberOfDays) && numberOfDays > 0){
-                morningCount = dividePer(numberOfDays, morningCount);
-                eveningCount = dividePer(numberOfDays, eveningCount);
-                hourlyAverageCount = dividePer(numberOfDays, hourlyAverageCount);
-                thirtyMinutesAverageCount = dividePer(numberOfDays, thirtyMinutesAverageCount);
-                twentyMinutesAverageCount = dividePer(numberOfDays, twentyMinutesAverageCount);
-                fifteenMinutesAverageCount = dividePer(numberOfDays, fifteenMinutesAverageCount);
-            }
-
-        return  new CrossBroadStatisticDTO(morningCount,eveningCount,hourlyAverageCount,thirtyMinutesAverageCount,twentyMinutesAverageCount,fifteenMinutesAverageCount, periodDTO,averageSpeed,distance);
+        return defaultValues.createCrossBroadStatisticDTO();
 
     }
+
+    private void getAverageOfValuesBasedOn(Integer numberOfDays, CrossBroadStatisticDTO.CrossBroadStatisticDTOBuilder defaultValues) {
+        // If no numberOfDays is sent, therefore, the code considers it and divides based on it,
+        // otherwise, it's a particular weekday.
+        if(Objects.nonNull(numberOfDays) && numberOfDays > 0){
+            defaultValues.setMorning(dividePer(numberOfDays, defaultValues.getMorning()));
+            defaultValues.setEvening(dividePer(numberOfDays, defaultValues.getEvening()));
+            defaultValues.setHourly(dividePer(numberOfDays, defaultValues.getHourly()));
+            defaultValues.setEveryThirtyMinutes(dividePer(numberOfDays, defaultValues.getEveryThirtyMinutes()));
+            defaultValues.setEveryTwentyMinutes(dividePer(numberOfDays, defaultValues.getEveryTwentyMinutes()));
+            defaultValues.setEveryFifteenMinutes(dividePer(numberOfDays, defaultValues.getEveryFifteenMinutes()));
+        }
+
+        //Updating trafficDTO
+        TrafficDTO.TrafficDTOBuilder trafficDTOBuilder = defaultValues.getTraffic();
+        trafficDTOBuilder.setNumberOfCars(BigDecimal.valueOf(defaultValues.getTraffic().getNumberOfCars()).divide(BigDecimal.valueOf(numberOfDays),0,BigDecimal.ROUND_HALF_UP).intValue());
+        trafficDTOBuilder.getPeriods().stream().forEach(period -> period.setNumberOfCars(BigDecimal.valueOf(period.getNumberOfCars()).divide(BigDecimal.valueOf(numberOfDays),0,BigDecimal.ROUND_HALF_UP).intValue()));
+
+    }
+
+
+    private CrossBroadStatisticDTO.CrossBroadStatisticDTOBuilder getDefaultValues(List<String> crossCollection){
+        Integer lanesByHosesInUse = divisionRequiredToGetNumberOfCars(crossCollection);
+
+        List<Integer> crossCollectionsMills = getMillsFrom(crossCollection);
+
+        Integer morningCount = this.getMorningCount(crossCollectionsMills);
+
+        Integer eveningCount = dividePer(lanesByHosesInUse,this.getEveningCount(crossCollectionsMills,morningCount));
+        morningCount = dividePer(lanesByHosesInUse, morningCount);
+
+        Integer averageSpeed = this.getAverageSpeed(crossCollection);
+
+        DistanceDTO distance = this.getAverageDistance(crossCollection);
+
+        Integer hourlyAverageCount = dividePer(lanesByHosesInUse,this.getHourAverageCount(crossCollectionsMills))
+                , thirtyMinutesAverageCount = dividePer(lanesByHosesInUse,this.getHalfHourAverageCount(crossCollectionsMills))
+                , twentyMinutesAverageCount = dividePer(lanesByHosesInUse,this.getEveryTwentyMinutesAverageCount(crossCollectionsMills))
+                , fifteenMinutesAverageCount = dividePer(lanesByHosesInUse,this.getEveryFifteenMinutesAverageCount(crossCollectionsMills));
+
+        TrafficDTO.TrafficDTOBuilder periodDTO = this.getPeakPeriod(crossCollection);
+
+        return new CrossBroadStatisticDTO.CrossBroadStatisticDTOBuilder().setMorning(morningCount).setEvening(eveningCount).setHourly(hourlyAverageCount).setEveryThirtyMinutes(thirtyMinutesAverageCount).setEveryTwentyMinutes(twentyMinutesAverageCount).setEveryFifteenMinutes(fifteenMinutesAverageCount).setTraffic(periodDTO).setAverageSpeed(averageSpeed).setDistanceDTO(distance);
+
+    }
+
 
 
     private Integer getAverageSpeed(List<String> crossCollection) {
@@ -163,13 +182,13 @@ public class CrossStatisticsFactory {
     /**
      * Compare how many crosses were captured based on each period of 15 minutes and return the closest period and the number of crosses altogether
      */
-    private TrafficDTO getPeakPeriod(List<String> crosses) {
+    private TrafficDTO.TrafficDTOBuilder getPeakPeriod(List<String> crosses) {
 
         Map<String, Integer> northLanePeriod = PeriodUtils.getPeriodsOf(crosses, LaneEnum.NORTHBOUND,CrossUtils.GET_NUMBER_OF_CARS);
         Map<String, Integer> southLanePeriod = PeriodUtils.getPeriodsOf(crosses, LaneEnum.SOUTHBOUND,CrossUtils.GET_NUMBER_OF_CARS);
 
 
-        List<PeriodDTO> periods = new ArrayList<>(northLanePeriod.size());
+        List<PeriodDTO.PeriodDTOBuilder> periods = new ArrayList<>(northLanePeriod.size());
         String peakPeriod = "";
         Integer maxNumberOfCars = 0;
 
@@ -179,18 +198,17 @@ public class CrossStatisticsFactory {
 
             // Is there any car in between this period?
             if(numberOfCarsInThisPeriod > 0) {
-                periods.add(new PeriodDTO.PeriodDTOBuilder().setPeriod(eachPeriod).setNumberOfCars(numberOfCarsInThisPeriod).createPeriodDTO());
+                periods.add(new PeriodDTO.PeriodDTOBuilder().setPeriod(eachPeriod).setNumberOfCars(numberOfCarsInThisPeriod));
 
                 //peak?
                 if(numberOfCarsInThisPeriod > maxNumberOfCars){
                     maxNumberOfCars = numberOfCarsInThisPeriod;
                     peakPeriod = eachPeriod;
                 }
-
             }
         }
 
-        return new TrafficDTO(peakPeriod, maxNumberOfCars,periods);
+        return new TrafficDTO.TrafficDTOBuilder().setPeak(peakPeriod).setNumberOfCars(maxNumberOfCars).setPeriods(periods);
 
     }
 

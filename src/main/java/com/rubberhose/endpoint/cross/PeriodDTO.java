@@ -88,6 +88,18 @@ public class PeriodDTO {
             return this;
         }
 
+        public String getPeriod() {
+            return period;
+        }
+
+        public Integer getNumberOfCars() {
+            return numberOfCars;
+        }
+
+        public Integer getDistanceInMeters() {
+            return distanceInMeters;
+        }
+
         public PeriodDTO createPeriodDTO() {
             return new PeriodDTO(period, numberOfCars, distanceInMeters);
         }

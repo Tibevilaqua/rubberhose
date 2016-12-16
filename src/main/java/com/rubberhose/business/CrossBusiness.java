@@ -87,7 +87,7 @@ public class CrossBusiness {
             return Optional.empty();
         }
 
-        return Optional.of(crossStatisticsFactory.createStatistics(crossCollection,null));
+        return Optional.of(crossStatisticsFactory.createStatistics(crossCollection));
     }
 
     public Optional<CrossBroadStatisticDTO> createStatistics() {

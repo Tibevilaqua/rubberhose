@@ -1,9 +1,6 @@
 package com.rubberhose.business;
 
-import com.rubberhose.endpoint.cross.CrossBroadStatisticDTO;
-import com.rubberhose.endpoint.cross.CrossDTO;
-import com.rubberhose.endpoint.cross.PeriodDTO;
-import com.rubberhose.endpoint.cross.TrafficDTO;
+import com.rubberhose.endpoint.cross.*;
 import com.rubberhose.infrastructure.LaneEnum;
 import com.rubberhose.infrastructure.utils.SpeedUtils;
 import com.rubberhose.infrastructure.cross.CrossCache;
@@ -46,8 +43,8 @@ public class CrossBusinessTest {
 
     @Test
     public void shouldReturnCrossStatistics_when_someValueIsCached(){
-        PeriodDTO expectedPeriod = new PeriodDTO.PeriodDTOBuilder().setPeriod("3:00PM").setNumberOfCars(10).createPeriodDTO();
-        CrossBroadStatisticDTO expectedResult = new CrossBroadStatisticDTO(40,70,16,8,5,4,new TrafficDTO("3:00PM",10,Arrays.asList(expectedPeriod)),1,null);
+        PeriodDTO.PeriodDTOBuilder expectedPeriod = new PeriodDTO.PeriodDTOBuilder().setPeriod("3:00PM").setNumberOfCars(10);
+        CrossBroadStatisticDTO expectedResult = new CrossBroadStatisticDTO.CrossBroadStatisticDTOBuilder().setMorning(40).setEvening(70).setHourly(16).setEveryThirtyMinutes(8).setEveryTwentyMinutes(5).setEveryFifteenMinutes(4).setTraffic(new TrafficDTO.TrafficDTOBuilder().setPeak("3:00PM").setNumberOfCars(10).setPeriods(Arrays.asList(expectedPeriod))).setAverageSpeed(1).setDistanceDTO(null).createCrossBroadStatisticDTO();
 
         when(crossCache.getCachedStatistics(MONDAY)).thenReturn(expectedResult);
         CrossBroadStatisticDTO result = crossBusiness.getStatistics(MONDAY);
@@ -119,8 +116,8 @@ public class CrossBusinessTest {
         Optional<CrossBroadStatisticDTO> statistics = crossBusiness.createStatistics(MONDAY);
         crossCache.setCachedStatistics(MONDAY,statistics.get());
         CrossBroadStatisticDTO result = crossCache.getCachedStatistics(MONDAY);
-        PeriodDTO expectedPeriod = new PeriodDTO.PeriodDTOBuilder().setPeriod("00:30AM").setNumberOfCars(5).createPeriodDTO();
-        CrossBroadStatisticDTO expectedResult = new CrossBroadStatisticDTO(101,100,8,4,3,2, new TrafficDTO("00:30AM", 5, Arrays.asList(expectedPeriod)),SpeedUtils.SPEED_LIMIT,null);
+        PeriodDTO.PeriodDTOBuilder expectedPeriod = new PeriodDTO.PeriodDTOBuilder().setPeriod("00:30AM").setNumberOfCars(5);
+        CrossBroadStatisticDTO expectedResult = new CrossBroadStatisticDTO.CrossBroadStatisticDTOBuilder().setMorning(101).setEvening(100).setHourly(8).setEveryThirtyMinutes(4).setEveryTwentyMinutes(3).setEveryFifteenMinutes(2).setTraffic(new TrafficDTO.TrafficDTOBuilder().setPeak("00:30AM").setNumberOfCars(5).setPeriods(Arrays.asList(expectedPeriod))).setAverageSpeed(SpeedUtils.SPEED_LIMIT).setDistanceDTO(null).createCrossBroadStatisticDTO();
 
         Assert.assertEquals(expectedResult.getMorning(),result.getMorning());
         Assert.assertEquals(expectedResult.getEvening(),result.getEvening());

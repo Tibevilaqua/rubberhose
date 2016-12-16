@@ -2,6 +2,8 @@ package com.rubberhose.endpoint.cross;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.function.BiFunction;
+
 /**
  * Created by root on 09/12/16.
  */
@@ -22,7 +24,7 @@ public class CrossBroadStatisticDTO {
     public CrossBroadStatisticDTO() {
     }
 
-    public CrossBroadStatisticDTO(Integer morning, Integer evening, Integer hourly, Integer everyThirtyMinutes, Integer everyTwentyMinutes, Integer everyFifteenMinutes, TrafficDTO traffic, Integer averageSpeed, DistanceDTO distanceDTO) {
+    private CrossBroadStatisticDTO(Integer morning, Integer evening, Integer hourly, Integer everyThirtyMinutes, Integer everyTwentyMinutes, Integer everyFifteenMinutes, TrafficDTO traffic, Integer averageSpeed, DistanceDTO distanceDTO) {
         this.morning = morning;
         this.evening = evening;
         this.hourly = hourly;
@@ -120,4 +122,104 @@ public class CrossBroadStatisticDTO {
                 ", distanceDTO=" + distanceDTO +
                 '}';
     }
+
+
+    public static class CrossBroadStatisticDTOBuilder {
+        private Integer morning;
+        private Integer evening;
+        private Integer hourly;
+        private Integer everyThirtyMinutes;
+        private Integer everyTwentyMinutes;
+        private Integer everyFifteenMinutes;
+        private TrafficDTO.TrafficDTOBuilder traffic;
+        private Integer averageSpeed;
+        private DistanceDTO distanceDTO;
+
+        public CrossBroadStatisticDTOBuilder setMorning(Integer morning) {
+            this.morning = morning;
+            return this;
+        }
+
+        public CrossBroadStatisticDTOBuilder setEvening(Integer evening) {
+            this.evening = evening;
+            return this;
+        }
+
+        public CrossBroadStatisticDTOBuilder setHourly(Integer hourly) {
+            this.hourly = hourly;
+            return this;
+        }
+
+        public CrossBroadStatisticDTOBuilder setEveryThirtyMinutes(Integer everyThirtyMinutes) {
+            this.everyThirtyMinutes = everyThirtyMinutes;
+            return this;
+        }
+
+        public CrossBroadStatisticDTOBuilder setEveryTwentyMinutes(Integer everyTwentyMinutes) {
+            this.everyTwentyMinutes = everyTwentyMinutes;
+            return this;
+        }
+
+        public CrossBroadStatisticDTOBuilder setEveryFifteenMinutes(Integer everyFifteenMinutes) {
+            this.everyFifteenMinutes = everyFifteenMinutes;
+            return this;
+        }
+
+        public CrossBroadStatisticDTOBuilder setTraffic(TrafficDTO.TrafficDTOBuilder traffic) {
+            this.traffic = traffic;
+            return this;
+        }
+
+        public CrossBroadStatisticDTOBuilder setAverageSpeed(Integer averageSpeed) {
+            this.averageSpeed = averageSpeed;
+            return this;
+        }
+
+        public CrossBroadStatisticDTOBuilder setDistanceDTO(DistanceDTO distanceDTO) {
+            this.distanceDTO = distanceDTO;
+            return this;
+        }
+
+        public Integer getMorning() {
+            return morning;
+        }
+
+        public Integer getEvening() {
+            return evening;
+        }
+
+        public Integer getHourly() {
+            return hourly;
+        }
+
+        public Integer getEveryThirtyMinutes() {
+            return everyThirtyMinutes;
+        }
+
+        public Integer getEveryTwentyMinutes() {
+            return everyTwentyMinutes;
+        }
+
+        public Integer getEveryFifteenMinutes() {
+            return everyFifteenMinutes;
+        }
+
+        public TrafficDTO.TrafficDTOBuilder getTraffic() {
+            return traffic;
+        }
+
+        public Integer getAverageSpeed() {
+            return averageSpeed;
+        }
+
+        public DistanceDTO getDistanceDTO() {
+            return distanceDTO;
+        }
+
+        public CrossBroadStatisticDTO createCrossBroadStatisticDTO() {
+            return new CrossBroadStatisticDTO(morning, evening, hourly, everyThirtyMinutes, everyTwentyMinutes, everyFifteenMinutes, traffic.createTrafficDTO(), averageSpeed, distanceDTO);
+        }
+    }
+
+
 }
