@@ -43,7 +43,6 @@ public class CrossStatisticsFactory {
         CrossBroadStatisticDTO.CrossBroadStatisticDTOBuilder defaultValues = this.getDefaultValues(crossCollection);
         getAverageOfValuesBasedOn(numberOfDays, defaultValues);
 
-
         return defaultValues.createCrossBroadStatisticDTO();
 
     }
@@ -213,9 +212,10 @@ public class CrossStatisticsFactory {
     }
 
     private Set<String> getKeys(Map<String, Integer> northLanePeriod, Map<String, Integer> southLanePeriod) {
-        Set<String> keys = new HashSet<>(northLanePeriod.keySet());
-        keys.addAll(southLanePeriod.keySet());
+        Set<String> keys = new LinkedHashSet<>(northLanePeriod.keySet());
+        PeriodUtils.PERIOD_OF_FIFTEEN_MINUTES_MILLS.keySet().stream().filter(period -> (northLanePeriod.containsKey(period) && !keys.contains(period)) || (southLanePeriod.containsKey(period) && !keys.contains(period))).forEach(keys::add);
         return keys;
+
     }
 
     /**
