@@ -57,9 +57,9 @@ public class CrossRepositoryTest {
         CrossCache crossCache = new CrossCache();
 
 
-        crossCache.setCachedStatistics(MONDAY, new CrossBroadStatisticDTO.CrossBroadStatisticDTOBuilder().setMorning(1).setEvening(2).setHourly(3).setEveryThirtyMinutes(4).setEveryTwentyMinutes(5).setEveryFifteenMinutes(6).setTraffic(new TrafficDTO.TrafficDTOBuilder()).setAverageSpeed(1).setDistanceDTO(null).createCrossBroadStatisticDTO());
+        crossCache.setCachedStatistics(MONDAY, new CrossBroadStatisticDTO.CrossBroadStatisticDTOBuilder().setMorning(1).setEvening(2).setHourly(3).setEveryThirtyMinutes(4).setEveryTwentyMinutes(5).setEveryFifteenMinutes(6).setTraffic(new TrafficDTO.TrafficDTOBuilder()).setAverageSpeed(1).setDistance(null).createCrossBroadStatisticDTO());
 
-        CrossBroadStatisticDTO secondCrossBroadStatisticDTO = new CrossBroadStatisticDTO.CrossBroadStatisticDTOBuilder().setMorning(2).setEvening(3).setHourly(4).setEveryThirtyMinutes(5).setEveryTwentyMinutes(6).setEveryFifteenMinutes(7).setTraffic(new TrafficDTO.TrafficDTOBuilder()).setAverageSpeed(1).setDistanceDTO(null).createCrossBroadStatisticDTO();
+        CrossBroadStatisticDTO secondCrossBroadStatisticDTO = new CrossBroadStatisticDTO.CrossBroadStatisticDTOBuilder().setMorning(2).setEvening(3).setHourly(4).setEveryThirtyMinutes(5).setEveryTwentyMinutes(6).setEveryFifteenMinutes(7).setTraffic(new TrafficDTO.TrafficDTOBuilder()).setAverageSpeed(1).setDistance(null).createCrossBroadStatisticDTO();
         crossCache.setCachedStatistics(MONDAY, secondCrossBroadStatisticDTO);
         Assert.assertEquals(crossCache.getCachedStatistics(MONDAY), secondCrossBroadStatisticDTO);
     }
@@ -87,7 +87,7 @@ public class CrossRepositoryTest {
     public void shouldReturnNothing_when_thereAreNoCrossesForTheDayInTheCache(){
 
         CrossCache crossCache = new CrossCache();
-        crossCache.setCachedStatistics(CROSSES_TO_SAVE_MODEL.getDayOfWeek(), new CrossBroadStatisticDTO.CrossBroadStatisticDTOBuilder().setMorning(1).setEvening(2).setHourly(3).setEveryThirtyMinutes(4).setEveryTwentyMinutes(5).setEveryFifteenMinutes(6).setTraffic(new TrafficDTO.TrafficDTOBuilder()).setAverageSpeed(1).setDistanceDTO(null).createCrossBroadStatisticDTO());
+        crossCache.setCachedStatistics(CROSSES_TO_SAVE_MODEL.getDayOfWeek(), new CrossBroadStatisticDTO.CrossBroadStatisticDTOBuilder().setMorning(1).setEvening(2).setHourly(3).setEveryThirtyMinutes(4).setEveryTwentyMinutes(5).setEveryFifteenMinutes(6).setTraffic(new TrafficDTO.TrafficDTOBuilder()).setAverageSpeed(1).setDistance(null).createCrossBroadStatisticDTO());
         CrossBroadStatisticDTO cachedStatistics = crossCache.getCachedStatistics(DayOfWeek.TUESDAY);
         Assert.assertTrue(cachedStatistics == null);
     }

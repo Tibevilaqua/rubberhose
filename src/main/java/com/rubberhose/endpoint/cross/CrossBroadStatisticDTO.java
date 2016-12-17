@@ -1,9 +1,5 @@
 package com.rubberhose.endpoint.cross;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-import java.util.function.BiFunction;
-
 /**
  * Created by root on 09/12/16.
  */
@@ -17,14 +13,14 @@ public class CrossBroadStatisticDTO {
     private Integer everyFifteenMinutes;
     private Integer averageSpeed;
     private TrafficDTO traffic;
-    private DistanceDTO distanceDTO;
+    private DistanceDTO distance;
 
 
 
     public CrossBroadStatisticDTO() {
     }
 
-    private CrossBroadStatisticDTO(Integer morning, Integer evening, Integer hourly, Integer everyThirtyMinutes, Integer everyTwentyMinutes, Integer everyFifteenMinutes, TrafficDTO traffic, Integer averageSpeed, DistanceDTO distanceDTO) {
+    private CrossBroadStatisticDTO(Integer morning, Integer evening, Integer hourly, Integer everyThirtyMinutes, Integer everyTwentyMinutes, Integer everyFifteenMinutes, TrafficDTO traffic, Integer averageSpeed, DistanceDTO distance) {
         this.morning = morning;
         this.evening = evening;
         this.hourly = hourly;
@@ -33,7 +29,7 @@ public class CrossBroadStatisticDTO {
         this.everyFifteenMinutes = everyFifteenMinutes;
         this.averageSpeed = averageSpeed;
         this.traffic = traffic;
-        this.distanceDTO = distanceDTO;
+        this.distance = distance;
     }
 
     public Integer getAverageSpeed() {
@@ -68,8 +64,8 @@ public class CrossBroadStatisticDTO {
         return traffic;
     }
 
-    public DistanceDTO getDistanceDTO() {
-        return distanceDTO;
+    public DistanceDTO getDistance() {
+        return distance;
     }
 
     @Override
@@ -90,7 +86,7 @@ public class CrossBroadStatisticDTO {
             return false;
         if (averageSpeed != null ? !averageSpeed.equals(that.averageSpeed) : that.averageSpeed != null) return false;
         if (traffic != null ? !traffic.equals(that.traffic) : that.traffic != null) return false;
-        return distanceDTO != null ? distanceDTO.equals(that.distanceDTO) : that.distanceDTO == null;
+        return distance != null ? distance.equals(that.distance) : that.distance == null;
 
     }
 
@@ -104,7 +100,7 @@ public class CrossBroadStatisticDTO {
         result = 31 * result + (everyFifteenMinutes != null ? everyFifteenMinutes.hashCode() : 0);
         result = 31 * result + (averageSpeed != null ? averageSpeed.hashCode() : 0);
         result = 31 * result + (traffic != null ? traffic.hashCode() : 0);
-        result = 31 * result + (distanceDTO != null ? distanceDTO.hashCode() : 0);
+        result = 31 * result + (distance != null ? distance.hashCode() : 0);
         return result;
     }
 
@@ -119,7 +115,7 @@ public class CrossBroadStatisticDTO {
                 ", everyFifteenMinutes=" + everyFifteenMinutes +
                 ", averageSpeed=" + averageSpeed +
                 ", traffic=" + traffic +
-                ", distanceDTO=" + distanceDTO +
+                ", distance=" + distance +
                 '}';
     }
 
@@ -133,7 +129,7 @@ public class CrossBroadStatisticDTO {
         private Integer everyFifteenMinutes;
         private TrafficDTO.TrafficDTOBuilder traffic;
         private Integer averageSpeed;
-        private DistanceDTO distanceDTO;
+        private DistanceDTO distance;
 
         public CrossBroadStatisticDTOBuilder setMorning(Integer morning) {
             this.morning = morning;
@@ -175,8 +171,8 @@ public class CrossBroadStatisticDTO {
             return this;
         }
 
-        public CrossBroadStatisticDTOBuilder setDistanceDTO(DistanceDTO distanceDTO) {
-            this.distanceDTO = distanceDTO;
+        public CrossBroadStatisticDTOBuilder setDistance(DistanceDTO distance) {
+            this.distance = distance;
             return this;
         }
 
@@ -212,12 +208,12 @@ public class CrossBroadStatisticDTO {
             return averageSpeed;
         }
 
-        public DistanceDTO getDistanceDTO() {
-            return distanceDTO;
+        public DistanceDTO getDistance() {
+            return distance;
         }
 
         public CrossBroadStatisticDTO createCrossBroadStatisticDTO() {
-            return new CrossBroadStatisticDTO(morning, evening, hourly, everyThirtyMinutes, everyTwentyMinutes, everyFifteenMinutes, traffic.createTrafficDTO(), averageSpeed, distanceDTO);
+            return new CrossBroadStatisticDTO(morning, evening, hourly, everyThirtyMinutes, everyTwentyMinutes, everyFifteenMinutes, traffic.createTrafficDTO(), averageSpeed, distance);
         }
     }
 

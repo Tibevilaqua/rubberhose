@@ -294,3 +294,13 @@
                            }
                          }
           the periods returned will follow the ascendant pattern (00h00, 00h30, 00h45 and so on).
+
+
+#Task16 - Write a documentation outlining the used technologies and the reason to do so.
+
+
+#Task17 - Write a documentation outlining the endpoints of the system.
+
+#Task18 - Write a documentation outlining the behaviours of the system.
+
+#Task19 - Write a documentation outlining one case of use regarding POST data and GET data endpoints.

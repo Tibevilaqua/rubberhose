@@ -88,7 +88,7 @@ public class CrossStatisticsFactory {
 
         TrafficDTO.TrafficDTOBuilder periodDTO = this.getPeakPeriod(crossCollection);
 
-        return new CrossBroadStatisticDTO.CrossBroadStatisticDTOBuilder().setMorning(morningCount).setEvening(eveningCount).setHourly(hourlyAverageCount).setEveryThirtyMinutes(thirtyMinutesAverageCount).setEveryTwentyMinutes(twentyMinutesAverageCount).setEveryFifteenMinutes(fifteenMinutesAverageCount).setTraffic(periodDTO).setAverageSpeed(averageSpeed).setDistanceDTO(distance);
+        return new CrossBroadStatisticDTO.CrossBroadStatisticDTOBuilder().setMorning(morningCount).setEvening(eveningCount).setHourly(hourlyAverageCount).setEveryThirtyMinutes(thirtyMinutesAverageCount).setEveryTwentyMinutes(twentyMinutesAverageCount).setEveryFifteenMinutes(fifteenMinutesAverageCount).setTraffic(periodDTO).setAverageSpeed(averageSpeed).setDistance(distance);
 
     }
 

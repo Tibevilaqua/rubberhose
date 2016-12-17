@@ -52,7 +52,7 @@ rubberhose Case of use:
               }
             ]
           },
-          "distanceDTO": {
+          "distance": {
             "closestDistanceInMeters": 2,
             "timePeriod": "20:00PM",
             "periods": [
@@ -87,7 +87,7 @@ rubberhose Case of use:
 
             "periods[]": List of periods (15 minutes each) showing how many cars passed during this period.
 
-        "distanceDTO:"
+        "distance:"
             "closestDistanceInMeters: 2": Difference in meters (closest average) among all the cars of the day
             "timePeriod: 20:00PM":  Period when it happens (15 minutes)
 

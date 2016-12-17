@@ -39,7 +39,7 @@ public class CrossStatisticsFactoryTest {
 
        PeriodDTO.PeriodDTOBuilder expectedPeriod = new PeriodDTO.PeriodDTOBuilder().setPeriod("00:15AM").setNumberOfCars(2);
 
-       CrossBroadStatisticDTO expectedResult = new CrossBroadStatisticDTO.CrossBroadStatisticDTOBuilder().setMorning(2).setEvening(0).setHourly(0).setEveryThirtyMinutes(0).setEveryTwentyMinutes(0).setEveryFifteenMinutes(0).setTraffic(new TrafficDTO.TrafficDTOBuilder().setPeak("00:15AM").setNumberOfCars(2).setPeriods(Arrays.asList(expectedPeriod))).setAverageSpeed(54).setDistanceDTO(new DistanceDTO(1, "00:15AM", Arrays.asList(new PeriodDTO.PeriodDTOBuilder().setDistanceInMeters(1).setPeriod("00:15AM").createPeriodDTO()))).createCrossBroadStatisticDTO();
+       CrossBroadStatisticDTO expectedResult = new CrossBroadStatisticDTO.CrossBroadStatisticDTOBuilder().setMorning(2).setEvening(0).setHourly(0).setEveryThirtyMinutes(0).setEveryTwentyMinutes(0).setEveryFifteenMinutes(0).setTraffic(new TrafficDTO.TrafficDTOBuilder().setPeak("00:15AM").setNumberOfCars(2).setPeriods(Arrays.asList(expectedPeriod))).setAverageSpeed(54).setDistance(new DistanceDTO(1, "00:15AM", Arrays.asList(new PeriodDTO.PeriodDTOBuilder().setDistanceInMeters(1).setPeriod("00:15AM").createPeriodDTO()))).createCrossBroadStatisticDTO();
 
        CrossBroadStatisticDTO result = crossBusiness.createStatistics(DayOfWeek.MONDAY).get();
 
@@ -55,7 +55,7 @@ public class CrossStatisticsFactoryTest {
         PeriodDTO.PeriodDTOBuilder firstExpectedPeriod = new PeriodDTO.PeriodDTOBuilder().setPeriod("00:15AM").setNumberOfCars(1);
         PeriodDTO.PeriodDTOBuilder secondExpectedPeriod = new PeriodDTO.PeriodDTOBuilder().setPeriod("13:00PM").setNumberOfCars(2);
 
-        CrossBroadStatisticDTO expectedResult = new CrossBroadStatisticDTO.CrossBroadStatisticDTOBuilder().setMorning(1).setEvening(2).setHourly(0).setEveryThirtyMinutes(0).setEveryTwentyMinutes(0).setEveryFifteenMinutes(0).setTraffic(new TrafficDTO.TrafficDTOBuilder().setPeak("13:00PM").setNumberOfCars(2).setPeriods(Arrays.asList(firstExpectedPeriod, secondExpectedPeriod))).setAverageSpeed(54).setDistanceDTO(new DistanceDTO(1662, "13:00PM", Arrays.asList(new PeriodDTO.PeriodDTOBuilder().setDistanceInMeters(1662).setPeriod("13:00PM").createPeriodDTO()))).createCrossBroadStatisticDTO();
+        CrossBroadStatisticDTO expectedResult = new CrossBroadStatisticDTO.CrossBroadStatisticDTOBuilder().setMorning(1).setEvening(2).setHourly(0).setEveryThirtyMinutes(0).setEveryTwentyMinutes(0).setEveryFifteenMinutes(0).setTraffic(new TrafficDTO.TrafficDTOBuilder().setPeak("13:00PM").setNumberOfCars(2).setPeriods(Arrays.asList(firstExpectedPeriod, secondExpectedPeriod))).setAverageSpeed(54).setDistance(new DistanceDTO(1662, "13:00PM", Arrays.asList(new PeriodDTO.PeriodDTOBuilder().setDistanceInMeters(1662).setPeriod("13:00PM").createPeriodDTO()))).createCrossBroadStatisticDTO();
 
         CrossBroadStatisticDTO result = crossBusiness.createStatistics(DayOfWeek.MONDAY).get();
 
