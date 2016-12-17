@@ -297,3 +297,6 @@
 
 
 #Task16 - Write a documentation outlining the used technologies and the reason to do so.
+
+
+#Task17 - Write a documentation outlining the endpoints of the system.

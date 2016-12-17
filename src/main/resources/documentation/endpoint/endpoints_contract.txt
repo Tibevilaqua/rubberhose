@@ -1,0 +1,28 @@
+rubberhose WS:
+
+    The WS has two Available endpoints (GET AND POST), respectively explained bellow:
+
+        GET:  http://localhost:8080/cross
+
+            Purpose: Retrieve information based on the already processes statistics.
+
+            Possibilities: It is possible to get the information based on days, to do so, send the query param
+            "dayOfWeek=THUSRDAY" (http://localhost:8080/cross?dayOfWeek=THUSRDAY) or any other day of the week you desire.
+
+
+        POST: http://localhost:8080/cross
+
+            Purpose: Save more crosses of cars passing on hoses.
+
+            Possibilities: As well as the get, it's possible to save crosses on any day (MONDAY, TUESDAY, etc).
+            Json Example: {
+                        	"dayOfWeek": "FRIDAY"
+                     	,"crosses":[
+                             "A668432"
+                             ,"B668435"
+                             ,"A668570"
+                             ,"B668573"
+                             ,"A668773"
+                             ,"A668973"
+                     	]
+                     }
