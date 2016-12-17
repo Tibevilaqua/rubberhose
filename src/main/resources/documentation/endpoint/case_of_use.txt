@@ -1,0 +1,94 @@
+rubberhose Case of use:
+
+    Bellow there is a simulation about how the system is expected to behave:
+
+
+    1 - System starts without importing any data (feature of importing is disabled)
+    2 - The following POST is threw:
+        {
+           	"dayOfWeek": "FRIDAY"
+        	,"crosses":[
+                "A668432"
+                ,"B668435"
+                ,"A668570"
+                ,"B668573"
+                ,"A668773"
+                ,"B668873"
+                ,"A668973"
+                ,"B669073"
+                ,"A836200"
+                ,"A836316"
+                ,"A72000000"
+                ,"B72000100"
+                ,"A72000200"
+                ,"B72000300"
+                ,"A72001000"
+                ,"A72001100"
+                ,"A72001200"
+                ,"A72001300"
+        	]
+        }
+
+    3 - The following result is expected:
+        {
+          "morning": 3,
+          "evening": 3,
+          "hourly": 0,
+          "everyThirtyMinutes": 0,
+          "everyTwentyMinutes": 0,
+          "everyFifteenMinutes": 0,
+          "averageSpeed": 57,
+          "traffic": {
+            "peak": "00:00AM",
+            "numberOfCars": 3,
+            "periods": [
+              {
+                "period": "00:00AM",
+                "numberOfCars": 3
+              },
+              {
+                "period": "20:00PM",
+                "numberOfCars": 3
+              }
+            ]
+          },
+          "distanceDTO": {
+            "closestDistanceInMeters": 2,
+            "timePeriod": "20:00PM",
+            "periods": [
+              {
+                "period": "20:00PM",
+                "distanceInMeters": 2
+              },
+              {
+                "period": "00:00AM",
+                "distanceInMeters": 3
+              }
+            ]
+          }
+        }
+
+    4 - Explaining the data:
+        "morning: 3":
+            Basically it means that 3 cars crosses the hoses between midnight and midday (0mills - 43200000mills)
+
+        "evening: 3":
+            Exactly as the above one, however the mills here are from 43200000 until 86400000 (midday - midnight)
+            Obs: slightly variations may occur when the division of the numbers of crosses result in a fractionated number.
+
+        "hourly / everyThirtyMinutes / everyTwentyMinutes / everyFifteenMinutes: 0": At least 24/48/72/96 respectively cars are necessary for every value here
+
+        "averageSpeed: 57": Account regarding the both axles in a distance of 2.5 meters, plus the difference in mills between them.
+
+        "traffic:"
+            "peak": "00:00AM": The period when more cars crosses the hoses on the road (Every period is composed of 15 Minutes)
+            "numberOfCars: 3"
+            Obs: The peak value will always be the first one found in the list, in this case, midnight comes first than 8PM, this is why it's shown.
+
+            "periods[]": List of periods (15 minutes each) showing how many cars passed during this period.
+
+        "distanceDTO:"
+            "closestDistanceInMeters: 2": Difference in meters (closest average) among all the cars of the day
+            "timePeriod: 20:00PM":  Period when it happens (15 minutes)
+
+            "periods[]" List of periods (15 minutes each) showing the average distance between cars.

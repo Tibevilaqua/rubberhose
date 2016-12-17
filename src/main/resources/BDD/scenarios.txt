@@ -302,3 +302,5 @@
 #Task17 - Write a documentation outlining the endpoints of the system.
 
 #Task18 - Write a documentation outlining the behaviours of the system.
+
+#Task19 - Write a documentation outlining one case of use regarding POST data and GET data endpoints.
