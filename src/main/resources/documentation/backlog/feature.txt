@@ -1,0 +1,5 @@
+#Task19 - Start generating log throughout the system (logBack, log4J)
+
+#Task20 - Integrate the system with a MongoDB server.
+
+#Task21 - Create a rest documentation of the project (Swagger)

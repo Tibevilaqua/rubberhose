@@ -10,12 +10,26 @@ The folder inside the project (/src/resources/documentation) comprises all the n
 the project as well as why the current structure was created (my personal view about the project).
 
     Folders & content:
-        Documentation/endpoint/endpoints_contract.txt : How to use the endpoints and its expected JSONs
 
-        Documentation/endpoint/case_of_use.txt : A case of use explaining all the data that is inserted and returned.
+        main/resources/BBD/scenarios.txt : comprises all the stories created since the beginning of the project.
 
-        Documentation/behavior/ws_behavior.txt : How the application behave, the scheduled processes, Importing data and Databases.
+        main/resources/documentation/endpoint/endpoints_contract.txt : How to use the endpoints and its expected JSONs
 
-        Documentation/technologies/used_technologies.txt : All technologies/frameworks used in the system.
+        main/resources/documentation/endpoint/case_of_use.txt : A case of use explaining all the data that is inserted and returned.
 
-        Documentation/backlog/features.txt : Features to be implemented in the system.
+        main/resources/documentation/behavior/ws_behavior.txt : How the application behave, the scheduled processes, Importing data and Databases.
+
+        main/resources/documentation/technologies/used_technologies.txt : All technologies/frameworks used in the system.
+
+        main/resources/documentation/backlog/features.txt : Features to be implemented in the system.
+
+
+#Prerequisites
+    JAVA 8
+    MAVEN 3.3.X
+
+#How to run the project:
+       java -jar pneumatic-measurement-rubber-hose-1.0-SNAPSHOT.jar (run it as root)
+
+#How to build the project:
+        mvn clean install (run it as root)
