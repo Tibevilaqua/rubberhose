@@ -1,0 +1,23 @@
+rubberhose Behaviors:
+
+Importing data (Vehicle Survey Coding Challenge sample data.txt);
+Renewing statistics (time when the statistics data will be renewed):
+Database(mocked mongoDB(No duplicate crosses)):
+
+
+Importing data:
+    By default, when the application starts, the data inside the folder /resouces/data will be imported.
+    This feature is managed by the method importDataFromFiles inside the class CrossCacheController.
+    Obs: It's done only once (every time the application starts).
+
+Renewing statistics:
+    After importing the data, there is another method "populateStatisticsCache" in the CrossCacheController class
+    which will populate the cache variables cachedDailyStatistics and cachedGeneralStatistics (daily values and week values respectively),
+    by default this process runs after 6 seconds the application is started and every 5 minutes after the first insertion.
+    Obs: If you want to insert some data via the "POST" endpoint and want to see the result of it straightaway, I recommend
+    the reduction of every execution.
+
+
+Database(MongoDB "theoretically"):
+    Actually, the system is storing all the data inside the variable crossCollection in the class CrossRepository,
+    the main Idea here was to simulate a MongoDB collection "cross" where duplication is not accepted.

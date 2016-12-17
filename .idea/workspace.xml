@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="32f182ac-c8b2-4bf4-9180-b1ed86ab34f3" name="Default" comment="#Task17 - Write a documentation outlining the endpoints of the system.">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/resources/documentation/endpoint/endpoints_contract.txt" />
+    <list default="true" id="32f182ac-c8b2-4bf4-9180-b1ed86ab34f3" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/resources/documentation/behavior/ws_behavior.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/BDD/scenarios.txt" afterPath="$PROJECT_DIR$/src/main/resources/BDD/scenarios.txt" />
     </list>
@@ -41,8 +41,8 @@
       <file leaf-file-name="endpoints_contract.txt" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/resources/documentation/endpoint/endpoints_contract.txt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="54">
-              <caret line="3" column="0" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
+            <state relative-caret-position="0">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="14" />
               <folding />
             </state>
           </provider>
@@ -73,7 +73,7 @@
       <file leaf-file-name="CrossStatisticsFactoryTest.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/test/com/rubberhose/endpoint/CrossStatisticsFactoryTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="589">
+            <state relative-caret-position="319">
               <caret line="53" column="0" selection-start-line="53" selection-start-column="0" selection-end-line="53" selection-end-column="0" />
               <folding />
             </state>
@@ -84,7 +84,39 @@
         <entry file="file://$PROJECT_DIR$/src/main/resources/BDD/scenarios.txt">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="539">
-              <caret line="301" column="0" selection-start-line="301" selection-start-column="0" selection-end-line="301" selection-end-column="70" />
+              <caret line="303" column="71" selection-start-line="303" selection-start-column="0" selection-end-line="303" selection-end-column="71" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ws_behavior.txt" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/resources/documentation/behavior/ws_behavior.txt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="72">
+              <caret line="4" column="47" selection-start-line="4" selection-start-column="47" selection-end-line="4" selection-end-column="47" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="CrossCacheController.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/rubberhose/infrastructure/cross/CrossCacheController.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="463">
+              <caret line="92" column="73" selection-start-line="92" selection-start-column="73" selection-end-line="92" selection-end-column="73" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="CrossCache.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/rubberhose/infrastructure/cross/CrossCache.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="179">
+              <caret line="17" column="58" selection-start-line="17" selection-start-column="35" selection-end-line="17" selection-end-column="58" />
               <folding />
             </state>
           </provider>
@@ -112,7 +144,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/main/java/com/rubberhose/infrastructure/OccurrencePerDayEnum.java" />
         <option value="$PROJECT_DIR$/src/test/com/rubberhose/infrastructure/OccurrencePerDayEnumTest.java" />
         <option value="$PROJECT_DIR$/src/test/com/rubberhose/infrastructure/MillsEnumTest.java" />
         <option value="$PROJECT_DIR$/src/test/com/rubberhose/endpoint/CrossEndpointTest.java" />
@@ -162,6 +193,7 @@
         <option value="$PROJECT_DIR$/README.md" />
         <option value="$PROJECT_DIR$/src/main/resources/documentation.endpoint/endpoints_contract.txt" />
         <option value="$PROJECT_DIR$/src/main/resources/documentation/endpoint/endpoints_contract.txt" />
+        <option value="$PROJECT_DIR$/src/main/resources/documentation/behavior/ws_behavior.txt" />
         <option value="$PROJECT_DIR$/src/main/resources/BDD/scenarios.txt" />
       </list>
     </option>
@@ -325,6 +357,32 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="endpoint" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="rubberhose" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="rubberhose" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="resources" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="data" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -1012,7 +1070,7 @@
       <workItem from="1481812669713" duration="103000" />
       <workItem from="1481857614113" duration="7651000" />
       <workItem from="1481898842225" duration="602000" />
-      <workItem from="1481936491659" duration="5230000" />
+      <workItem from="1481936491659" duration="6240000" />
     </task>
     <task id="LOCAL-00001" summary="Refactoring code">
       <created>1481713772131</created>
@@ -1084,7 +1142,14 @@
       <option name="project" value="LOCAL" />
       <updated>1481940709575</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="#Task17 - Write a documentation outlining the endpoints of the system.">
+      <created>1481941739557</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1481941739557</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -1120,7 +1185,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="150340000" />
+    <option name="totallyTimeSpent" value="151350000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1189,7 +1254,8 @@
     <MESSAGE value="#Task15 - Enhance search crosses endpoint (Implement Average of peak periods and cars for every 15 minutes )" />
     <MESSAGE value="#Task15 - Enhance search crosses endpoint (Return periods in ascendant order)" />
     <MESSAGE value="#Task16 - Write a documentation outlining the used technologies and the reason to do so." />
-    <option name="LAST_COMMIT_MESSAGE" value="#Task16 - Write a documentation outlining the used technologies and the reason to do so." />
+    <MESSAGE value="#Task17 - Write a documentation outlining the endpoints of the system." />
+    <option name="LAST_COMMIT_MESSAGE" value="#Task17 - Write a documentation outlining the endpoints of the system." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1229,13 +1295,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/test/com/rubberhose/infrastructure/CrossUtilsTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="23" column="0" selection-start-line="23" selection-start-column="0" selection-end-line="23" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$MAVEN_REPOSITORY$/org/mockito/mockito-core/1.10.19/mockito-core-1.10.19.jar!/org/mockito/cglib/proxy/MethodProxy.class">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="143">
@@ -1247,13 +1306,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="28">
           <caret line="11" column="79" selection-start-line="11" selection-start-column="79" selection-end-line="11" selection-end-column="91" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/rubberhose/repository/CrossRepository.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="14" column="52" selection-start-line="14" selection-start-column="52" selection-end-line="14" selection-end-column="52" />
         </state>
       </provider>
     </entry>
@@ -1425,13 +1477,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/rubberhose/endpoint/cross/CrossBroadStatisticDTO.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="189">
-          <caret line="140" column="9" selection-start-line="140" selection-start-column="9" selection-end-line="140" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/rubberhose/infrastructure/utils/CrossUtils.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1476">
@@ -1496,14 +1541,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/rubberhose/business/CrossBusiness.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="257">
-          <caret line="89" column="76" selection-start-line="89" selection-start-column="76" selection-end-line="89" selection-end-column="76" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/rubberhose/business/CrossStatisticsFactory.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="288">
@@ -1512,36 +1549,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/rubberhose/infrastructure/cross/CrossCache.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="125">
-          <caret line="14" column="23" selection-start-line="14" selection-start-column="13" selection-end-line="14" selection-end-column="23" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/rubberhose/infrastructure/cross/CrossCacheController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="288">
-          <caret line="32" column="33" selection-start-line="32" selection-start-column="13" selection-end-line="32" selection-end-column="33" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/rubberhose/ApplicationStarter.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="144">
           <caret line="10" column="17" selection-start-line="10" selection-start-column="17" selection-end-line="10" selection-end-column="17" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/com/rubberhose/endpoint/CrossStatisticsFactoryTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="589">
-          <caret line="53" column="0" selection-start-line="53" selection-start-column="0" selection-end-line="53" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -1608,8 +1619,66 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/resources/documentation/endpoint/endpoints_contract.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="54">
-          <caret line="3" column="0" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="14" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/rubberhose/endpoint/cross/CrossBroadStatisticDTO.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="126">
+          <caret line="9" column="35" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="35" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/rubberhose/infrastructure/cross/CrossCache.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="179">
+          <caret line="17" column="58" selection-start-line="17" selection-start-column="35" selection-end-line="17" selection-end-column="58" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/rubberhose/repository/CrossRepository.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="198">
+          <caret line="15" column="65" selection-start-line="15" selection-start-column="50" selection-end-line="15" selection-end-column="65" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/rubberhose/business/CrossBusiness.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="298">
+          <caret line="94" column="56" selection-start-line="94" selection-start-column="56" selection-end-line="94" selection-end-column="56" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/rubberhose/infrastructure/cross/CrossCacheController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="463">
+          <caret line="92" column="73" selection-start-line="92" selection-start-column="73" selection-end-line="92" selection-end-column="73" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/com/rubberhose/endpoint/CrossStatisticsFactoryTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="319">
+          <caret line="53" column="0" selection-start-line="53" selection-start-column="0" selection-end-line="53" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/documentation/behavior/ws_behavior.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="72">
+          <caret line="4" column="47" selection-start-line="4" selection-start-column="47" selection-end-line="4" selection-end-column="47" />
           <folding />
         </state>
       </provider>
@@ -1617,7 +1686,7 @@
     <entry file="file://$PROJECT_DIR$/src/main/resources/BDD/scenarios.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="539">
-          <caret line="301" column="0" selection-start-line="301" selection-start-column="0" selection-end-line="301" selection-end-column="70" />
+          <caret line="303" column="71" selection-start-line="303" selection-start-column="0" selection-end-line="303" selection-end-column="71" />
           <folding />
         </state>
       </provider>
