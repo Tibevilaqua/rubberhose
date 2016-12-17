@@ -2,20 +2,25 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="32f182ac-c8b2-4bf4-9180-b1ed86ab34f3" name="Default" comment="">
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/test-classes/com/rubberhose/business/CrossBusinessTest.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/test-classes/com/rubberhose/endpoint/CrossEndpointTest.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/test-classes/com/rubberhose/endpoint/CrossStatisticsFactoryTest.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/test-classes/com/rubberhose/infrastructure/CrossUtilsTest.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/test-classes/com/rubberhose/infrastructure/MillsEnumTest.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/test-classes/com/rubberhose/infrastructure/OccurrencePerDayEnumTest.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/test-classes/com/rubberhose/infrastructure/SpeedUtilsTest.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/test-classes/com/rubberhose/repository/CrossRepositoryTest.class" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/rubberhose/business/CrossBusiness.class" afterPath="$PROJECT_DIR$/target/classes/com/rubberhose/business/CrossBusiness.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/rubberhose/business/CrossStatisticsFactory.class" afterPath="$PROJECT_DIR$/target/classes/com/rubberhose/business/CrossStatisticsFactory.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/rubberhose/endpoint/cross/CrossBroadStatisticDTO.class" afterPath="$PROJECT_DIR$/target/classes/com/rubberhose/endpoint/cross/CrossBroadStatisticDTO.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/test-classes/com/rubberhose/business/CrossBusinessTest.class" afterPath="$PROJECT_DIR$/target/test-classes/com/rubberhose/business/CrossBusinessTest.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/test-classes/com/rubberhose/endpoint/CrossStatisticsFactoryTest.class" afterPath="$PROJECT_DIR$/target/test-classes/com/rubberhose/endpoint/CrossStatisticsFactoryTest.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/test-classes/com/rubberhose/repository/CrossRepositoryTest.class" afterPath="$PROJECT_DIR$/target/test-classes/com/rubberhose/repository/CrossRepositoryTest.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/pneumatic-measurement-rubber-hose-1.0-SNAPSHOT.jar" afterPath="$PROJECT_DIR$/target/pneumatic-measurement-rubber-hose-1.0-SNAPSHOT.jar" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/pneumatic-measurement-rubber-hose-1.0-SNAPSHOT.jar.original" afterPath="$PROJECT_DIR$/target/pneumatic-measurement-rubber-hose-1.0-SNAPSHOT.jar.original" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/rubberhose/business/CrossStatisticsFactory.java" afterPath="$PROJECT_DIR$/src/main/java/com/rubberhose/business/CrossStatisticsFactory.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/rubberhose/endpoint/cross/CrossBroadStatisticDTO.java" afterPath="$PROJECT_DIR$/src/main/java/com/rubberhose/endpoint/cross/CrossBroadStatisticDTO.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/documentation/endpoint/case_of_use.txt" afterPath="$PROJECT_DIR$/src/main/resources/documentation/endpoint/case_of_use.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/com/rubberhose/business/CrossBusinessTest.java" afterPath="$PROJECT_DIR$/src/test/com/rubberhose/business/CrossBusinessTest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/com/rubberhose/endpoint/CrossStatisticsFactoryTest.java" afterPath="$PROJECT_DIR$/src/test/com/rubberhose/endpoint/CrossStatisticsFactoryTest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/com/rubberhose/repository/CrossRepositoryTest.java" afterPath="$PROJECT_DIR$/src/test/com/rubberhose/repository/CrossRepositoryTest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/BDD/scenarios.txt" afterPath="$PROJECT_DIR$/target/classes/BDD/scenarios.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/README.md" afterPath="$PROJECT_DIR$/README.md" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/rubberhose/infrastructure/cross/CrossCacheController.java" afterPath="$PROJECT_DIR$/src/main/java/com/rubberhose/infrastructure/cross/CrossCacheController.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/rubberhose/infrastructure/utils/SpeedUtils.java" afterPath="$PROJECT_DIR$/src/main/java/com/rubberhose/infrastructure/utils/SpeedUtils.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/maven-archiver/pom.properties" afterPath="$PROJECT_DIR$/target/maven-archiver/pom.properties" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" />
     </list>
     <ignored path="rubberhose.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -42,18 +47,50 @@
       <file leaf-file-name="README.md" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/README.md">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="270">
-              <caret line="15" column="0" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
+            <state relative-caret-position="192">
+              <caret line="14" column="32" selection-start-line="14" selection-start-column="32" selection-end-line="14" selection-end-column="32" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="CrossStatisticsFactory.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="FRIDAY_CROSSES.txt" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/resources/data/FRIDAY_CROSSES.txt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="216">
+              <caret line="12" column="19" selection-start-line="12" selection-start-column="19" selection-end-line="12" selection-end-column="19" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SpeedUtils.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/rubberhose/infrastructure/utils/SpeedUtils.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="198">
+              <caret line="11" column="3" selection-start-line="11" selection-start-column="3" selection-end-line="11" selection-end-column="3" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="CrossStatisticsFactory.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/rubberhose/business/CrossStatisticsFactory.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-97">
-              <caret line="135" column="24" selection-start-line="135" selection-start-column="24" selection-end-line="135" selection-end-column="24" />
+            <state relative-caret-position="227">
+              <caret line="153" column="0" selection-start-line="153" selection-start-column="0" selection-end-line="153" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="CrossCacheController.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/rubberhose/infrastructure/cross/CrossCacheController.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="188">
+              <caret line="17" column="26" selection-start-line="17" selection-start-column="26" selection-end-line="17" selection-end-column="26" />
               <folding />
             </state>
           </provider>
@@ -114,7 +151,6 @@
         <option value="$PROJECT_DIR$/src/test/com/rubberhose/infrastructure/SpeedUtilsTest.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/rubberhose/endpoint/cross/PeriodDTOBuilder.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/rubberhose/endpoint/cross/DistanceDTO.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/rubberhose/infrastructure/utils/SpeedUtils.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/rubberhose/infrastructure/function/QuadraSupplier.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/rubberhose/infrastructure/function/TriSupplier.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/rubberhose/infrastructure/function/TriConsumer.java" />
@@ -136,12 +172,13 @@
         <option value="$PROJECT_DIR$/src/main/resources/documentation/endpoint/endpoints_contract.txt" />
         <option value="$PROJECT_DIR$/src/main/resources/documentation/behavior/ws_behavior.txt" />
         <option value="$PROJECT_DIR$/src/main/resources/documentation/endpoint/case_of_use.txt" />
-        <option value="$PROJECT_DIR$/README.md" />
         <option value="$PROJECT_DIR$/src/main/resources/BDD/scenarios.txt" />
         <option value="$PROJECT_DIR$/src/main/java/com/rubberhose/endpoint/cross/CrossBroadStatisticDTO.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/rubberhose/infrastructure/cross/CrossCacheController.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/rubberhose/business/CrossBusiness.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/rubberhose/business/CrossStatisticsFactory.java" />
+        <option value="$PROJECT_DIR$/README.md" />
+        <option value="$PROJECT_DIR$/src/main/java/com/rubberhose/infrastructure/utils/SpeedUtils.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/rubberhose/infrastructure/cross/CrossCacheController.java" />
       </list>
     </option>
   </component>
@@ -168,9 +205,9 @@
   </component>
   <component name="ProjectFrameBounds">
     <option name="x" value="51" />
-    <option name="y" value="52" />
-    <option name="width" value="1295" />
-    <option name="height" value="712" />
+    <option name="y" value="24" />
+    <option name="width" value="1315" />
+    <option name="height" value="744" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <OptionsSetting value="true" id="Add" />
@@ -252,32 +289,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="rubberhose" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="rubberhose" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="rubberhose" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -921,7 +932,7 @@
       <workItem from="1481812669713" duration="103000" />
       <workItem from="1481857614113" duration="7651000" />
       <workItem from="1481898842225" duration="602000" />
-      <workItem from="1481936491659" duration="10537000" />
+      <workItem from="1481936491659" duration="12981000" />
     </task>
     <task id="LOCAL-00001" summary="Refactoring code">
       <created>1481713772131</created>
@@ -1014,13 +1025,17 @@
       <option name="project" value="LOCAL" />
       <updated>1481945899912</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="Changing Json Response variable name, from distanceDTO to distance">
+      <created>1481947112849</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1481947112849</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="All_in_rubberhose - 2016.12.16 at 15h 13m 14s.xml">
-      <configuration name="All in rubberhose" configurationId="JUnit" />
-    </history-entry>
     <history-entry file="All_in_rubberhose - 2016.12.16 at 15h 17m 10s.xml">
       <configuration name="All in rubberhose" configurationId="JUnit" />
     </history-entry>
@@ -1048,9 +1063,12 @@
     <history-entry file="All_in_rubberhose - 2016.12.17 at 14h 39m 41s.xml">
       <configuration name="All in rubberhose" configurationId="JUnit" />
     </history-entry>
+    <history-entry file="All_in_rubberhose - 2016.12.17 at 14h 58m 42s.xml">
+      <configuration name="All in rubberhose" configurationId="JUnit" />
+    </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="155647000" />
+    <option name="totallyTimeSpent" value="158091000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1062,7 +1080,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="51" y="52" width="1295" height="712" extended-state="0" />
+    <frame x="51" y="24" width="1315" height="744" extended-state="6" />
     <editor active="false" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -1071,14 +1089,14 @@
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
-      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3299293" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32364494" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3297546" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.33387098" sideWeight="0.67242736" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.31748468" sideWeight="0.67242736" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Spring" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33742332" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.27773345" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.27337" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Bean Validation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3532258" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -1122,7 +1140,8 @@
     <MESSAGE value="#Task17 - Write a documentation outlining the endpoints of the system." />
     <MESSAGE value="#Task18 - Write a documentation outlining the behaviours of the system." />
     <MESSAGE value="#Task19 - Write a documentation outlining one case of use regarding POST data and GET data endpoints." />
-    <option name="LAST_COMMIT_MESSAGE" value="#Task19 - Write a documentation outlining one case of use regarding POST data and GET data endpoints." />
+    <MESSAGE value="Changing Json Response variable name, from distanceDTO to distance" />
+    <option name="LAST_COMMIT_MESSAGE" value="Changing Json Response variable name, from distanceDTO to distance" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1209,20 +1228,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="216">
           <caret line="12" column="19" selection-start-line="12" selection-start-column="19" selection-end-line="12" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/data/FRIDAY_CROSSES.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="378">
-          <caret line="63" column="19" selection-start-line="63" selection-start-column="19" selection-end-line="63" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/rubberhose/infrastructure/utils/SpeedUtils.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="83">
-          <caret line="34" column="0" selection-start-line="34" selection-start-column="0" selection-end-line="34" selection-end-column="0" />
         </state>
       </provider>
     </entry>
@@ -1493,14 +1498,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/README.md">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="15" column="0" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/rubberhose/ApplicationStarter.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="234">
@@ -1536,16 +1533,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/rubberhose/infrastructure/cross/CrossCacheController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="56">
-          <caret line="89" column="5" selection-start-line="89" selection-start-column="5" selection-end-line="89" selection-end-column="5" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/rubberhose/business/CrossBusiness.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="216">
@@ -1556,8 +1543,42 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/rubberhose/business/CrossStatisticsFactory.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-97">
-          <caret line="135" column="24" selection-start-line="135" selection-start-column="24" selection-end-line="135" selection-end-column="24" />
+        <state relative-caret-position="227">
+          <caret line="153" column="0" selection-start-line="153" selection-start-column="0" selection-end-line="153" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="192">
+          <caret line="14" column="32" selection-start-line="14" selection-start-column="32" selection-end-line="14" selection-end-column="32" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/data/FRIDAY_CROSSES.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="216">
+          <caret line="12" column="19" selection-start-line="12" selection-start-column="19" selection-end-line="12" selection-end-column="19" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/rubberhose/infrastructure/utils/SpeedUtils.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="198">
+          <caret line="11" column="3" selection-start-line="11" selection-start-column="3" selection-end-line="11" selection-end-column="3" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/rubberhose/infrastructure/cross/CrossCacheController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="188">
+          <caret line="17" column="26" selection-start-line="17" selection-start-column="26" selection-end-line="17" selection-end-column="26" />
           <folding />
         </state>
       </provider>

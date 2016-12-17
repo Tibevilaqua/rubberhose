@@ -5,7 +5,6 @@ import com.rubberhose.business.CrossBusiness;
 import com.rubberhose.endpoint.cross.CrossBroadStatisticDTO;
 import com.rubberhose.endpoint.cross.CrossDTO;
 import com.rubberhose.endpoint.cross.CrossEndpoint;
-import com.rubberhose.repository.CrossRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -14,12 +13,10 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.attribute.FileAttribute;
 import java.time.DayOfWeek;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * Created by root on 10/12/16.
@@ -33,7 +30,7 @@ import java.util.stream.Stream;
 public class CrossCacheController {
 
     private static final int FIVE_MINUTES = 300000;
-    private static final String DATA_TO_IMPORT ="src/main/resources/data/";
+    private static final String DATA_TO_IMPORT ="../src/main/resources/data/";
     private static boolean shouldImportFiles = true;
 
     @Autowired

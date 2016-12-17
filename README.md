@@ -17,3 +17,5 @@ the project as well as why the current structure was created (my personal view a
         Documentation/behavior/ws_behavior.txt : How the application behave, the scheduled processes, Importing data and Databases.
 
         Documentation/technologies/used_technologies.txt : All technologies/frameworks used in the system.
+
+        Documentation/backlog/features.txt : Features to be implemented in the system.
