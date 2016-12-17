@@ -294,3 +294,6 @@
                            }
                          }
           the periods returned will follow the ascendant pattern (00h00, 00h30, 00h45 and so on).
+
+
+#Task16 - Write a documentation outlining the used technologies and the reason to do so.

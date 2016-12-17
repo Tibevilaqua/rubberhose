@@ -113,7 +113,7 @@
      AND    the number of crosses are not multiple of 2 (2 axles)
      Then:  an exception requiring the right format of crosses will be thrown
 
-#Task11 - Enhance search crosses endpoint (Implement periodDTO and cars for every 15 minutes)
+#Task11 - Enhance search crosses endpoint (Implement peak period and cars for every 15 minutes)
 
 
      Given: The server up and running
@@ -231,3 +231,66 @@
      When:  A GET request be performed through the URL "/cross?dayOfWeek=LALA"
      AND    the value of the query param dayOfWeek is incorrect
      Then:  an exception requiring the right format will be thrown
+
+#Task15 - Enhance search crosses endpoint (Implement Average of peak periods and cars for every 15 minutes )
+
+     Given: The server up and running
+     AND    data already inserted in the database to be consumed
+     When:  A GET request be performed through the URL "/cross?dayOfTheWee=MONDAY"
+     Then:  An Json like {
+                           "morning": 1941,
+                           "evening": 2550,
+                           "hourly": 187,
+                           "everyThirtyMinutes": 94,
+                           "everyTwentyMinutes": 62,
+                           "everyFifteenMinutes": 47,
+                           "averageSpeed": 64,
+                           "traffic": {
+                             "peak": "00:30AM",
+                             "numberOfCars": 4,
+                             "periods": [
+                               {
+                                 "periodDTO": "00:00AM",
+                                 "numberOfCars": 2
+                               },
+                               {
+                                 "periodDTO": "00:30AM",
+                                 "numberOfCars": 4
+                               }
+                             ]
+                           }
+                         }
+          will be returned comprising information based on the average of cars which passed every 15 minutes on the lane
+
+
+
+
+#Task15 - Enhance search crosses endpoint (Return periods in ascendant order)
+
+     Given: The server up and running
+     AND    data already inserted in the database to be consumed
+     When:  A GET request be performed through the URL "/cross?dayOfTheWee=MONDAY"
+     Then:  An Json like {
+                           "morning": 1941,
+                           "evening": 2550,
+                           "hourly": 187,
+                           "everyThirtyMinutes": 94,
+                           "everyTwentyMinutes": 62,
+                           "everyFifteenMinutes": 47,
+                           "averageSpeed": 64,
+                           "traffic": {
+                             "peak": "00:30AM",
+                             "numberOfCars": 4,
+                             "periods": [
+                               {
+                                 "periodDTO": "00:00AM",
+                                 "numberOfCars": 2
+                               },
+                               {
+                                 "periodDTO": "00:30AM",
+                                 "numberOfCars": 4
+                               }
+                             ]
+                           }
+                         }
+          the periods returned will follow the ascendant pattern (00h00, 00h30, 00h45 and so on).

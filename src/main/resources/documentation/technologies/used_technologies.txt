@@ -1,0 +1,82 @@
+JAVA 8 (Stream, Optional, FunctionalInterfaces, Method reference, JodaTime API, Collections, Enums, NIO 2.0, DTO)
+Design Patterns (MVC, Builder, Factory, Singleton, Second level cache)
+SpringBoot
+Spring core (MVC, Dependency injection, Scheduling, Exception handler (ControllerAdvice))
+Marshalling (Jackson Jax RS)
+Tests (JUnit, Mockito)
+
+
+Explanation about the technologies above and where were they applied:
+
+Java 8:
+    Features:
+    Reason: it provides many facilities, such as the ones described above, so, why not...
+    Where: Throughout the project.
+
+    NIO 2.0
+     Reason: To import all the data in the simplest way as possible, I believe it worked, all the data was imported and inserted in less than 10 lines of code.
+     Where: Infrastructure lane, CrossCacheController class
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Design Patterns:
+    MVC:
+        Reason: Separate the responsibility of each layer, allowing an easier maintainability, code analyzes, encapsulation and low coupling
+        Where: Layers endpoint, business, infrastructure, repository.
+
+    Builder:
+        Reason: Some objects are complexes to be created during the process time, and in some cases, they need to be changed due to the number of hoses and lanes, so, in order to avoid start creating many objects, the Builder pattern was used.
+        Where: Mainly used in the class CrossStatisticsFactory (Business layer)
+
+    Factory:
+        Reason: The CrossBroadStatisticDTO object is quite complex to be created in different parts of the project, the factory has the responsibility to do it (only place in the system where it is created).
+        Where:  business layer, CrossStatisticsFactory class
+        Argument: Usually the Factory pattern is used when having one among a few objects to be created, conversely, here the idea was to provide a central point of access to new CrossBroadStatisticDTO objects. We could see this factory as a "Builder" as well.
+
+    Singleton:
+        Reason: Avoid waste of memory and creating of thousands of instances.
+        Where: Each @Component class injected in the Spring context.
+
+    Second level cache:
+        Reason: Once the data is imported and the statistics is created, it makes sense to create a cache where the processed value can be reused as many times as necessary.
+        Where: Infrastructure layer, CrossCache class
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+SpringBoot:
+    Reason: Easier to start the whole application and quite practical to use (The application is started with a main method).
+    Where: Under "java" folder, ApplicationStarter class
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Spring core:
+    Dependency injection
+        Reason: One of the best features of Spring is it's context managing all the dependencies (singleton, prototype), therefore, there's no point to create new objects by myself.
+        Where: Throughout the system
+
+    Scheduling:
+        Reason: A process to import the new inserted data should be created, so, why not use scheduling, SpringBoot is already been used in the project anyway.
+        Where: Infrastructure lane, CrossCacheController class
+
+    Exception handler (ControllerAdvice):
+        Reason: To have an unique place to handle exceptions in the system.
+        Where: Infrastructure/exception folder, GlobalControllerExceptionHandler class
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Marshalling:
+    Jackson Jax RS:
+        Reason: As far as this WS consumes and produces JSON and Spring comes with Jackson RS by default, it became a comfortable option.
+        Where: Spring internal implementation, but, can be analyzed by debugging the class CrossEndpoint inside the folder endpoint/cross
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Tests
+    JUnit:
+        Reason: JUnit could fulfill all my expectations regarding the tests I would created.
+        Where: Any class under the "test" folder
+
+    Mockito:
+        Reason: Some tests must be specialized in a determined part of the code, and sometimes we need to deal with other dependencies, so, mockito helped me to mock these "dependencies"
+        Where: Most tests created, under the "test" folder.
